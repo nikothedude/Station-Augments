@@ -1,0 +1,2 @@
+id,name,cost mult,build time,income,upkeep,downgrade,upgrade,tags,niko_SA,image,plugin,desc,order,disruptDanger
+SA_defenseGarrison,Emergency defense garrison,30,50,0,10,,,"structure, station_augment",,graphics/industry/baryon_field.png,niko_SA.genericIndustries.MPC_defenseGarrison,a,111,EXTREME

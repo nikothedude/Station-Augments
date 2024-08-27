@@ -1,0 +1,5 @@
+ {	
+	"plugins":{
+		"niko_SA_effectApplierScript":"niko_SA.scripts.niko_SA_effectApplierScript"
+	},
+ }

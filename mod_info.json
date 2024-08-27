@@ -1,0 +1,29 @@
+{
+    "id":"niko_stationAugments", # For the convenience of troubleshooters, include your name and the mod name, not just an acronym.
+	"name":"Station Augments", # Displayed to the player
+	"author":"Niko",
+    "utility":"false",
+	"version":"0.0.0dev",
+	"description":"Enables the construction of blah blah finish later",
+    "gameVersion": "0.97a-RC11",
+  	"jars":["jars/niko_stationAugments.jar"],
+  	"modPlugin":"data.niko_SA_modPlugin",
+	  	"dependencies": [
+        {
+			"id": "lw_lazylib",
+            "name": "LazyLib",
+			"version": "2.7b"
+        },
+		{
+			"id": "lunalib",
+			"name": "LunaLib",
+			"version": "1.8.4"
+		},
+		{
+			"id": "MagicLib",
+			"name": "MagicLib",
+			"version": "1.4.4"
+
+		},
+    ],
+}
