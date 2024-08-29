@@ -4,10 +4,10 @@
 	"author":"Niko",
     "utility":"false",
 	"version":"0.0.0dev",
-	"description":"Enables the construction of blah blah finish later",
+	"description":"Enables the construction of blah blah finish later. THIS MOD WILL NOT SURVIVE STARSECTOR UPDATES. DO NOT EVEN TRY TO INCREASE THE VERSION NUMBER",
     "gameVersion": "0.97a-RC11",
   	"jars":["jars/niko_stationAugments.jar"],
-  	"modPlugin":"data.niko_SA_modPlugin",
+  	"modPlugin":"niko_SA.niko_SA_modPlugin",
 	  	"dependencies": [
         {
 			"id": "lw_lazylib",

@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="More Combat Terrain Effects">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../More Combat Terrain Effects/jars/niko_MCTE.jar!/" />
+      <root url="file://$PROJECT_DIR$/../More Combat Terrain Effects" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/../More Combat Terrain Effects/jars/src" />
+    </SOURCES>
+  </library>
+</component>

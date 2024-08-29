@@ -10,5 +10,10 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="KotlinJavaRuntime" level="project" />
     <orderEntry type="library" name="starsector-core" level="project" />
+    <orderEntry type="library" name="More Combat Terrain Effects" level="project" />
+    <orderEntry type="library" name="MagicLib" level="project" />
+    <orderEntry type="library" name="Experimental Hull Modifications" level="project" />
+    <orderEntry type="library" name="LazyLib" level="project" />
+    <orderEntry type="library" name="LazyLib-Kotlin" level="project" />
   </component>
 </module>

@@ -1,2 +1,9 @@
-id,name,cost mult,build time,income,upkeep,downgrade,upgrade,tags,niko_SA,image,plugin,desc,order,disruptDanger
-SA_defenseGarrison,Emergency defense garrison,30,50,0,10,,,"structure, station_augment",,graphics/industry/baryon_field.png,niko_SA.genericIndustries.MPC_defenseGarrison,a,111,EXTREME
+id,name,cost mult,build time,income,upkeep,downgrade,upgrade,tags,data,image,plugin,desc,order,disruptDanger
+SA_defenseGarrison,Emergency defense garrison,30,50,0,10,,,"structure, station_augment",,graphics/icons/industry/battlestation.png,niko_SA.augments.defenseGarrison,a,1002,EXTREME
+SA_axialOverclocking,Axial Overclocking,30,50,0,10,,,"structure, station_augment",,graphics/icons/industry/battlestation.png,niko_SA.augments.axialOverclocking,a,1003,MEDIUM
+SA_safetyOverrides,Safety Overrides,30,50,0,10,,,"structure, station_augment",,graphics/icons/industry/battlestation.png,niko_SA.augments.safetyOverrides,a,1004,MEDIUM
+SA_fluxShunt,Deep-shield dissipators,30,50,0,10,,,"structure, station_augment",,graphics/icons/industry/battlestation.png,niko_SA.augments.fluxShunt,a,1005,MEDIUM
+SA_shieldShunt,Shield Shunt,30,50,0,10,,,"structure, station_augment",,graphics/icons/industry/battlestation.png,niko_SA.augments.shieldShunt,a,1006,MEDIUM
+SA_supportOutfit,Support Outfit,30,50,0,10,,,"structure, station_augment",,graphics/icons/industry/battlestation.png,niko_SA.augments.supportOutfit,a,1007,MEDIUM
+SA_regenerativeDrones,Reserve drone manufactory,30,50,0,10,,,"structure, station_augment",,graphics/icons/industry/battlestation.png,niko_SA.augments.regenerativeDrones,a,1008,MEDIUM
+SA_bubbleShield,Bubble shield,30,50,0,10,,,"structure, station_augment",,graphics/icons/industry/battlestation.png,niko_SA.augments.bubbleShield,a,1009,MEDIUM

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="Station Augments:jar">
+    <output-path>$PROJECT_DIR$/jars</output-path>
+    <root id="archive" name="niko_stationAugments.jar">
+      <element id="module-output" name="Station Augments" />
+    </root>
+  </artifact>
+</component>
