@@ -32,6 +32,7 @@ class regenerativeDrones: stationAttachment() {
         Global.getCombatEngine().addPlugin(PreventRecallScript(station))
     }
 
+    // otherwise the station recalls them constantly for some reason
     class PreventRecallScript(val station: ShipAPI?) : BaseEveryFrameCombatPlugin() {
         override fun advance(amount: Float, events: MutableList<InputEventAPI>?) {
             super.advance(amount, events)

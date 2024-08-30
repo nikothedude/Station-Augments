@@ -20,8 +20,8 @@ import org.lwjgl.util.vector.Vector2f
 class shieldShunt: stationAttachment() {
 
     companion object {
-        const val ARMOR_MULT = 1.6f
-        const val HULL_MULT = 1.25f
+        const val ARMOR_MULT = 1.5f
+        const val HULL_MULT = 1.1f
     }
 
     override val augmentCost: Float = 10f

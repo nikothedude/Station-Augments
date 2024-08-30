@@ -1,0 +1,10 @@
+make station augments adjust the FP of the station (impossible until alex adds a hook)
+
+add some sort of UI that allows station augments to be installed without using structure slots
+
+make a ton more augments
+
+scatter augments around the sector
+    spawns like hullmods
+
+    safety overrides unlocked by default

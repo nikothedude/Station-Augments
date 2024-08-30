@@ -9,8 +9,10 @@ import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.combat.ShipAPI
 import com.fs.starfarer.api.impl.campaign.econ.impl.BaseIndustry
 import com.fs.starfarer.api.impl.campaign.econ.impl.OrbitalStation
+import com.fs.starfarer.api.impl.campaign.ids.HullMods
 import com.fs.starfarer.api.impl.campaign.ids.Industries
 import com.fs.starfarer.api.impl.campaign.ids.MemFlags
+import com.fs.starfarer.api.impl.campaign.ids.Stats
 import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
@@ -86,6 +88,10 @@ abstract class stationAttachment: BaseIndustry() {
 
     /** Ran once at the beginning of combat. */
     abstract fun applyInCombat(station: ShipAPI)
+    /*override fun apply() {
+        val stationFleet = getStationFleet()
+        stationFleet?.fleetData?.membersListCopy?.firstOrNull()?.variant?.addMod(HullMods.HEAVYARMOR)
+    }*/
 
     override fun reapply() {
         reapplying = true

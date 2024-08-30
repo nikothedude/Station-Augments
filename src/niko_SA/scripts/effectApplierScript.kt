@@ -34,7 +34,6 @@ class effectApplierScript: BaseEveryFrameCombatPlugin() {
                 for (industry in market.industries.filter { it.spec.hasTag(SA_structureTag) }) {
                     val castedIndustry = (industry as stationAttachment)
                     castedIndustry.applyInCombat(ship)
-                    castedIndustry.incrementDP(ship)
                 }
                 //Global.getSector().addScript(stationMarketNullPatch(fleet, market)) // TEMPORARY MEASURE
             }
