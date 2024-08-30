@@ -1,4 +1,4 @@
-package niko_SA.genericIndustries
+package niko_SA.augments.core
 
 import com.fs.starfarer.api.GameState
 import com.fs.starfarer.api.Global
@@ -9,26 +9,31 @@ import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.combat.ShipAPI
 import com.fs.starfarer.api.impl.campaign.econ.impl.BaseIndustry
 import com.fs.starfarer.api.impl.campaign.econ.impl.OrbitalStation
-import com.fs.starfarer.api.impl.campaign.ids.HullMods
 import com.fs.starfarer.api.impl.campaign.ids.Industries
 import com.fs.starfarer.api.impl.campaign.ids.MemFlags
-import com.fs.starfarer.api.impl.campaign.ids.Stats
 import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
+import niko_SA.MarketUtils.getRemainingAugmentBudget
+import niko_SA.MarketUtils.removeStationAugment
 import niko_SA.ReflectionUtils
 import niko_SA.SA_ids
-import niko_SA.genericIndustries.stationAttachment.Companion.getRemainingAugmentBudget
 
 /** Industries of this type attempt to modify an existing station in combat, and potentially, in campaign.*/
-abstract class stationAttachment: BaseIndustry() {
+abstract class stationAttachment(val market: MarketAPI, val id: String) {
 
     /** The "cost" to be subtracted from our stations augment budget. We cannot be built if our station doesnt have enough budget for us. */
     abstract val augmentCost: Float
     var reapplying = false
+    /** Have we been applied to our market yet? */
+    var applied = false
 
     /** We can only be built on stations with these industry ids. If empty, is ignored. */
     open val stationTypeWhitelist = HashSet<String>()
+    var considerAP = true // used in [isAvailableToBuild]
+
+    abstract val name: String
+    abstract val spriteId: String
 
     companion object {
         const val BASE_STATION_AUGMENT_BUDGET = 20f // arbitrary
@@ -38,7 +43,7 @@ abstract class stationAttachment: BaseIndustry() {
             Pair(Industries.STARFORTRESS, 20f)
         )
 
-        /** Returns the augment budget this station has. An augment budget controls how many augments a station can have - each augment has its own cost.*/
+        /*/** Returns the augment budget this station has. An augment budget controls how many augments a station can have - each augment has its own cost.*/
         fun OrbitalStation.getAugmentBudget(): Float {
             var points = BASE_STATION_AUGMENT_BUDGET
 
@@ -83,37 +88,51 @@ abstract class stationAttachment: BaseIndustry() {
             }
 
             return augments
-        }
+        }*/
     }
 
     /** Ran once at the beginning of combat. */
     abstract fun applyInCombat(station: ShipAPI)
-    /*override fun apply() {
-        val stationFleet = getStationFleet()
-        stationFleet?.fleetData?.membersListCopy?.firstOrNull()?.variant?.addMod(HullMods.HEAVYARMOR)
-    }*/
 
-    override fun reapply() {
+    fun reapply() {
         reapplying = true
-        super.reapply()
+        unapply()
+        apply()
         reapplying = false
     }
 
-    override fun isAvailableToBuild(): Boolean {
+    fun apply() {
+        applied = true
+        doEnabledCheck()
+    }
+
+    fun unapply() {
+        applied = false
+    }
+
+    fun doEnabledCheck() {
+        considerAP = false
+        if (!isAvailableToBuild()) {
+            market.removeStationAugment(this)
+        }
+        considerAP = true
+    }
+
+    fun isAvailableToBuild(): Boolean {
         val stationIndustry = getStationIndustry() ?: return false
-        if (stationIndustry.getRemainingAugmentBudget() < augmentCost) return false
+        if (considerAP && (stationIndustry.getRemainingAugmentBudget() < augmentCost)) return false
         if (stationTypeWhitelist.isNotEmpty() && !stationTypeWhitelist.contains(stationIndustry.spec.id)) return false
 
         return true
     }
 
-    override fun getUnavailableReason(): String {
+    fun getUnavailableReason(): String? {
         val station = getStationIndustry() ?: return "No orbital station"
         if (stationTypeWhitelist.isNotEmpty() && !stationTypeWhitelist.contains(station.spec.id)) {
-            return "Incorrect station type - requires ${getNeededStationTypeText()}"
+            return "Requires ${getNeededStationTypeText()}"
         }
         if (station.getRemainingAugmentBudget() < augmentCost) return "Not enough augment points to install"
-        return super.getUnavailableReason()
+        return null
     }
 
     /** Only needed if [stationTypeWhitelist] is not empty. */
@@ -123,7 +142,7 @@ abstract class stationAttachment: BaseIndustry() {
 
     /** Returns the orbital station industry instance. Required to not be null for us to be buildable.*/
     fun getStationIndustry(): OrbitalStation? {
-        for (industry in getMarket().industries) {
+        for (industry in market.industries) {
             if (industry.spec.hasTag(Tags.STATION)) {
                 return industry as OrbitalStation
             }
@@ -131,6 +150,7 @@ abstract class stationAttachment: BaseIndustry() {
         return null
     }
 
+    /** Uses reflection - expensive. */
     fun getStationFleet(): CampaignFleetAPI? {
         val stationIndustry = getStationIndustry() ?: return null
         return ReflectionUtils.get("stationFleet", stationIndustry) as? CampaignFleetAPI
@@ -145,7 +165,7 @@ abstract class stationAttachment: BaseIndustry() {
             if (ship.isStation) {
                 val member = ship.fleetMember ?: continue
                 val fleet = member.fleetData?.fleet ?: continue
-                if (fleet.memoryWithoutUpdate[MemFlags.STATION_MARKET] == getMarket()) {
+                if (fleet.memoryWithoutUpdate[MemFlags.STATION_MARKET] == market) {
                     return ship
                 }
             }
@@ -158,10 +178,7 @@ abstract class stationAttachment: BaseIndustry() {
         return ReflectionUtils.get("stationEntity", stationIndustry) as? SectorEntityToken
     }
 
-    override fun createTooltip(mode: Industry.IndustryTooltipMode?, tooltip: TooltipMakerAPI?, expanded: Boolean) {
-        super.createTooltip(mode, tooltip, expanded)
-
-        if (tooltip == null) return
+    open fun createTooltip(tooltip: TooltipMakerAPI, expanded: Boolean) {
         val orbitalStation = getStationIndustry() ?: return
         val remainingAugmentBudget = orbitalStation.getRemainingAugmentBudget()
         val para = tooltip.addPara(
@@ -172,5 +189,22 @@ abstract class stationAttachment: BaseIndustry() {
         )
         val augmentBudgetColor = if (remainingAugmentBudget < augmentCost) Misc.getNegativeHighlightColor() else Misc.getHighlightColor()
         para.setHighlightColors(Misc.getHighlightColor(), augmentBudgetColor)
+    }
+
+    fun getImageName(market: MarketAPI): String {
+        return spriteId
+    }
+
+    fun canBeBuilt(): Boolean {
+        val stationIndustry = getStationIndustry() ?: return false
+        if (considerAP && (stationIndustry.getRemainingAugmentBudget() < augmentCost)) return false
+        if (stationTypeWhitelist.isNotEmpty() && !stationTypeWhitelist.contains(stationIndustry.spec.id)) return false
+        if (!canAfford()) return false
+
+        return true
+    }
+
+    fun canAfford(): Boolean {
+        return true
     }
 }

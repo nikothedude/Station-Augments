@@ -1,5 +1,6 @@
 package niko_SA.augments
 
+import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.combat.*
 import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.combat.ai.C
@@ -12,12 +13,15 @@ import com.fs.starfarer.loading.SpecStore
 import com.fs.starfarer.loading.specs.M
 import niko_SA.ReflectionUtils.get
 import niko_SA.ReflectionUtils.set
-import niko_SA.genericIndustries.stationAttachment
+import niko_SA.augments.core.stationAttachment
 import org.lwjgl.util.vector.Vector2f
 
 /** FIXME: Reflection will crash on non-windows, make non-windows versions */
 /** TODO: In the case of updating, check comments below to see what to change*/
-class shieldShunt: stationAttachment() {
+class shieldShunt(market: MarketAPI, id: String) : stationAttachment(market, id) {
+
+    override val name: String = "Shield Shunt"
+    override val spriteId: String = "graphics/icons/industry/mining.png"
 
     companion object {
         const val ARMOR_MULT = 1.5f
@@ -100,8 +104,5 @@ class shieldShunt: stationAttachment() {
                 }
             }
         }
-    }
-    override fun apply() {
-        return
     }
 }

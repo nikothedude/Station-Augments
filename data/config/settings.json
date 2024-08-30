@@ -2,4 +2,8 @@
 	"plugins":{
 		"niko_SA_effectApplierScript":"niko_SA.scripts.effectApplierScript"
 	},
+	
+	"ruleCommandPackages":[
+ 		"niko_SA.ruleCMD",
+ 	],
  }

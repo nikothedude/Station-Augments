@@ -1,17 +1,16 @@
 package niko_SA.augments
 
 import com.fs.starfarer.api.Global
+import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.combat.*
-import com.fs.starfarer.api.combat.listeners.ApplyDamageResultAPI
-import com.fs.starfarer.api.combat.listeners.DamageListener
 import com.fs.starfarer.api.combat.listeners.DamageTakenModifier
 import com.fs.starfarer.api.impl.campaign.ids.Stats
 import com.fs.starfarer.api.input.InputEventAPI
-import niko_SA.genericIndustries.stationAttachment
+import niko_SA.augments.core.stationAttachment
 import org.lazywizard.lazylib.MathUtils
 import org.lwjgl.util.vector.Vector2f
 
-class bubbleShield: stationAttachment() {
+class bubbleShield(market: MarketAPI, id: String) : stationAttachment(market, id) {
 
     companion object {
         const val SHIELD_STRENGTH = 130000f
@@ -22,6 +21,9 @@ class bubbleShield: stationAttachment() {
     }
 
     override val augmentCost: Float = 30f
+
+    override val name: String = "SA_bubbleShield"
+    override val spriteId: String = "graphics/icons/industry/mining.png"
 
     override fun applyInCombat(station: ShipAPI) {
         val engine = Global.getCombatEngine()
@@ -127,9 +129,5 @@ class bubbleShield: stationAttachment() {
 
             return null
         }
-    }
-
-    override fun apply() {
-        return
     }
 }

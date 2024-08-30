@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Nexerelin-master">
+    <CLASSES />
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/../../../starsector modding/Nexerelin-master" />
+      <root url="file://$PROJECT_DIR$/../../../starsector modding/Nexerelin-master/jars/sources/ExerelinCore" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,13 +1,10 @@
 package niko_SA.scripts
 
 import com.fs.starfarer.api.Global
-import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.combat.BaseEveryFrameCombatPlugin
-import com.fs.starfarer.api.combat.ShipAPI
-import com.fs.starfarer.api.impl.campaign.ids.MemFlags
 import com.fs.starfarer.api.input.InputEventAPI
 import niko_SA.SA_ids.SA_structureTag
-import niko_SA.genericIndustries.stationAttachment
+import niko_SA.augments.core.stationAttachment
 
 class effectApplierScript: BaseEveryFrameCombatPlugin() {
 

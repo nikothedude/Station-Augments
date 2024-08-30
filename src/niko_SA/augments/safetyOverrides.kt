@@ -1,14 +1,18 @@
 package niko_SA.augments
 
+import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.combat.ShipAPI
 import com.fs.starfarer.api.combat.WeaponAPI
-import niko_SA.genericIndustries.stationAttachment
+import niko_SA.augments.core.stationAttachment
 import java.awt.Color
 import java.util.*
 
 
 
-class safetyOverrides: stationAttachment() {
+class safetyOverrides(market: MarketAPI, id: String) : stationAttachment(market, id) {
+
+    override val name: String = "Safety Shunt"
+    override val spriteId: String = "graphics/icons/industry/mining.png"
 
     companion object {
         const val ROF_MULT = 1.6f
@@ -43,9 +47,5 @@ class safetyOverrides: stationAttachment() {
             module.setWeaponGlow(0.7f, WEAPON_COLOR,
                 EnumSet.of(WeaponAPI.WeaponType.BALLISTIC, WeaponAPI.WeaponType.ENERGY))
         }
-    }
-
-    override fun apply() {
-        return //TODO: some campaign layer effect
     }
 }

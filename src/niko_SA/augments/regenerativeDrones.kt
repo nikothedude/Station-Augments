@@ -1,16 +1,19 @@
 package niko_SA.augments
 
 import com.fs.starfarer.api.Global
+import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.combat.BaseEveryFrameCombatPlugin
 import com.fs.starfarer.api.combat.ShipAPI
 import com.fs.starfarer.api.combat.ShipCommand
 import com.fs.starfarer.api.impl.campaign.ids.Industries
 import com.fs.starfarer.api.input.InputEventAPI
-import com.fs.starfarer.combat.entities.Ship
 import com.fs.starfarer.combat.systems.Oo0O
-import niko_SA.genericIndustries.stationAttachment
+import niko_SA.augments.core.stationAttachment
 
-class regenerativeDrones: stationAttachment() {
+class regenerativeDrones(market: MarketAPI, id: String) : stationAttachment(market, id) {
+
+    override val name: String = "Reserve drone bay"
+    override val spriteId: String = "graphics/icons/industry/mining.png"
 
     companion object {
         const val AMMO_PER_SECOND_INCREMENT = 0.05f // 20 secs
@@ -38,10 +41,6 @@ class regenerativeDrones: stationAttachment() {
             super.advance(amount, events)
             station?.blockCommandForOneFrame(ShipCommand.USE_SYSTEM)
         }
-    }
-
-    override fun apply() {
-        return
     }
 
     override fun getNeededStationTypeText(): String {

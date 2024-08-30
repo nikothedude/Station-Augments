@@ -1,9 +1,13 @@
 package niko_SA.augments
 
+import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.combat.ShipAPI
-import niko_SA.genericIndustries.stationAttachment
+import niko_SA.augments.core.stationAttachment
 
-class supportOutfit: stationAttachment() {
+class supportOutfit(market: MarketAPI, id: String) : stationAttachment(market, id) {
+
+    override val name: String = "Support outfit"
+    override val spriteId: String = "graphics/icons/industry/mining.png"
 
     companion object {
         const val FIGHTER_RANGE_PERCENT = 300f
@@ -23,9 +27,5 @@ class supportOutfit: stationAttachment() {
             module.mutableStats.ballisticRoFMult.modifyPercent(id, WEAPON_ROF_PERCENT)
             module.mutableStats.energyRoFMult.modifyPercent(id, WEAPON_ROF_PERCENT)
         }
-    }
-
-    override fun apply() {
-        return
     }
 }

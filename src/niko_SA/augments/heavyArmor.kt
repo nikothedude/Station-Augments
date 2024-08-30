@@ -1,9 +1,13 @@
 package niko_SA.augments
 
+import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.combat.ShipAPI
-import niko_SA.genericIndustries.stationAttachment
+import niko_SA.augments.core.stationAttachment
 
-class heavyArmor: stationAttachment() {
+class heavyArmor(market: MarketAPI, id: String) : stationAttachment(market, id) {
+
+    override val name: String = "Heavy Armor"
+    override val spriteId: String = "graphics/icons/industry/mining.png"
 
     companion object {
         const val ARMOR_INCREMENT = 600f
@@ -19,9 +23,5 @@ class heavyArmor: stationAttachment() {
 
         station.mutableStats.maxTurnRate.modifyMult(id, TURN_RATE_MULT)
         station.mutableStats.turnAcceleration.modifyMult(id, TURN_RATE_MULT)
-    }
-
-    override fun apply() {
-        TODO("Not yet implemented")
     }
 }

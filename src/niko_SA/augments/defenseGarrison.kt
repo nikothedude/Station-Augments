@@ -1,19 +1,21 @@
 package niko_SA.augments
 
 import com.fs.starfarer.api.Global
+import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.combat.BaseEveryFrameCombatPlugin
 import com.fs.starfarer.api.combat.CollisionClass
 import com.fs.starfarer.api.combat.ShipAPI
-import com.fs.starfarer.api.combat.WeaponAPI.WeaponType
 import com.fs.starfarer.api.input.InputEventAPI
 import com.fs.starfarer.api.util.IntervalUtil
-import niko_SA.genericIndustries.stationAttachment
+import niko_SA.augments.core.stationAttachment
 import org.lwjgl.util.vector.Vector2f
-import java.awt.Color
 import java.util.*
 
 /** Spawns a small collection of ships from the station itself on battle start. Frigates, maybe a destroyer. */
-class defenseGarrison: stationAttachment() {
+class defenseGarrison(market: MarketAPI, id: String) : stationAttachment(market, id) {
+
+    override val name: String = "Defense Garrison"
+    override val spriteId: String = "graphics/icons/industry/mining.png"
 
     override val augmentCost: Float = 40f
 
@@ -38,14 +40,6 @@ class defenseGarrison: stationAttachment() {
             shipOne,
             5f
         ))*/
-    }
-
-    override fun apply() {
-        return
-    }
-
-    override fun unapply() {
-        super.unapply()
     }
 
     class MPC_defenseGarrisonCollisionScript(
