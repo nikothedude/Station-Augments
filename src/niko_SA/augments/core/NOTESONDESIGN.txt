@@ -1,0 +1,5 @@
+augments are not industries, because it would cause all mods who use this to develop a hard dependency
+
+augments are not hullmods since i feel like its just better done in another way
+
+augments are standalone and done through a custom UI for the above reasons
