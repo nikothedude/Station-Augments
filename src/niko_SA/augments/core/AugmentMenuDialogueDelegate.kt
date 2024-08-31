@@ -54,7 +54,7 @@ class AugmentMenuDialogueDelegate(val station: Industry): BaseCustomDialogDelega
         regenerateDialog(callback)
     }
 
-    // FIXME: 1. scrollbar doestn work, 2. after unapplying an augment, it fails to remove the buttons and so it stacks ( :( )
+    // FIXME: 1. after unapplying an augment, it fails to remove the buttons and so it stacks ( :( )
     fun regenerateDialog(callback: CustomDialogCallback) {
         val oldPanel = panel
         if (oldPanel != null) {
@@ -64,7 +64,6 @@ class AugmentMenuDialogueDelegate(val station: Industry): BaseCustomDialogDelega
         panel = Global.getSettings().createCustom(basePanel!!.position.width, basePanel!!.position.height, null)
 
         val panelTooltip = panel!!.createUIElement(WIDTH, HEIGHT, true)
-        panel!!.addUIElement(panelTooltip).inTMid(0f)
         val sectionHeading = if (mode == Mode.MODIFYING) "Known/Installed augments" else "Currently installed augments"
         panelTooltip.addSectionHeading(sectionHeading, Alignment.MID, 0.0f)
 
@@ -79,7 +78,7 @@ class AugmentMenuDialogueDelegate(val station: Industry): BaseCustomDialogDelega
             getPlayerKnownAugments().forEach { augmentsToShow[it] = allAugments[it]!! }
         }
 
-        for (augmentEntry in augmentsToShow) {
+        for (augmentEntry in augmentsToShow.toSortedMap()) {
             val augmentData = augmentEntry.value
             val augmentId = augmentEntry.key
 
@@ -168,11 +167,12 @@ class AugmentMenuDialogueDelegate(val station: Industry): BaseCustomDialogDelega
 
             basePanel!!.addComponent(panel!!)
         }
+        panel!!.addUIElement(panelTooltip).inTMid(0f)
     }
 
     fun reportButtonPressed(buttonId: Any) {
         if (buttonId !is stationAttachment) return
-        market.toggleStationAugment(buttonId)
+        market.toggleStationAugment(buttonId, true)
     }
 
 }

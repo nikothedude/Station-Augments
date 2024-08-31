@@ -13,7 +13,7 @@ class supportOutfit(market: MarketAPI, id: String) : stationAttachment(market, i
         const val FIGHTER_RANGE_PERCENT = 300f
         const val WEAPON_RANGE_PERCENT = 200f
 
-        const val WEAPON_ROF_PERCENT = -20f
+        const val WEAPON_ROF_PERCENT = -15f
     }
 
     override val augmentCost: Float = 20f

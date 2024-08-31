@@ -69,6 +69,13 @@ object stationAugmentStore {
             { market: MarketAPI -> fluxShunt(market, "SA_fluxShunt") },
             false
         )
-
+        allAugments["SA_heavyArmor"] = stationAugmentData(
+            { market: MarketAPI -> heavyArmor(market, "SA_heavyArmor") },
+            false
+        )
+        allAugments["SA_solarShielding"] = stationAugmentData(
+            { market: MarketAPI -> solarShielding(market, "SA_solarShielding") },
+            false
+        )
     }
 }

@@ -57,16 +57,27 @@ object MarketUtils {
         augment.applied()
     }*/
 
-    fun MarketAPI.toggleStationAugment(instance: stationAttachment) {
+    fun MarketAPI.toggleStationAugment(instance: stationAttachment, checkForStation: Boolean = true) {
         if (instance.applied) {
             instance.unapply()
             getStationAugments() -= instance
         } else {
-            addStationAugment(instance)
+            addStationAugment(instance, checkForStation)
         }
     }
 
-    fun MarketAPI.addStationAugment(augment: stationAttachment) {
+    fun MarketAPI.addStationAugment(augment: stationAttachment, checkForStation: Boolean = true) {
+        if (hasStationAugment(augment)) {
+            SA_debugUtils.log.error("tried to add ${augment.id} while $name already had it!")
+            return
+        }
+        if (checkForStation) {
+            val industry = getStationIndustry()
+            if (industry == null) {
+                SA_debugUtils.log.info("$name has no station, aborting addition of ${augment.id}")
+                return
+            }
+        }
         augment.apply()
         getStationAugments() += augment
     }
@@ -78,6 +89,14 @@ object MarketUtils {
 
     fun MarketAPI.getStationIndustry(): Industry? {
         return Misc.getStationIndustry(this)
+    }
+
+    fun MarketAPI.hasStationAugment(augment: stationAttachment): Boolean {
+        return hasStationAugment(augment.id)
+    }
+
+    fun MarketAPI.hasStationAugment(augmentId: String): Boolean {
+        return getStationAugments().any { it.id == augmentId }
     }
 
 }

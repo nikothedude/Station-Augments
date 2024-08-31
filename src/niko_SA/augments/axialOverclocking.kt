@@ -19,8 +19,6 @@ class axialOverclocking(market: MarketAPI, id: String) : stationAttachment(marke
     override val spriteId: String = "graphics/icons/industry/mining.png"
 
     override fun applyInCombat(station: ShipAPI) {
-        station.system.ammo = 500
-
         station.mutableStats.maxTurnRate.modifyMult(id, TURN_MULT)
         station.mutableStats.turnAcceleration.modifyMult(id, TURN_MULT)
 

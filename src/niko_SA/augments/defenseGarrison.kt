@@ -16,7 +16,7 @@ class defenseGarrison(market: MarketAPI, id: String) : stationAttachment(market,
     override val name: String = "Defense Garrison"
     override val spriteId: String = "graphics/icons/industry/mining.png"
 
-    override val augmentCost: Float = 40f
+    override val augmentCost: Float = 20f
 
     override fun applyInCombat(station: ShipAPI) {
         val engine = Global.getCombatEngine()

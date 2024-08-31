@@ -1,6 +1,9 @@
 make station augments adjust the FP of the station (impossible until alex adds a hook)
 
-add some sort of UI that allows station augments to be installed without using structure slots
+make it so augmunts can check to see if they should remove themselves or not
+    mostly done, some holes probably
+
+apply augments to markets dynamically
 
 make a ton more augments
 

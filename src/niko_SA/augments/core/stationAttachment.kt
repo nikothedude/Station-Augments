@@ -1,7 +1,9 @@
 package niko_SA.augments.core
 
+import com.fs.starfarer.api.EveryFrameScript
 import com.fs.starfarer.api.GameState
 import com.fs.starfarer.api.Global
+import com.fs.starfarer.api.campaign.BaseCampaignEventListener
 import com.fs.starfarer.api.campaign.CampaignFleetAPI
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.campaign.econ.MarketAPI
@@ -13,11 +15,12 @@ import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import niko_SA.MarketUtils.getRemainingAugmentBudget
+import niko_SA.MarketUtils.getStationAugments
 import niko_SA.MarketUtils.removeStationAugment
 import niko_SA.ReflectionUtils
 
 /** Industries of this type attempt to modify an existing station in combat, and potentially, in campaign.*/
-abstract class stationAttachment(val market: MarketAPI, val id: String) {
+abstract class stationAttachment(val market: MarketAPI, val id: String): BaseCampaignEventListener(true) {
 
     /** The "cost" to be subtracted from our stations augment budget. We cannot be built if our station doesnt have enough budget for us. */
     abstract val augmentCost: Float
@@ -31,6 +34,8 @@ abstract class stationAttachment(val market: MarketAPI, val id: String) {
 
     abstract val name: String
     abstract val spriteId: String
+    /** If an augment with this id in this set is present, the augment cannot be built. */
+    val incompatibleAugments: MutableSet<String> = HashSet()
 
     companion object {
         const val BASE_STATION_AUGMENT_BUDGET = 20f // arbitrary
@@ -100,11 +105,14 @@ abstract class stationAttachment(val market: MarketAPI, val id: String) {
 
     fun apply() {
         applied = true
+        Global.getSector().addListener(this)
+        Global.getSector().addScript(ConstantStationCheckingScript(this)) // just in case
         doEnabledCheck()
     }
 
     fun unapply() {
         applied = false
+        Global.getSector().removeListener(this)
     }
 
     fun doEnabledCheck() {
@@ -116,11 +124,7 @@ abstract class stationAttachment(val market: MarketAPI, val id: String) {
     }
 
     fun isAvailableToBuild(): Boolean {
-        val stationIndustry = getStationIndustry() ?: return false
-        if (considerAP && (stationIndustry.getRemainingAugmentBudget() < augmentCost)) return false
-        if (stationTypeWhitelist.isNotEmpty() && !stationTypeWhitelist.contains(stationIndustry.spec.id)) return false
-
-        return true
+        return (getUnavailableReason() == null)
     }
 
     fun getUnavailableReason(): String? {
@@ -128,7 +132,10 @@ abstract class stationAttachment(val market: MarketAPI, val id: String) {
         if (stationTypeWhitelist.isNotEmpty() && !stationTypeWhitelist.contains(station.spec.id)) {
             return "Requires ${getNeededStationTypeText()}"
         }
-        if (station.getRemainingAugmentBudget() < augmentCost) return "Not enough augment points to install"
+        if (considerAP && (station.getRemainingAugmentBudget() < augmentCost)) return "Not enough augment points to install"
+        if (incompatibleAugments.isNotEmpty() && market.getStationAugments().any { existingAugment -> existingAugment != this && (incompatibleAugments.contains(existingAugment.id) || existingAugment.incompatibleAugments.contains(id)) }) {
+            return "Incompatible with existing augments"
+        }
         return null
     }
 
@@ -203,5 +210,42 @@ abstract class stationAttachment(val market: MarketAPI, val id: String) {
 
     fun canAfford(): Boolean {
         return true
+    }
+
+    override fun reportEconomyTick(iterIndex: Int) {
+        super.reportEconomyTick(iterIndex)
+
+        doEnabledCheck()
+    }
+
+    override fun reportPlayerOpenedMarket(market: MarketAPI?) {
+        super.reportPlayerOpenedMarket(market)
+
+        if (market == this.market) {
+            Global.getSector().addScript(ConstantStationCheckingScript(this))
+        }
+        doEnabledCheck()
+    }
+
+    override fun reportPlayerClosedMarket(market: MarketAPI?) {
+        super.reportPlayerClosedMarket(market)
+
+        doEnabledCheck()
+    }
+
+    class ConstantStationCheckingScript(val augment: stationAttachment): EveryFrameScript {
+        var done = false
+        override fun isDone(): Boolean = done
+
+        override fun runWhilePaused(): Boolean = true
+
+        override fun advance(amount: Float) {
+            if (!Global.getSector().campaignUI.isShowingDialog) {
+                done = true
+                return
+            }
+
+            augment.doEnabledCheck()
+        }
     }
 }

@@ -22,7 +22,7 @@ class bubbleShield(market: MarketAPI, id: String) : stationAttachment(market, id
 
     override val augmentCost: Float = 30f
 
-    override val name: String = "SA_bubbleShield"
+    override val name: String = "Bubble Shield"
     override val spriteId: String = "graphics/icons/industry/mining.png"
 
     override fun applyInCombat(station: ShipAPI) {
