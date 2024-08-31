@@ -3,6 +3,7 @@ package niko_SA.scripts
 import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.combat.BaseEveryFrameCombatPlugin
 import com.fs.starfarer.api.input.InputEventAPI
+import niko_SA.MarketUtils.getStationAugments
 import niko_SA.SA_ids.SA_structureTag
 import niko_SA.augments.core.stationAttachment
 
@@ -28,9 +29,8 @@ class effectApplierScript: BaseEveryFrameCombatPlugin() {
                 val fleet = battle.memberSourceMap[member] ?: continue
                 val marketTracker = stationMarketTracker.getInstance()
                 val market = marketTracker.getMarketOfFleet(fleet) ?: return
-                for (industry in market.industries.filter { it.spec.hasTag(SA_structureTag) }) {
-                    val castedIndustry = (industry as stationAttachment)
-                    castedIndustry.applyInCombat(ship)
+                for (augment in market.getStationAugments()) {
+                    augment.applyInCombat(ship)
                 }
                 //Global.getSector().addScript(stationMarketNullPatch(fleet, market)) // TEMPORARY MEASURE
             }

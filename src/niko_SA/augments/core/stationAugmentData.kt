@@ -7,5 +7,6 @@ import niko_SA.MarketUtils.getRemainingAugmentBudget
 /** A store for constant data, and a instantiation method of the station augment. */
 class stationAugmentData(
     val getInstance: (market: MarketAPI) -> stationAttachment,
+    val knownToAllFactionsByDefault: Boolean = false
 ) {
 }

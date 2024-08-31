@@ -3,7 +3,7 @@ package niko_SA.augments.core
 import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.campaign.BaseCustomDialogDelegate
 import com.fs.starfarer.api.campaign.BaseCustomUIPanelPlugin
-import com.fs.starfarer.api.campaign.CustomDialogDelegate
+import com.fs.starfarer.api.campaign.CustomDialogDelegate.CustomDialogCallback
 import com.fs.starfarer.api.campaign.econ.Industry
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.ui.Alignment
@@ -11,22 +11,26 @@ import com.fs.starfarer.api.ui.ButtonAPI
 import com.fs.starfarer.api.ui.CustomPanelAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
+import com.fs.starfarer.ui.g
 import niko_SA.MarketUtils.getStationAugments
 import niko_SA.MarketUtils.toggleStationAugment
+import niko_SA.ReflectionUtils.set
+import niko_SA.augments.core.stationAugmentStore.allAugments
+import niko_SA.augments.core.stationAugmentStore.getPlayerKnownAugments
 import java.awt.Color
 
 // all this has to do is show the existing augments, not elegant but it works
 class AugmentMenuDialogueDelegate(val station: Industry): BaseCustomDialogDelegate() {
-
     companion object {
-        val HEIGHT = (Global.getSettings().screenHeight - 300.0f)
+        val HEIGHT = (Global.getSettings().screenHeight - 400.0f)
         const val WIDTH = 600f
 
-        class ButtonReportingCustomPanel(var delegate: AugmentMenuDialogueDelegate) :
+        class ButtonReportingCustomPanel(var delegate: AugmentMenuDialogueDelegate, val callback: CustomDialogCallback) :
             BaseCustomUIPanelPlugin() {
             override fun buttonPressed(buttonId: Any) {
                 super.buttonPressed(buttonId)
                 delegate.reportButtonPressed(buttonId)
+                delegate.regenerateDialog(callback)
             }
         }
     }
@@ -40,26 +44,53 @@ class AugmentMenuDialogueDelegate(val station: Industry): BaseCustomDialogDelega
     val market: MarketAPI = station.market!! // !! not necessary, but good for explicitness
     val mode: Mode = if (market.isPlayerOwned)  Mode.MODIFYING else Mode.VISITING
 
+    var basePanel: CustomPanelAPI? = null
+    var panel: CustomPanelAPI? = null
+
     // mostly taken from indevo's ChangelingIndustryDialogueDelegate
-    override fun createCustomDialog(panel: CustomPanelAPI?, callback: CustomDialogDelegate.CustomDialogCallback?) {
-        if (panel == null) return
-        val panelTooltip = panel.createUIElement(WIDTH, HEIGHT, true)
-        panelTooltip.addSectionHeading("Currently installed augments", Alignment.MID, 0.0f)
+    override fun createCustomDialog(panel: CustomPanelAPI?, callback: CustomDialogCallback?) {
+        if (panel == null || callback == null) return
+        basePanel = panel
+        regenerateDialog(callback)
+    }
+
+    // FIXME: 1. scrollbar doestn work, 2. after unapplying an augment, it fails to remove the buttons and so it stacks ( :( )
+    fun regenerateDialog(callback: CustomDialogCallback) {
+        val oldPanel = panel
+        if (oldPanel != null) {
+            basePanel!!.removeComponent(oldPanel)
+        }
+        // this panel code is taken from indevo's petmanagerdelegatecode, we want stuff to updaet when the button is pressed
+        panel = Global.getSettings().createCustom(basePanel!!.position.width, basePanel!!.position.height, null)
+
+        val panelTooltip = panel!!.createUIElement(WIDTH, HEIGHT, true)
+        panel!!.addUIElement(panelTooltip).inTMid(0f)
+        val sectionHeading = if (mode == Mode.MODIFYING) "Known/Installed augments" else "Currently installed augments"
+        panelTooltip.addSectionHeading(sectionHeading, Alignment.MID, 0.0f)
 
         buttons.clear()
         val opad = 10.0f
         val spad = 2.0f
 
         val installedAugments = market.getStationAugments()
+        val augmentsToShow = HashMap<String, stationAugmentData>()
+        installedAugments.forEach { augmentsToShow[it.id] = allAugments[it.id]!! }
+        if (mode == Mode.MODIFYING) {
+            getPlayerKnownAugments().forEach { augmentsToShow[it] = allAugments[it]!! }
+        }
 
-        for (augmentEntry in stationAugmentStore.allAugments) {
+        for (augmentEntry in augmentsToShow) {
             val augmentData = augmentEntry.value
             val augmentId = augmentEntry.key
 
             val preExistingAugment = (installedAugments.firstOrNull { it.id == augmentId })
             val augmentInstance = preExistingAugment ?: augmentData.getInstance(market)
 
+            if (augmentInstance.applied) {
+                augmentInstance.considerAP = false
+            }
             val canBuild = augmentInstance.canBeBuilt()
+            augmentInstance.considerAP = true
             val canAfford = augmentInstance.canAfford()
 
             var baseColor = Misc.getButtonTextColor()
@@ -71,10 +102,10 @@ class AugmentMenuDialogueDelegate(val station: Industry): BaseCustomDialogDelega
                 brightColor = Color.gray
             }
 
-            val augmentButtonPanel = panel.createCustomPanel(
+            val augmentButtonPanel = panel!!.createCustomPanel(
                 595.0f,
                 86.0f,
-                ButtonReportingCustomPanel(this)
+                ButtonReportingCustomPanel(this, callback)
             )
             val spriteName: String = augmentInstance.getImageName(market)
             val sprite = Global.getSettings().getSprite(spriteName)
@@ -90,7 +121,11 @@ class AugmentMenuDialogueDelegate(val station: Industry): BaseCustomDialogDelega
                 textPanel.addSectionHeading(" " + augmentInstance.name, Color.WHITE, Misc.getGrayColor(), Alignment.LMID, 0.0f)
             }
 
-            augmentInstance.createTooltip(panelTooltip, false)
+            augmentInstance.getBasicDescription(textPanel, false)
+            val unavailableReason = augmentInstance.getUnavailableReason()
+            if (unavailableReason != null) {
+                textPanel.addPara(unavailableReason, opad, Misc.getNegativeHighlightColor(), unavailableReason)
+            }
             /*textPanel.addPara(augmentInstance.getDescription().getText2(), opad)
             if (!canBuild) {
                 textPanel.addPara(augmentInstance.getUnavailableReason(), Misc.getNegativeHighlightColor(), spad)
@@ -106,7 +141,7 @@ class AugmentMenuDialogueDelegate(val station: Industry): BaseCustomDialogDelega
                 )
             }*/
 
-            val baseHeight = textPanel.heightSoFar + 2.0f + opad
+            val baseHeight = textPanel.heightSoFar + 20.0f + opad
             augmentButtonPanel.position.setSize(595.0f, 84.0f.coerceAtLeast(baseHeight))
             var anchor: TooltipMakerAPI = augmentButtonPanel.createUIElement(595.0f, baseHeight, false)
             val areaCheckbox = anchor.addAreaCheckbox(
@@ -130,10 +165,10 @@ class AugmentMenuDialogueDelegate(val station: Industry): BaseCustomDialogDelega
             augmentButtonPanel.addUIElement(textPanel).rightOfTop(anchor, opad)
             panelTooltip.addCustom(augmentButtonPanel, 0.0f)
             buttons.add(areaCheckbox)
+
+            basePanel!!.addComponent(panel!!)
         }
-
     }
-
 
     fun reportButtonPressed(buttonId: Any) {
         if (buttonId !is stationAttachment) return

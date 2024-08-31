@@ -4,10 +4,8 @@ import com.fs.starfarer.api.GameState
 import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.campaign.CampaignFleetAPI
 import com.fs.starfarer.api.campaign.SectorEntityToken
-import com.fs.starfarer.api.campaign.econ.Industry
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.combat.ShipAPI
-import com.fs.starfarer.api.impl.campaign.econ.impl.BaseIndustry
 import com.fs.starfarer.api.impl.campaign.econ.impl.OrbitalStation
 import com.fs.starfarer.api.impl.campaign.ids.Industries
 import com.fs.starfarer.api.impl.campaign.ids.MemFlags
@@ -17,7 +15,6 @@ import com.fs.starfarer.api.util.Misc
 import niko_SA.MarketUtils.getRemainingAugmentBudget
 import niko_SA.MarketUtils.removeStationAugment
 import niko_SA.ReflectionUtils
-import niko_SA.SA_ids
 
 /** Industries of this type attempt to modify an existing station in combat, and potentially, in campaign.*/
 abstract class stationAttachment(val market: MarketAPI, val id: String) {
@@ -178,7 +175,7 @@ abstract class stationAttachment(val market: MarketAPI, val id: String) {
         return ReflectionUtils.get("stationEntity", stationIndustry) as? SectorEntityToken
     }
 
-    open fun createTooltip(tooltip: TooltipMakerAPI, expanded: Boolean) {
+    open fun getBasicDescription(tooltip: TooltipMakerAPI, expanded: Boolean) {
         val orbitalStation = getStationIndustry() ?: return
         val remainingAugmentBudget = orbitalStation.getRemainingAugmentBudget()
         val para = tooltip.addPara(

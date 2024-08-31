@@ -1,6 +1,5 @@
 package niko_SA.augments
 
-import com.fs.starfarer.api.campaign.econ.Industry
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.combat.ShipAPI
 import com.fs.starfarer.api.impl.campaign.ids.Industries
@@ -27,8 +26,8 @@ class fluxShunt(market: MarketAPI, id: String) : stationAttachment(market, id) {
         return "a midline station"
     }
 
-    override fun createTooltip(tooltip: TooltipMakerAPI, expanded: Boolean) {
-        super.createTooltip(tooltip, expanded)
+    override fun getBasicDescription(tooltip: TooltipMakerAPI, expanded: Boolean) {
+        super.getBasicDescription(tooltip, expanded)
         tooltip.addPara(
             "Applies %s to all station modules.",
             5f,

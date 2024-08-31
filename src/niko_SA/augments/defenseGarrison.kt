@@ -9,7 +9,6 @@ import com.fs.starfarer.api.input.InputEventAPI
 import com.fs.starfarer.api.util.IntervalUtil
 import niko_SA.augments.core.stationAttachment
 import org.lwjgl.util.vector.Vector2f
-import java.util.*
 
 /** Spawns a small collection of ships from the station itself on battle start. Frigates, maybe a destroyer. */
 class defenseGarrison(market: MarketAPI, id: String) : stationAttachment(market, id) {

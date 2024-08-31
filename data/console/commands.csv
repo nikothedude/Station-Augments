@@ -1,0 +1,4 @@
+command,class,tags,syntax,help
+SA_addAugment,niko_SA.console.SA_addAugment,"markets, augments",SA_addAugment (augmentId),Applies a station augment to a market. Requires a station.
+SA_removeAugment,niko_SA.console.SA_removeAugment,"markets, augments",SA_removeAugment (augmentId),Removes a station augment to a market.
+SA_teachAugment,niko_SA.console.SA_teachAugment,"factions, augments",SA_teachAugment (factionId) (augmentId/all),Teaches a faction an augment. Input all into the 2nd arg to teach all.
