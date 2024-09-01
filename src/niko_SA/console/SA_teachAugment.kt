@@ -1,5 +1,6 @@
 package niko_SA.console
 
+import com.fs.starfarer.api.GameState
 import com.fs.starfarer.api.Global
 import niko_SA.augments.core.stationAugmentStore
 import niko_SA.augments.core.stationAugmentStore.allAugments
@@ -10,7 +11,7 @@ import org.lazywizard.console.Console
 
 class SA_teachAugment: BaseCommand {
     override fun runCommand(args: String, context: BaseCommand.CommandContext): BaseCommand.CommandResult {
-        if (context != BaseCommand.CommandContext.CAMPAIGN_MAP) {
+        if (Global.getCurrentState() != GameState.CAMPAIGN) {
             Console.showMessage(CommonStrings.ERROR_CAMPAIGN_ONLY)
             return BaseCommand.CommandResult.WRONG_CONTEXT
         }

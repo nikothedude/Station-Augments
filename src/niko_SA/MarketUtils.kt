@@ -5,11 +5,13 @@ import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.impl.campaign.econ.impl.OrbitalStation
 import com.fs.starfarer.api.util.Misc
 import niko_SA.augments.core.stationAttachment
+import niko_SA.augments.core.stationAttachment.Companion.stationImprovedAPBonus
 
 object MarketUtils {
     /** Returns the augment budget this station has. An augment budget controls how many augments a station can have - each augment has its own cost.*/
     fun OrbitalStation.getAugmentBudget(): Float {
         var points = stationAttachment.BASE_STATION_AUGMENT_BUDGET
+        if (isImproved) points += stationImprovedAPBonus
 
         for (tag in spec.tags) {
             val tagBonus = stationAttachment.tagToExtraAugmentBudget[tag]
@@ -39,6 +41,11 @@ object MarketUtils {
         val usedBudget = getUsedAugmentBudget()
 
         return (budget - usedBudget)
+    }
+
+    fun MarketAPI.getRemainingAugmentBudget(): Float {
+        val stationIndustry = (getStationIndustry() as? OrbitalStation) ?: return 0f
+        return stationIndustry.getRemainingAugmentBudget()
     }
 
     fun MarketAPI.getStationAugments(): MutableSet<stationAttachment> {

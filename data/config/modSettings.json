@@ -1,38 +1,48 @@
 {
-    "niko_stationAugments":{
-		"MarketsWithAugments": {
-			"chicomoztoc":[
-				"SA_shieldShunt",
-				"SA_bubbleShield",
-			],
-			"nachiketa": ["SA_bubbleShield"],
-			"jangala": [
-				"SA_shieldShunt",
-				"SA_regenerativeDrones",
-				"SA_heavyArmor",
-			],
-			
-			"mairaath_abandoned_station2": ["SA_safetyOverrides"], # abandoned astropolis
-			"station_kapteyn": ["SA_defenseGarrison"],
-			"kantas_den": ["SA_axialOverclocking", "SA_safetyOverrides"],
-			
-			"kazeron": [
-				"SA_regenerativeDrones",
-				"SA_fluxShunt",
-			],
-			
-			"eochu_bres": ["SA_bubbleShield"],
-			
-			"sindria": [
-				"SA_defenseGarrison",
-				"SA_solarShielding",
-			],
-			
-			"gilead": [
-				"SA_shieldShunt",
-				"SA_regenerativeDrones",
-				"SA_heavyArmor",
-			],
-		},
-    },
+	"niko_stationAugments":{
+		# this is merely a easy way to add augments to markets, you can do it manually too
+	"MarketsWithAugments": {
+		"chicomoztoc":[
+			"SA_shieldShunt",
+			"SA_bubbleShield",
+		],
+		"nachiketa": ["SA_bubbleShield"],
+		"jangala": [
+			"SA_shieldShunt",
+			"SA_regenerativeDrones",
+			"SA_heavyArmor",
+		],
+		"coatl": [
+			"SA_supportOutfit",
+		],
+
+		"mairaath_abandoned_station2": ["SA_safetyOverrides"], # abandoned astropolis
+		"station_kapteyn": ["SA_defenseGarrison"],
+		"kantas_den": ["SA_axialOverclocking", "SA_safetyOverrides"],
+
+		"kazeron": [
+			"SA_regenerativeDrones",
+			"SA_fluxShunt",
+		],
+
+		"eochu_bres": [
+			"SA_bubbleShield",
+			"SA_aiFighterUplink"
+		],
+		"culann": [
+			"SA_solarShielding",
+		],
+
+		"sindria": [
+			"SA_defenseGarrison",
+			"SA_solarShielding",
+		],
+
+		"gilead": [
+			"SA_shieldShunt",
+			"SA_regenerativeDrones",
+			"SA_heavyArmor",
+		],
+	},
+}
 }

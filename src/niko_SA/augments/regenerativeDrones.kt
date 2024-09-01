@@ -7,11 +7,14 @@ import com.fs.starfarer.api.combat.ShipAPI
 import com.fs.starfarer.api.combat.ShipCommand
 import com.fs.starfarer.api.impl.campaign.ids.Industries
 import com.fs.starfarer.api.input.InputEventAPI
+import com.fs.starfarer.api.ui.TooltipMakerAPI
+import com.fs.starfarer.api.util.Misc
 import com.fs.starfarer.combat.systems.Oo0O
 import niko_SA.augments.core.stationAttachment
 
-class regenerativeDrones(market: MarketAPI, id: String) : stationAttachment(market, id) {
+class regenerativeDrones(market: MarketAPI?, id: String) : stationAttachment(market, id) {
 
+    override val manufacturer: String = "Ko Combine"
     override val name: String = "Reserve drone bay"
     override val spriteId: String = "graphics/icons/industry/mining.png"
 
@@ -46,5 +49,22 @@ class regenerativeDrones(market: MarketAPI, id: String) : stationAttachment(mark
 
     override fun getNeededStationTypeText(): String {
         return "a vanilla star fortress"
+    }
+
+    override fun getBasicDescription(tooltip: TooltipMakerAPI, expanded: Boolean) {
+        super.getBasicDescription(tooltip, expanded)
+
+        tooltip.addPara(
+            "Special fabricators can be installed into the drone bays of the station core, allowing on-the-fly construction " +
+                "of combat drones.",
+            5f
+        )
+
+        tooltip.addPara(
+            "If a drone is lost, it will be replaced %s seconds later.",
+            5f,
+            Misc.getHighlightColor(),
+            "${1 / AMMO_PER_SECOND_INCREMENT}"
+        )
     }
 }

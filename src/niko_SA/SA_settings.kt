@@ -28,7 +28,10 @@ object SA_settings {
                 val augmentId = array.get(i).toString()
 
                 val market = Global.getSector().economy.getMarket(marketId)
-                    ?: throw RuntimeException("cannot apply augment id $augmentId to market $marketId - market does not exist!")
+                if (market == null) {
+                    SA_debugUtils.log.error("Did not find market of id $marketId, aborting augment addition")
+                    continue
+                }
                 val augment = allAugments[augmentId]?.getInstance?.let { it(market) } ?: throw RuntimeException("augment $augmentId not found in global augment list!")
 
                 market.addStationAugment(augment)

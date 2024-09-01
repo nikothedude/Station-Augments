@@ -8,7 +8,7 @@ import com.fs.starfarer.api.util.Misc
 import niko_SA.augments.core.stationAttachment
 
 /** Locked to midline stations - a big problem with them is the fact they never drop shields. */
-class fluxShunt(market: MarketAPI, id: String) : stationAttachment(market, id) {
+class fluxShunt(market: MarketAPI?, id: String) : stationAttachment(market, id) {
 
     override val name: String = "Deep shield dissipators"
     override val spriteId: String = "graphics/icons/industry/mining.png"

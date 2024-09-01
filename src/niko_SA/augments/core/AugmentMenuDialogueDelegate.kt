@@ -6,18 +6,20 @@ import com.fs.starfarer.api.campaign.BaseCustomUIPanelPlugin
 import com.fs.starfarer.api.campaign.CustomDialogDelegate.CustomDialogCallback
 import com.fs.starfarer.api.campaign.econ.Industry
 import com.fs.starfarer.api.campaign.econ.MarketAPI
+import com.fs.starfarer.api.impl.campaign.intel.events.BaseFactorTooltip
 import com.fs.starfarer.api.ui.Alignment
 import com.fs.starfarer.api.ui.ButtonAPI
 import com.fs.starfarer.api.ui.CustomPanelAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
-import com.fs.starfarer.ui.g
+import niko_SA.MarketUtils.getRemainingAugmentBudget
 import niko_SA.MarketUtils.getStationAugments
+import niko_SA.MarketUtils.getUsedAugmentBudget
 import niko_SA.MarketUtils.toggleStationAugment
-import niko_SA.ReflectionUtils.set
 import niko_SA.augments.core.stationAugmentStore.allAugments
 import niko_SA.augments.core.stationAugmentStore.getPlayerKnownAugments
 import java.awt.Color
+import kotlin.math.roundToInt
 
 // all this has to do is show the existing augments, not elegant but it works
 class AugmentMenuDialogueDelegate(val station: Industry): BaseCustomDialogDelegate() {
@@ -88,7 +90,7 @@ class AugmentMenuDialogueDelegate(val station: Industry): BaseCustomDialogDelega
             if (augmentInstance.applied) {
                 augmentInstance.considerAP = false
             }
-            val canBuild = augmentInstance.canBeBuilt()
+            val canBuild = augmentInstance.canBeModifiedOrBuilt()
             augmentInstance.considerAP = true
             val canAfford = augmentInstance.canAfford()
 
@@ -120,7 +122,22 @@ class AugmentMenuDialogueDelegate(val station: Industry): BaseCustomDialogDelega
                 textPanel.addSectionHeading(" " + augmentInstance.name, Color.WHITE, Misc.getGrayColor(), Alignment.LMID, 0.0f)
             }
 
-            augmentInstance.getBasicDescription(textPanel, false)
+            val anonymousTooltip = object : BaseFactorTooltip() {
+                override fun createTooltip(tooltip: TooltipMakerAPI, expanded: Boolean, tooltipParam: Any) {
+                    augmentInstance.getBasicDescription(tooltip, expanded)
+                }
+            }
+            textPanel.addTooltipTo(anonymousTooltip, textPanel, TooltipMakerAPI.TooltipLocation.LEFT)
+            //textPanel.addTooltipToPrevious(anonymousTooltip, TooltipMakerAPI.TooltipLocation.LEFT, false)
+           // augmentInstance.getBasicDescription(textPanel, false)
+            val cost = augmentInstance.augmentCost
+            val color = if (cost <= market.getRemainingAugmentBudget()) Misc.getHighlightColor() else Misc.getNegativeHighlightColor()
+            textPanel.addPara(
+                "%s AP",
+                5f,
+                color,
+                "$cost"
+            )
             val unavailableReason = augmentInstance.getUnavailableReason()
             if (unavailableReason != null) {
                 textPanel.addPara(unavailableReason, opad, Misc.getNegativeHighlightColor(), unavailableReason)
@@ -140,7 +157,7 @@ class AugmentMenuDialogueDelegate(val station: Industry): BaseCustomDialogDelega
                 )
             }*/
 
-            val baseHeight = textPanel.heightSoFar + 20.0f + opad
+            val baseHeight = textPanel.heightSoFar + 24.0f + opad
             augmentButtonPanel.position.setSize(595.0f, 84.0f.coerceAtLeast(baseHeight))
             var anchor: TooltipMakerAPI = augmentButtonPanel.createUIElement(595.0f, baseHeight, false)
             val areaCheckbox = anchor.addAreaCheckbox(
@@ -162,6 +179,7 @@ class AugmentMenuDialogueDelegate(val station: Industry): BaseCustomDialogDelega
             anchor.addImage(spriteName, adjustedWidth, 80.0f.coerceAtMost(sprite.height), 0.0f)
             augmentButtonPanel.addUIElement(anchor).inTL(defaultPadding - opad, defaultPadding)
             augmentButtonPanel.addUIElement(textPanel).rightOfTop(anchor, opad)
+
             panelTooltip.addCustom(augmentButtonPanel, 0.0f)
             buttons.add(areaCheckbox)
 

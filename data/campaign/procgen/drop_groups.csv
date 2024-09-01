@@ -1,0 +1,7 @@
+commodity,group,freq
+nothing,SA_augmentNormal,1000
+"item_:{tags:[SA_augmentNormal, !no_drop]}",SA_augmentNormal,40
+,,
+nothing,SA_augmentRare,1000
+"item_:{tags:[SA_augmentRare, !no_drop]}",SA_augmentRare,10
+"item_:{tags:[SA_augmentNormal, !no_drop]}",SA_augmentRare,20

@@ -38,44 +38,70 @@ object stationAugmentStore {
     init {
 
         allAugments["SA_axialOverclocking"] = stationAugmentData(
-            { market: MarketAPI -> axialOverclocking(market, "SA_axialOverclocking") },
-            false
+            { market: MarketAPI? -> axialOverclocking(market, "SA_axialOverclocking") },
+            false,
+                mutableMapOf(Pair("SA_augmentNormal", 10f)
+            )
         )
         allAugments["SA_safetyOverrides"] = stationAugmentData(
-            { market: MarketAPI -> safetyOverrides(market, "SA_safetyOverrides") },
-            true
+            { market: MarketAPI? -> safetyOverrides(market, "SA_safetyOverrides") },
+            true,
+                mutableMapOf(Pair("SA_augmentNormal", 2f)
+            )
         )
         allAugments["SA_bubbleShield"] = stationAugmentData(
-            { market: MarketAPI -> bubbleShield(market, "SA_bubbleShield") },
-            false
+            { market: MarketAPI? -> bubbleShield(market, "SA_bubbleShield") },
+            false,
+                mutableMapOf(Pair("SA_augmentRare", 10f)
+            )
         )
         allAugments["SA_defenseGarrison"] = stationAugmentData(
-            { market: MarketAPI -> defenseGarrison(market, "SA_defenseGarrison") },
-            true
+            { market: MarketAPI? -> defenseGarrison(market, "SA_defenseGarrison") },
+            true,
+            mutableMapOf(Pair("SA_augmentNormal", 2f)
+            )
         )
         allAugments["SA_supportOutfit"] = stationAugmentData(
-            { market: MarketAPI -> supportOutfit(market, "SA_supportOutfit") },
-            false
+            { market: MarketAPI? -> supportOutfit(market, "SA_supportOutfit") },
+            false,
+            mutableMapOf(Pair("SA_augmentNormal", 10f)
+            )
         )
         allAugments["SA_regenerativeDrones"] = stationAugmentData(
-            { market: MarketAPI -> regenerativeDrones(market, "SA_regenerativeDrones") },
-            false
+            { market: MarketAPI? -> regenerativeDrones(market, "SA_regenerativeDrones") },
+            false,
+            mutableMapOf(Pair("SA_augmentRare", 10f)
+            )
         )
         allAugments["SA_shieldShunt"] = stationAugmentData(
-            { market: MarketAPI -> shieldShunt(market, "SA_shieldShunt") },
-            false
+            { market: MarketAPI? -> shieldShunt(market, "SA_shieldShunt") },
+            false,
+            mutableMapOf(Pair("SA_augmentNormal", 10f)
+            )
         )
         allAugments["SA_fluxShunt"] = stationAugmentData(
-            { market: MarketAPI -> fluxShunt(market, "SA_fluxShunt") },
-            false
+            { market: MarketAPI? -> fluxShunt(market, "SA_fluxShunt") },
+            false,
+            mutableMapOf(Pair("SA_augmentRare", 10f)
+            )
         )
         allAugments["SA_heavyArmor"] = stationAugmentData(
-            { market: MarketAPI -> heavyArmor(market, "SA_heavyArmor") },
-            false
+            { market: MarketAPI? -> heavyArmor(market, "SA_heavyArmor") },
+            false,
+            mutableMapOf(Pair("SA_augmentNormal", 10f)
+            )
         )
         allAugments["SA_solarShielding"] = stationAugmentData(
-            { market: MarketAPI -> solarShielding(market, "SA_solarShielding") },
-            false
+            { market: MarketAPI? -> solarShielding(market, "SA_solarShielding") },
+            false,
+            mutableMapOf(Pair("SA_augmentNormal", 10f)
+            )
+        )
+        allAugments["SA_aiFighterUplink"] = stationAugmentData(
+            { market: MarketAPI? -> aiFighterUplink(market, "SA_aiFighterUplink") },
+            false,
+            mutableMapOf(Pair("SA_augmentRare", 10f)
+            )
         )
     }
 }

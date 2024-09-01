@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="bionicalteration">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../Bionic-Alteration-main/jars/bionicalteration.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/../Bionic-Alteration-main/src" />
+      <root url="file://$PROJECT_DIR$/../Bionic-Alteration-main/src" />
+    </SOURCES>
+  </library>
+</component>

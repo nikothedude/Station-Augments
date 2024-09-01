@@ -20,7 +20,10 @@ import niko_SA.MarketUtils.removeStationAugment
 import niko_SA.ReflectionUtils
 
 /** Industries of this type attempt to modify an existing station in combat, and potentially, in campaign.*/
-abstract class stationAttachment(val market: MarketAPI, val id: String): BaseCampaignEventListener(true) {
+abstract class stationAttachment(val market: MarketAPI?, val id: String): BaseCampaignEventListener(true) {
+
+    /** Domain restricted, Ko combine, etc... */
+    open val manufacturer: String = "Common"
 
     /** The "cost" to be subtracted from our stations augment budget. We cannot be built if our station doesnt have enough budget for us. */
     abstract val augmentCost: Float
@@ -31,6 +34,7 @@ abstract class stationAttachment(val market: MarketAPI, val id: String): BaseCam
     /** We can only be built on stations with these industry ids. If empty, is ignored. */
     open val stationTypeWhitelist = HashSet<String>()
     var considerAP = true // used in [isAvailableToBuild]
+    var considerEngagement = true
 
     abstract val name: String
     abstract val spriteId: String
@@ -38,6 +42,7 @@ abstract class stationAttachment(val market: MarketAPI, val id: String): BaseCam
     val incompatibleAugments: MutableSet<String> = HashSet()
 
     companion object {
+        const val stationImprovedAPBonus = 10f // arbitrary
         const val BASE_STATION_AUGMENT_BUDGET = 20f // arbitrary
         /** Additive atop BASE_STATION_AUGMENT_BUDGET. */
         val tagToExtraAugmentBudget = hashMapOf(
@@ -117,23 +122,28 @@ abstract class stationAttachment(val market: MarketAPI, val id: String): BaseCam
 
     fun doEnabledCheck() {
         considerAP = false
-        if (!isAvailableToBuild()) {
-            market.removeStationAugment(this)
+        considerEngagement = false
+        if (!canBeModifiedOrBuilt()) {
+            market?.removeStationAugment(this)
         }
         considerAP = true
+        considerEngagement = true
+
+
     }
 
-    fun isAvailableToBuild(): Boolean {
+    open fun canBeModifiedOrBuilt(): Boolean {
         return (getUnavailableReason() == null)
     }
 
-    fun getUnavailableReason(): String? {
+    open fun getUnavailableReason(): String? {
         val station = getStationIndustry() ?: return "No orbital station"
+        if (considerEngagement && getStationFleet()?.battle != null) return "Station currently engaged"
         if (stationTypeWhitelist.isNotEmpty() && !stationTypeWhitelist.contains(station.spec.id)) {
             return "Requires ${getNeededStationTypeText()}"
         }
         if (considerAP && (station.getRemainingAugmentBudget() < augmentCost)) return "Not enough augment points to install"
-        if (incompatibleAugments.isNotEmpty() && market.getStationAugments().any { existingAugment -> existingAugment != this && (incompatibleAugments.contains(existingAugment.id) || existingAugment.incompatibleAugments.contains(id)) }) {
+        if (incompatibleAugments.isNotEmpty() && market?.getStationAugments()?.any { existingAugment -> existingAugment != this && (incompatibleAugments.contains(existingAugment.id) || existingAugment.incompatibleAugments.contains(id)) } == true ) {
             return "Incompatible with existing augments"
         }
         return null
@@ -146,6 +156,8 @@ abstract class stationAttachment(val market: MarketAPI, val id: String): BaseCam
 
     /** Returns the orbital station industry instance. Required to not be null for us to be buildable.*/
     fun getStationIndustry(): OrbitalStation? {
+        if (market == null) return null
+
         for (industry in market.industries) {
             if (industry.spec.hasTag(Tags.STATION)) {
                 return industry as OrbitalStation
@@ -186,10 +198,11 @@ abstract class stationAttachment(val market: MarketAPI, val id: String): BaseCam
         val orbitalStation = getStationIndustry() ?: return
         val remainingAugmentBudget = orbitalStation.getRemainingAugmentBudget()
         val para = tooltip.addPara(
-            "This augment costs %s AP to install. The ${orbitalStation.currentName} currently has %s AP remaining.",
+            "This augment costs %s AP to install. The ${orbitalStation.currentName} currently has %s AP remaining. " +
+            "AP can be increased by upgrading the station, or by improving it with story points (%s).",
             5f,
             Misc.getHighlightColor(),
-            "$augmentCost", "$remainingAugmentBudget"
+            "$augmentCost", "$remainingAugmentBudget", "$stationImprovedAPBonus AP"
         )
         val augmentBudgetColor = if (remainingAugmentBudget < augmentCost) Misc.getNegativeHighlightColor() else Misc.getHighlightColor()
         para.setHighlightColors(Misc.getHighlightColor(), augmentBudgetColor)
@@ -197,15 +210,6 @@ abstract class stationAttachment(val market: MarketAPI, val id: String): BaseCam
 
     fun getImageName(market: MarketAPI): String {
         return spriteId
-    }
-
-    fun canBeBuilt(): Boolean {
-        val stationIndustry = getStationIndustry() ?: return false
-        if (considerAP && (stationIndustry.getRemainingAugmentBudget() < augmentCost)) return false
-        if (stationTypeWhitelist.isNotEmpty() && !stationTypeWhitelist.contains(stationIndustry.spec.id)) return false
-        if (!canAfford()) return false
-
-        return true
     }
 
     fun canAfford(): Boolean {

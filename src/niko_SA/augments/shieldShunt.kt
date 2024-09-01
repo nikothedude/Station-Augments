@@ -3,6 +3,8 @@ package niko_SA.augments
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.combat.*
 import com.fs.starfarer.api.impl.campaign.ids.Tags
+import com.fs.starfarer.api.ui.TooltipMakerAPI
+import com.fs.starfarer.api.util.Misc
 import com.fs.starfarer.combat.ai.C
 import com.fs.starfarer.combat.ai.O0OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
 import com.fs.starfarer.combat.ai.attack.AttackAIModule
@@ -14,13 +16,16 @@ import com.fs.starfarer.loading.specs.M
 import niko_SA.ReflectionUtils.get
 import niko_SA.ReflectionUtils.set
 import niko_SA.augments.core.stationAttachment
+import niko_SA.stringUtils.toPercent
 import org.lwjgl.util.vector.Vector2f
+import kotlin.math.absoluteValue
 
 /** FIXME: Reflection will crash on non-windows, make non-windows versions */
 /** TODO: In the case of updating, check comments below to see what to change*/
-class shieldShunt(market: MarketAPI, id: String) : stationAttachment(market, id) {
+class shieldShunt(market: MarketAPI?, id: String) : stationAttachment(market, id) {
 
-    override val name: String = "Shield Shunt"
+    override val manufacturer: String = "Mbaye-Gogol"
+    override val name: String = "K-Type Shield Shunt"
     override val spriteId: String = "graphics/icons/industry/mining.png"
 
     companion object {
@@ -104,5 +109,23 @@ class shieldShunt(market: MarketAPI, id: String) : stationAttachment(market, id)
                 }
             }
         }
+    }
+
+    override fun getBasicDescription(tooltip: TooltipMakerAPI, expanded: Boolean) {
+        super.getBasicDescription(tooltip, expanded)
+
+        tooltip.addPara(
+            "The removal of a shield grid leaves tremendous space for improvement, especially on something as large as a space station.",
+            5f
+        )
+
+        tooltip.addPara(
+            "If a module has a shield, %s it with a %s and increases armor and hull by %s and %s." +
+                    "\n" +
+                    "Armor is also effected, even if it doesn't have a shield.",
+            5f,
+            Misc.getHighlightColor(),
+            "replaces", "damper field", toPercent((1 - ARMOR_MULT).absoluteValue), toPercent((1 - HULL_MULT).absoluteValue)
+        )
     }
 }

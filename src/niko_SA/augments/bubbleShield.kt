@@ -6,11 +6,13 @@ import com.fs.starfarer.api.combat.*
 import com.fs.starfarer.api.combat.listeners.DamageTakenModifier
 import com.fs.starfarer.api.impl.campaign.ids.Stats
 import com.fs.starfarer.api.input.InputEventAPI
+import com.fs.starfarer.api.ui.TooltipMakerAPI
+import com.fs.starfarer.api.util.Misc
 import niko_SA.augments.core.stationAttachment
 import org.lazywizard.lazylib.MathUtils
 import org.lwjgl.util.vector.Vector2f
 
-class bubbleShield(market: MarketAPI, id: String) : stationAttachment(market, id) {
+class bubbleShield(market: MarketAPI?, id: String) : stationAttachment(market, id) {
 
     companion object {
         const val SHIELD_STRENGTH = 130000f
@@ -22,6 +24,7 @@ class bubbleShield(market: MarketAPI, id: String) : stationAttachment(market, id
 
     override val augmentCost: Float = 30f
 
+    override val manufacturer: String = "Fabrique Orbitale"
     override val name: String = "Bubble Shield"
     override val spriteId: String = "graphics/icons/industry/mining.png"
 
@@ -129,5 +132,27 @@ class bubbleShield(market: MarketAPI, id: String) : stationAttachment(market, id
 
             return null
         }
+    }
+
+    override fun getBasicDescription(tooltip: TooltipMakerAPI, expanded: Boolean) {
+        super.getBasicDescription(tooltip, expanded)
+
+        tooltip.addPara(
+            "One of Fabrique Orbitale's more mundane inventions, the AREC-220 shield generator fits perfectly in the core of most stations " +
+            "and projects a massive softshield around its host. It's intended use was to provide cover for defending ships, which are notably less durable than the station itself." +
+            "Sadly, middling sales meant the end of the project - though it seems " +
+            "a number of augspecs made their way into the sector despite the canning.",
+            5f
+        )
+
+        val para = tooltip.addPara(
+            "Projects a massive shield around the station, boasting %s, though with %s. " +
+            "\n" +
+            "The shield is managed by a high-level delta-AI, which modulates the shield to %s while %s.",
+            5f,
+            Misc.getHighlightColor(),
+            "excellent flux capacity", "high overload downtime", "ignore ships", "blocking projectiles"
+        )
+        para.setHighlightColors(Misc.getPositiveHighlightColor(), Misc.getNegativeHighlightColor(), Misc.getHighlightColor(), Misc.getHighlightColor())
     }
 }

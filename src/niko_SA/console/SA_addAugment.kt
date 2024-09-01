@@ -14,6 +14,10 @@ class SA_addAugment: BaseCommand {
             Console.showMessage(CommonStrings.ERROR_MARKET_ONLY)
             return BaseCommand.CommandResult.WRONG_CONTEXT
         }
+        if (args.isEmpty()) {
+            return BaseCommand.CommandResult.BAD_SYNTAX
+        }
+
         val market = context.market
         val station = market?.getStationIndustry()
         if (station == null) {

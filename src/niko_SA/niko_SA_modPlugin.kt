@@ -25,6 +25,7 @@ class niko_SA_modPlugin: BaseModPlugin() {
         super.onGameLoad(newGame)
 
         SA_settings.MCTE_enabled = Global.getSettings().modManager.isModEnabled("niko_moreCombatTerrainEffects")
+        Global.getSector().listenerManager.addListener(SA_lootListener(), true)
 
         //Global.getSector().listenerManager.addListener(overgrownNanoforgeOptionsProvider(), true)
     }

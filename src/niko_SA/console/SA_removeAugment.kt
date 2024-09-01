@@ -15,6 +15,9 @@ class SA_removeAugment: BaseCommand {
             Console.showMessage(CommonStrings.ERROR_MARKET_ONLY)
             return BaseCommand.CommandResult.WRONG_CONTEXT
         }
+        if (args.isEmpty()) {
+            return BaseCommand.CommandResult.BAD_SYNTAX
+        }
         val market = context.market ?: return BaseCommand.CommandResult.ERROR
         /*val station = market?.getStationIndustry()
         if (station == null) {

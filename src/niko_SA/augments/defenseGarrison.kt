@@ -11,7 +11,7 @@ import niko_SA.augments.core.stationAttachment
 import org.lwjgl.util.vector.Vector2f
 
 /** Spawns a small collection of ships from the station itself on battle start. Frigates, maybe a destroyer. */
-class defenseGarrison(market: MarketAPI, id: String) : stationAttachment(market, id) {
+class defenseGarrison(market: MarketAPI?, id: String) : stationAttachment(market, id) {
 
     override val name: String = "Defense Garrison"
     override val spriteId: String = "graphics/icons/industry/mining.png"
