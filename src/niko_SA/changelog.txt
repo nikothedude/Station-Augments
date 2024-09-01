@@ -1,0 +1,3 @@
+0.0.1dev
+
+Removed a hard dependency of WWLB
