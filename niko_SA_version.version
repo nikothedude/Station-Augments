@@ -14,15 +14,15 @@
     # created after October 2012 will not have a Public folder, unfortunately.
     #
     # Example links for common hosts:
-    "masterVersionFile":"https://raw.githubusercontent.com/nikothedude/MorePlanetaryConditions/release/niko_MPC.version",
+    "masterVersionFile":"https://raw.githubusercontent.com/nikothedude/Station-Augments/release/niko_SA_version.version",
 
-    "modName":"More Planetary Conditions",
+    "modName":"Station Augments",
 
     # The ID of the thread where updates to this mod can be found (optional).
     # This is used to launch directly to the forum thread from in the game.
     # The ID is the set of digits at the end of the forum thread URL before the dot.
     # For example: fractalsoftworks.com/forum/index.php?topic=8181.0 has an ID of 8181
-    "modThreadId":25205,
+    "modThreadId":30583,
 
     # The current patch number
     # Notation is major.minor.patch, trailing zeros are ignored
@@ -30,8 +30,8 @@
     # If you use major.minor notation you can just leave patch as 0
     "modVersion":
     {
-        "major":3,
-        "minor":8,
-        "patch":0 # Can be a number, character or string (1, 2, a, b, "-RC2", etc)
+        "major":0,
+        "minor":0,
+        "patch":0dev # Can be a number, character or string (1, 2, a, b, "-RC2", etc)
     },
 }
