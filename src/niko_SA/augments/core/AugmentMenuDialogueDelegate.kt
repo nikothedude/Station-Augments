@@ -12,6 +12,7 @@ import com.fs.starfarer.api.ui.ButtonAPI
 import com.fs.starfarer.api.ui.CustomPanelAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
+import niko_SA.DialogUtils.getChildrenCopy
 import niko_SA.MarketUtils.getRemainingAugmentBudget
 import niko_SA.MarketUtils.getStationAugments
 import niko_SA.MarketUtils.getUsedAugmentBudget
@@ -56,10 +57,12 @@ class AugmentMenuDialogueDelegate(val station: Industry): BaseCustomDialogDelega
         regenerateDialog(callback)
     }
 
-    // FIXME: 1. after unapplying an augment, it fails to remove the buttons and so it stacks ( :( )
     fun regenerateDialog(callback: CustomDialogCallback) {
         val oldPanel = panel
         if (oldPanel != null) {
+            for (entry in oldPanel.getChildrenCopy()) {
+                oldPanel.removeComponent(entry)
+            }
             basePanel!!.removeComponent(oldPanel)
         }
         // this panel code is taken from indevo's petmanagerdelegatecode, we want stuff to updaet when the button is pressed
@@ -157,7 +160,7 @@ class AugmentMenuDialogueDelegate(val station: Industry): BaseCustomDialogDelega
                 )
             }*/
 
-            val baseHeight = textPanel.heightSoFar + 24.0f + opad
+            val baseHeight = /*textPanel.heightSoFar + */(sprite.height * 0.88f)// + opad
             augmentButtonPanel.position.setSize(595.0f, 84.0f.coerceAtLeast(baseHeight))
             var anchor: TooltipMakerAPI = augmentButtonPanel.createUIElement(595.0f, baseHeight, false)
             val areaCheckbox = anchor.addAreaCheckbox(

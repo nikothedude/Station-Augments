@@ -20,5 +20,7 @@
     <orderEntry type="library" name="Nexerelin-master" level="project" />
     <orderEntry type="library" name="Console Commands" level="project" />
     <orderEntry type="library" name="bionicalteration" level="project" />
+    <orderEntry type="library" name="lombok" level="project" />
+    <orderEntry type="library" name="exotica" level="project" />
   </component>
 </module>

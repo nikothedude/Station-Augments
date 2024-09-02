@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="exotica">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../../starsector modding/ExoticaTechnologies/jars/lombok.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/../../../starsector modding/ExoticaTechnologies/src" />
+      <root url="file://$PROJECT_DIR$/../../../starsector modding/ExoticaTechnologies/src" />
+      <root url="file://$PROJECT_DIR$/../../../starsector modding/ExoticaTechnologies/src" />
+    </SOURCES>
+  </library>
+</component>

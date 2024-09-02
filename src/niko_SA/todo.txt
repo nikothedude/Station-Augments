@@ -6,8 +6,3 @@ make it so augmunts can check to see if they should remove themselves or not
 apply augments to markets dynamically
 
 make a ton more augments
-
-scatter augments around the sector
-    spawns like hullmods
-
-    safety overrides unlocked by default

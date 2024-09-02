@@ -103,5 +103,11 @@ object stationAugmentStore {
             mutableMapOf(Pair("SA_augmentRare", 10f)
             )
         )
+        allAugments["SA_highExplosive"] = stationAugmentData(
+            { market: MarketAPI? -> highExplosive(market, "SA_highExplosive") },
+            false,
+            mutableMapOf(Pair("SA_augmentCommon", 7f)
+            )
+        )
     }
 }
