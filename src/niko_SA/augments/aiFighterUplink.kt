@@ -19,7 +19,7 @@ class aiFighterUplink(market: MarketAPI?, id: String) : stationAttachment(market
     override val manufacturer: String = "Tri-Tachyon"
     override val augmentCost: Float = 10f
     override val name: String = "AI Fighter Uplink"
-    override val spriteId: String = "graphics/icons/industry/mining.png"
+    override val spriteId: String = "graphics/hullmods/automated.png"
 
     override fun applyInCombat(station: ShipAPI) {
         val stationIndustry = getStationIndustry() ?: return
@@ -46,7 +46,7 @@ class aiFighterUplink(market: MarketAPI?, id: String) : stationAttachment(market
         super.getBasicDescription(tooltip, expanded)
 
         tooltip.addPara(
-            "Originally created in the 1st AI wars, this nefarious comms module allows an AI core to directly interface" +
+            "Originally created in the 1st AI war, this nefarious comms module allows an AI core to directly interface" +
             " with fighters and drones launched from the station.",
             5f
         )
@@ -55,6 +55,10 @@ class aiFighterUplink(market: MarketAPI?, id: String) : stationAttachment(market
             "If a star fortress, also allows for the drones to be controlled.",
             5f
         )
+    }
+
+    override fun getBlueprintValue(): Int {
+        return 25000
     }
 
     class AiFighterUplinkScript(val module: ShipAPI, val factionId: String, val checkForDrones: Boolean = false, val aiCoreId: String): BaseEveryFrameCombatPlugin() {

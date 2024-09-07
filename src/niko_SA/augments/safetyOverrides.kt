@@ -80,4 +80,8 @@ class safetyOverrides(market: MarketAPI?, id: String) : stationAttachment(market
             Misc.getNegativeHighlightColor()
         )
     }
+
+    override fun getBlueprintValue(): Int {
+        return 1000
+    }
 }

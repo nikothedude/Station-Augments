@@ -67,4 +67,8 @@ class regenerativeDrones(market: MarketAPI?, id: String) : stationAttachment(mar
             "${1 / AMMO_PER_SECOND_INCREMENT}"
         )
     }
+
+    override fun getBlueprintValue(): Int {
+        return 7000
+    }
 }

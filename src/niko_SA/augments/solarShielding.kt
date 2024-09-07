@@ -46,7 +46,7 @@ class solarShielding(market: MarketAPI?, id: String) : stationAttachment(market,
         )
 
         val para = tooltip.addPara(
-            "Decreases the effect operating in a star's corona has on the station by %s, as well as"  +
+            "Decreases the effect operating in a star's corona has on the station by %s, as well as "  +
             "reducing energy damage taken by %s.",
             5f,
             Misc.getHighlightColor(),

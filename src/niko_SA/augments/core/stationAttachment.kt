@@ -108,14 +108,14 @@ abstract class stationAttachment(val market: MarketAPI?, val id: String): BaseCa
         reapplying = false
     }
 
-    fun apply() {
+    open fun apply() {
         applied = true
         Global.getSector().addListener(this)
         Global.getSector().addScript(ConstantStationCheckingScript(this)) // just in case
         doEnabledCheck()
     }
 
-    fun unapply() {
+    open fun unapply() {
         applied = false
         Global.getSector().removeListener(this)
     }
@@ -235,6 +235,15 @@ abstract class stationAttachment(val market: MarketAPI?, val id: String): BaseCa
         super.reportPlayerClosedMarket(market)
 
         doEnabledCheck()
+    }
+
+    open fun getBlueprintValue(): Int {
+        return 5000
+    }
+
+    /** The chance for this augment to drop in combat, assuming our station was destroyed. 0-100. */
+    open fun getCombatDropChance(): Float {
+        return 20f
     }
 
     class ConstantStationCheckingScript(val augment: stationAttachment): EveryFrameScript {

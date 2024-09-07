@@ -22,5 +22,6 @@
     <orderEntry type="library" name="bionicalteration" level="project" />
     <orderEntry type="library" name="lombok" level="project" />
     <orderEntry type="library" name="exotica" level="project" />
+    <orderEntry type="library" name="sotf" level="project" />
   </component>
 </module>

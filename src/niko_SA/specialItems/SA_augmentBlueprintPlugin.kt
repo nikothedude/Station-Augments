@@ -94,7 +94,7 @@ class SA_augmentBlueprintPlugin: BaseSpecialItemPlugin() {
     }
 
     override fun getPrice(market: MarketAPI?, submarket: SubmarketAPI?): Int {
-        return super.getPrice(market, submarket)
+        return augment.getBlueprintValue()
     }
 
     override fun getName(): String {
@@ -150,5 +150,14 @@ class SA_augmentBlueprintPlugin: BaseSpecialItemPlugin() {
 
     override fun getDesignType(): String {
         return augment.manufacturer
+    }
+
+    override fun addCostLabel(
+        tooltip: TooltipMakerAPI?,
+        pad: Float,
+        transferHandler: CargoTransferHandlerAPI?,
+        stackSource: Any?
+    ) {
+        super.addCostLabel(tooltip, pad, transferHandler, stackSource)
     }
 }

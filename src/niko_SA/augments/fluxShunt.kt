@@ -35,4 +35,8 @@ class fluxShunt(market: MarketAPI?, id: String) : stationAttachment(market, id) 
             "flux shunt"
         )
     }
+
+    override fun getBlueprintValue(): Int {
+        return 30000
+    }
 }

@@ -41,4 +41,8 @@ class highExplosive(market: MarketAPI?, id: String) : stationAttachment(market, 
             toPercent(EXPLOSION_RADIUS_MULT), toPercent(EXPLOSION_DAMAGE_MULT), "${FLUX_CAPACITY_INCREMENT.toInt()}"
         )
     }
+
+    override fun getBlueprintValue(): Int {
+        return 2000
+    }
 }

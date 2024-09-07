@@ -155,4 +155,8 @@ class bubbleShield(market: MarketAPI?, id: String) : stationAttachment(market, i
         )
         para.setHighlightColors(Misc.getPositiveHighlightColor(), Misc.getNegativeHighlightColor(), Misc.getHighlightColor(), Misc.getHighlightColor())
     }
+
+    override fun getBlueprintValue(): Int {
+        return 25000
+    }
 }

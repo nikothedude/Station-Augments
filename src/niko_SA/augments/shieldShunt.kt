@@ -128,4 +128,8 @@ class shieldShunt(market: MarketAPI?, id: String) : stationAttachment(market, id
             "replaces", "damper field", toPercent((1 - ARMOR_MULT).absoluteValue), toPercent((1 - HULL_MULT).absoluteValue)
         )
     }
+
+    override fun getBlueprintValue(): Int {
+        return 4500
+    }
 }
