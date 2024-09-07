@@ -160,7 +160,7 @@ class AugmentMenuDialogueDelegate(val station: Industry): BaseCustomDialogDelega
                 )
             }*/
 
-            val baseHeight = /*textPanel.heightSoFar + */(sprite.height * 0.88f)// + opad
+            val baseHeight = /*textPanel.heightSoFar + */80f.coerceAtLeast(sprite.height)// + opad
             augmentButtonPanel.position.setSize(595.0f, 84.0f.coerceAtLeast(baseHeight))
             var anchor: TooltipMakerAPI = augmentButtonPanel.createUIElement(595.0f, baseHeight, false)
             val areaCheckbox = anchor.addAreaCheckbox(

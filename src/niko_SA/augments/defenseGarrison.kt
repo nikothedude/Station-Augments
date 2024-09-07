@@ -1,4 +1,5 @@
-package niko_SA.augments
+// disabled due to buginess
+/*package niko_SA.augments
 
 import com.fs.starfarer.api.EveryFrameScript
 import com.fs.starfarer.api.Global
@@ -215,4 +216,4 @@ class defenseGarrison(market: MarketAPI?, id: String) : stationAttachment(market
         }
 
     }
-}
+}*/

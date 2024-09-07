@@ -26,7 +26,7 @@ class shieldShunt(market: MarketAPI?, id: String) : stationAttachment(market, id
 
     override val manufacturer: String = "Mbaye-Gogol"
     override val name: String = "K-Type Shield Shunt"
-    override val spriteId: String = "graphics/icons/industry/mining.png"
+    override val spriteId: String = "graphics/hullmods/shield_shunt.png"
 
     companion object {
         const val ARMOR_MULT = 1.5f
@@ -66,7 +66,7 @@ class shieldShunt(market: MarketAPI?, id: String) : stationAttachment(market, id
                         threatEvalAI as O0OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO?,
                         attackAI as AttackAIModule?,
                         flockingAI as oOOO?,
-                        module.ai as (oO0O.o) //ShipAPI obf class
+                        module.ai as (oO0O.o) //ShipAI obf class
                     )
                     // v mimics a anonymous wrapper the convinces the game to laod a systemai as a shieldai. see basicshipai for more, its in its constructor
                     val testValTwo = object : com.fs.starfarer.combat.ai.G { // ABSOLUTELY FUCKING INSANE CODE

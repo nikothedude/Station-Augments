@@ -16,7 +16,7 @@ import kotlin.math.absoluteValue
 class safetyOverrides(market: MarketAPI?, id: String) : stationAttachment(market, id) {
 
     override val name: String = "Safety Shunt"
-    override val spriteId: String = "graphics/icons/industry/mining.png"
+    override val spriteId: String = "graphics/hullmods/safety_overrides.png"
 
     companion object {
         const val ROF_MULT = 1.7f
@@ -62,7 +62,9 @@ class safetyOverrides(market: MarketAPI?, id: String) : stationAttachment(market
             "\n" +
             "The flux dissipation rate, including that of additional vents, is increased by a factor of %s." +
             "\n" +
-            "The immense strain on the flux conduits %s, and starts the station with %s.",
+            "The immense strain on the flux conduits %s, and starts the station with %s." +
+            "\n" +
+            "Also increases station turnrate by %s.",
             5f,
             Misc.getHighlightColor(),
             toPercent((1 - ROF_MULT).absoluteValue),
@@ -70,7 +72,9 @@ class safetyOverrides(market: MarketAPI?, id: String) : stationAttachment(market
             toPercent(FLUX_DISSIPATION_MULT),
 
             "allows the station to lose CR",
-            "low PPT"
+            "low PPT",
+
+            toPercent((1 - TURN_RATE_MULT).absoluteValue)
         )
         testTooltip.setHighlightColors(
             Misc.getHighlightColor(),

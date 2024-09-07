@@ -17,7 +17,7 @@
 			],
 
 			"mairaath_abandoned_station2": ["SA_safetyOverrides"], # abandoned astropolis
-			"station_kapteyn": ["SA_defenseGarrison"],
+			"station_kapteyn": ["SA_highExplosive"],
 			"kantas_den": ["SA_axialOverclocking", "SA_safetyOverrides"],
 
 			"kazeron": [
@@ -34,7 +34,7 @@
 			],
 
 			"sindria": [
-				"SA_defenseGarrison",
+				"SA_highExplosive", # THE LION DEMANDS SPECTACLE
 				"SA_solarShielding",
 			],
 

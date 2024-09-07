@@ -7,8 +7,6 @@ import com.fs.starfarer.api.campaign.SpecialItemPlugin.SpecialItemRendererAPI
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.campaign.econ.SubmarketAPI
 import com.fs.starfarer.api.campaign.impl.items.BaseSpecialItemPlugin
-import com.fs.starfarer.api.campaign.impl.items.BlueprintProviderItem
-import com.fs.starfarer.api.loading.IndustrySpecAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import com.fs.starfarer.api.util.WeightedRandomPicker
@@ -19,7 +17,6 @@ import niko_SA.augments.core.stationAugmentStore.allAugments
 import niko_SA.augments.core.stationAugmentStore.getKnownAugments
 import niko_SA.augments.core.stationAugmentStore.getPlayerKnownAugments
 import java.awt.Color
-import kotlin.math.exp
 
 class SA_augmentBlueprintPlugin: BaseSpecialItemPlugin() {
 
@@ -63,14 +60,15 @@ class SA_augmentBlueprintPlugin: BaseSpecialItemPlugin() {
     ) {
         val cx = x + w / 2f
         val cy = y + h / 2f
-        val blX = cx - 25f
-        val blY = cy - 14f
-        val tlX = cx - 30f
-        val tlY = cy + 16f
-        val trX = cx + 24f
-        val trY = cy + 22f
-        val brX = cx + 30f
-        val brY = cy - 6f
+
+        val blX = cx - 31f
+        val blY = cy - 16f
+        val tlX = cx - 22f
+        val tlY = cy + 27f
+        val trX = cx + 23f
+        val trY = cy + 27f
+        val brX = cx + 15f
+        val brY = cy - 19f
 
         val sprite = Global.getSettings().getSprite(augment.spriteId)
         val known = getPlayerKnownAugments().contains(augment.id)

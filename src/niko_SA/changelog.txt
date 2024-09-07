@@ -1,3 +1,21 @@
+0.0.2dev
+NOT SAVE COMPATIBLE
+
+Adds new augments
+    Fighter temporal cores: +30% timeflow to fighters and drones launched by the station
+    Volatile reactor fuel: Ever wanted to turn your station into a bomb? Now you can!
+    Fighter AI uplink - Applies the station's AI core to fighers and drones
+
+You can now get augments by fighting stations with them
+Removed defense garrison - it just sucks and is unlikely to function
+
+Augments now have icons
+Augment blueprints are now blue to distinguish themselves
+
+Augments somewhat more common
+
+Fixed all the major bugs with the UI
+
 0.0.1dev
 
 Removed a hard dependency of WWLB

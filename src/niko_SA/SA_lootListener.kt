@@ -44,7 +44,7 @@ class SA_lootListener: ShowLootListener {
             if (d.value == -1) continue
             var value = -1f
             if (d.group.contains("rare_tech")) {
-                value = (d.value * 0.2f)
+                value = (d.value * 0.3f)
             }
             /*if (d.group.contains("goods")) {
                 value = (d.value * 0.05f).toInt()
@@ -59,7 +59,7 @@ class SA_lootListener: ShowLootListener {
                 value = (d.value * 0.1f).toInt()
             }*/
             if (d.group.contains("blueprints")) {
-                value = (d.value * 0.2f)
+                value = (d.value * 0.3f)
             }
             if (d.group.contains("hullmod")) {
                 value = (d.value * 0.04f)
@@ -93,7 +93,7 @@ class SA_lootListener: ShowLootListener {
             if (d.chances == -1) continue
             var chances = -1f
             if (d.group.contains("rare_tech")) {
-                chances = (d.chances * 1f)
+                chances = (d.chances * 1.2f)
             }
             /*if (d.group.contains("goods")) {
                 chances = (d.chances * 0.2f).toInt()
@@ -108,7 +108,7 @@ class SA_lootListener: ShowLootListener {
                 chances = (d.chances * 0.4f).toInt()
             }*/
             if (d.group.contains("blueprints")) {
-                chances = (d.chances * 1f)
+                chances = (d.chances * 1.2f)
             }
             if (d.group.contains("hullmod")) {
                 chances = (d.chances * 0.12f)

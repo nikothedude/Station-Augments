@@ -16,7 +16,7 @@ class regenerativeDrones(market: MarketAPI?, id: String) : stationAttachment(mar
 
     override val manufacturer: String = "Ko Combine"
     override val name: String = "Reserve drone bay"
-    override val spriteId: String = "graphics/icons/industry/mining.png"
+    override val spriteId: String = "graphics/hullmods/bdeck.png"
 
     companion object {
         const val AMMO_PER_SECOND_INCREMENT = 0.05f // 20 secs

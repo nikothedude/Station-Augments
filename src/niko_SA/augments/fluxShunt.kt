@@ -11,7 +11,7 @@ import niko_SA.augments.core.stationAttachment
 class fluxShunt(market: MarketAPI?, id: String) : stationAttachment(market, id) {
 
     override val name: String = "Deep shield dissipators"
-    override val spriteId: String = "graphics/icons/industry/mining.png"
+    override val spriteId: String = "graphics/hullmods/flux_shunt.png"
 
     override val augmentCost: Float = 20f
     override val stationTypeWhitelist: HashSet<String> = hashSetOf(Industries.ORBITALSTATION_MID, Industries.BATTLESTATION_MID, Industries.STARFORTRESS_MID)

@@ -11,7 +11,7 @@ import niko_SA.stringUtils.toPercent
 class highExplosive(market: MarketAPI?, id: String) : stationAttachment(market, id) {
     override val augmentCost: Float = 12f // its not that useful
     override val name: String = "Volatile Reactor Fuel"
-    override val spriteId: String = "graphics/icons/industry/mining.png"
+    override val spriteId: String = "graphics/hullmods/erratic_injector.png"
 
     companion object {
         const val FLUX_CAPACITY_INCREMENT = 3000f

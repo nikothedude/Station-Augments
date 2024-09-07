@@ -10,7 +10,7 @@ import niko_SA.stringUtils.toPercent
 class heavyArmor(market: MarketAPI?, id: String) : stationAttachment(market, id) {
 
     override val name: String = "Heavy Armor"
-    override val spriteId: String = "graphics/icons/industry/mining.png"
+    override val spriteId: String = "graphics/hullmods/heavy_armor.png"
 
     companion object {
         const val ARMOR_INCREMENT = 600f

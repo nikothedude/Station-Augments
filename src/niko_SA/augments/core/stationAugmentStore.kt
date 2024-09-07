@@ -55,12 +55,24 @@ object stationAugmentStore {
                 mutableMapOf(Pair("SA_augmentRare", 10f)
             )
         )
-        allAugments["SA_defenseGarrison"] = stationAugmentData(
+        /*allAugments["SA_defenseGarrison"] = stationAugmentData(
             { market: MarketAPI? -> defenseGarrison(market, "SA_defenseGarrison") },
             true,
             mutableMapOf(Pair("SA_augmentNormal", 2f)
             )
+        )*/
+        allAugments["SA_fighterTimeflow"] = stationAugmentData(
+            { market: MarketAPI? -> fighterTimeflow(market, "SA_fighterTimeflow") },
+            false,
+            mutableMapOf(Pair("SA_augmentRare", 10f)
+            )
         )
+        /*allAugments["SA_droneAAF"] = stationAugmentData(
+            { market: MarketAPI? -> droneAAF(market, "SA_droneAAF") },
+            false,
+            mutableMapOf(Pair("SA_augmentRare", 10f)
+            )
+        )*/
         allAugments["SA_supportOutfit"] = stationAugmentData(
             { market: MarketAPI? -> supportOutfit(market, "SA_supportOutfit") },
             false,

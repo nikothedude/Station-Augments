@@ -10,7 +10,7 @@ class supportOutfit(market: MarketAPI?, id: String) : stationAttachment(market, 
 
     override val manufacturer: String = "Hegemony"
     override val name: String = "Support outfit"
-    override val spriteId: String = "graphics/icons/industry/mining.png"
+    override val spriteId: String = "graphics/hullmods/integrated_targeting_unit.png"
 
     companion object {
         const val FIGHTER_RANGE_PERCENT = 1500f

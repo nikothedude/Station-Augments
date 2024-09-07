@@ -25,7 +25,7 @@ class solarShielding(market: MarketAPI?, id: String) : stationAttachment(market,
             return field
         }
     override val name: String = "Stellar Shielding"
-    override val spriteId: String = "graphics/icons/industry/mining.png"
+    override val spriteId: String = "graphics/hullmods/solar_shielding2.png"
 
     override fun applyInCombat(station: ShipAPI) {
         for (module in station.childModulesCopy + station) {

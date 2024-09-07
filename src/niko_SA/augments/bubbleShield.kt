@@ -26,7 +26,7 @@ class bubbleShield(market: MarketAPI?, id: String) : stationAttachment(market, i
 
     override val manufacturer: String = "Fabrique Orbitale"
     override val name: String = "Bubble Shield"
-    override val spriteId: String = "graphics/icons/industry/mining.png"
+    override val spriteId: String = "graphics/hullmods/omni_shield_emitter.png"
 
     override fun applyInCombat(station: ShipAPI) {
         val engine = Global.getCombatEngine()
