@@ -29,7 +29,7 @@ class shieldShunt(market: MarketAPI?, id: String) : stationAttachment(market, id
     override val spriteId: String = "graphics/hullmods/shield_shunt.png"
 
     companion object {
-        const val ARMOR_MULT = 1.5f
+        const val ARMOR_MULT = 1.4f
         const val HULL_MULT = 1.1f
     }
 

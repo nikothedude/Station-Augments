@@ -1,3 +1,13 @@
+0.1.0dev
+
+Added new augments
+    ECCM Package
+    Automated repair unit
+    Stabilized shields
+
+Flux shunt made cheaper
+Shield shunt armor reduced
+
 0.0.2dev
 NOT SAVE COMPATIBLE
 
