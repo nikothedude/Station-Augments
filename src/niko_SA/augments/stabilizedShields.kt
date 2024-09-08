@@ -13,9 +13,14 @@ class stabilizedShields(market: MarketAPI?, id: String) : stationAttachment(mark
         const val SHIELD_UPKEEP_MULT = 0.5f
     }
 
+    init {
+        incompatibleAugments += "SA_shieldShunt"
+    }
+
     override val augmentCost: Float = 8f
     override val name: String = "Stabilized Shielding"
     override val spriteId: String = "graphics/hullmods/stabilized_shields.png"
+
     override fun applyInCombat(station: ShipAPI) {
         for (module in station.childModulesCopy + station) {
             module.mutableStats.shieldUpkeepMult.modifyMult(id, SHIELD_UPKEEP_MULT)

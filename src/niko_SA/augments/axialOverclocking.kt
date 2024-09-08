@@ -18,7 +18,7 @@ class axialOverclocking(market: MarketAPI?, id: String) : stationAttachment(mark
     }
 
     override val manufacturer: String = "Ko Combine"
-    override val augmentCost: Float = 10f // its mostly just silly
+    override val augmentCost: Float = 8f // its mostly just silly
     override val name: String = "Axial Overclocking"
     override val spriteId: String = "graphics/hullmods/axial_rotation.png"
 

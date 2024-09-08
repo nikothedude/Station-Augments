@@ -17,6 +17,7 @@ import niko_SA.MarketUtils.getRemainingAugmentBudget
 import niko_SA.MarketUtils.getStationAugments
 import niko_SA.MarketUtils.getUsedAugmentBudget
 import niko_SA.MarketUtils.toggleStationAugment
+import niko_SA.SA_settings.ALLOW_MODIFY_OF_ALL_STATIONS
 import niko_SA.augments.core.stationAugmentStore.allAugments
 import niko_SA.augments.core.stationAugmentStore.getPlayerKnownAugments
 import java.awt.Color
@@ -45,7 +46,7 @@ class AugmentMenuDialogueDelegate(val station: Industry): BaseCustomDialogDelega
 
     var buttons: MutableList<ButtonAPI> = ArrayList()
     val market: MarketAPI = station.market!! // !! not necessary, but good for explicitness
-    val mode: Mode = if (market.isPlayerOwned)  Mode.MODIFYING else Mode.VISITING
+    val mode: Mode = if (ALLOW_MODIFY_OF_ALL_STATIONS || market.isPlayerOwned)  Mode.MODIFYING else Mode.VISITING
 
     var basePanel: CustomPanelAPI? = null
     var panel: CustomPanelAPI? = null
@@ -112,6 +113,7 @@ class AugmentMenuDialogueDelegate(val station: Industry): BaseCustomDialogDelega
                 ButtonReportingCustomPanel(this, callback)
             )
             val spriteName: String = augmentInstance.getImageName(market)
+            Global.getSettings().loadTexture(spriteName)
             val sprite = Global.getSettings().getSprite(spriteName)
             val aspectRatio = sprite.width / sprite.height
             val adjustedWidth = (80.0f * aspectRatio).coerceAtMost(sprite.width)

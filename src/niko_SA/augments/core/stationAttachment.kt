@@ -43,8 +43,8 @@ abstract class stationAttachment(val market: MarketAPI?, val id: String): BaseCa
 
     companion object {
         const val stationImprovedAPBonus = 10f // arbitrary
-        const val BASE_STATION_AUGMENT_BUDGET = 20f // arbitrary
         /** Additive atop BASE_STATION_AUGMENT_BUDGET. */
+        @JvmStatic
         val tagToExtraAugmentBudget = hashMapOf(
             Pair(Industries.BATTLESTATION, 10f),
             Pair(Industries.STARFORTRESS, 20f)
@@ -219,6 +219,7 @@ abstract class stationAttachment(val market: MarketAPI?, val id: String): BaseCa
     override fun reportEconomyTick(iterIndex: Int) {
         super.reportEconomyTick(iterIndex)
 
+        reapply()
         doEnabledCheck()
     }
 
@@ -226,6 +227,7 @@ abstract class stationAttachment(val market: MarketAPI?, val id: String): BaseCa
         super.reportPlayerOpenedMarket(market)
 
         if (market == this.market) {
+            reapply()
             Global.getSector().addScript(ConstantStationCheckingScript(this))
         }
         doEnabledCheck()
@@ -234,6 +236,7 @@ abstract class stationAttachment(val market: MarketAPI?, val id: String): BaseCa
     override fun reportPlayerClosedMarket(market: MarketAPI?) {
         super.reportPlayerClosedMarket(market)
 
+        reapply()
         doEnabledCheck()
     }
 

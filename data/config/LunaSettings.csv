@@ -1,0 +1,4 @@
+fieldID,fieldName,fieldType,defaultValue,secondaryValue,fieldDescription,minValue,maxValue,tab
+SA_generalHeader,General Header,Header,General Options,,,,,General
+SA_allowAlwaysModifyAugments,Enable unconditional augment modifying,Boolean,false,,"If disabled, you can only modify the augments of your own colonies.",,,General
+SA_baseStationAugmentBudget,Base augment budget,Double,20.0,,Orbital stations will start with this amount of augment points.,0,1000,General

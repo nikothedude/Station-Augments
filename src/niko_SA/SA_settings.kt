@@ -1,6 +1,7 @@
 package niko_SA
 
 import com.fs.starfarer.api.Global
+import lunalib.lunaSettings.LunaSettings
 import niko_SA.MarketUtils.addStationAugment
 import niko_SA.augments.core.stationAugmentStore.allAugments
 import niko_SA.niko_SA_modPlugin.Companion.modId
@@ -9,10 +10,17 @@ import java.lang.RuntimeException
 
 object SA_settings {
 
+    @JvmStatic
     var MCTE_enabled = false
 
-    fun loadSettings() {
+    @JvmStatic
+    var ALLOW_MODIFY_OF_ALL_STATIONS = false
+    @JvmStatic
+    var BASE_STATION_AUGMENT_BUDGET = 20f
 
+    fun loadSettings() {
+        ALLOW_MODIFY_OF_ALL_STATIONS = LunaSettings.getBoolean(modId, "SA_allowAlwaysModifyAugments")!!
+        BASE_STATION_AUGMENT_BUDGET = LunaSettings.getFloat(modId, "SA_baseStationAugmentBudget")!!
     }
 
     fun applyPredefinedAugments() {

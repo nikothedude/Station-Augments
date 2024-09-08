@@ -20,7 +20,7 @@ class supportOutfit(market: MarketAPI?, id: String) : stationAttachment(market, 
         const val WEAPON_ROF_PERCENT = -30f
     }
 
-    override val augmentCost: Float = 20f
+    override val augmentCost: Float = 14f
 
     override fun applyInCombat(station: ShipAPI) {
         for (module in station.childModulesCopy + station) {

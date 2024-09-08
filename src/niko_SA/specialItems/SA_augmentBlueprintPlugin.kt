@@ -11,12 +11,15 @@ import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import com.fs.starfarer.api.util.WeightedRandomPicker
 import niko_SA.SA_debugUtils
+import niko_SA.SA_ids
 import niko_SA.augments.core.stationAttachment
 import niko_SA.augments.core.stationAugmentData
 import niko_SA.augments.core.stationAugmentStore.allAugments
 import niko_SA.augments.core.stationAugmentStore.getKnownAugments
 import niko_SA.augments.core.stationAugmentStore.getPlayerKnownAugments
+import org.lazywizard.lazylib.MathUtils
 import java.awt.Color
+import java.util.*
 
 class SA_augmentBlueprintPlugin: BaseSpecialItemPlugin() {
 
@@ -33,6 +36,9 @@ class SA_augmentBlueprintPlugin: BaseSpecialItemPlugin() {
 
         val droppedFrom = spec.params // the drop group we were dropped from
         val picker = WeightedRandomPicker<Pair<String, stationAugmentData>>()
+        //val newRandom = Random(Global.getSector().memoryWithoutUpdate[SA_ids.SA_nextAugmentBlueprintSeedMemId] as Long)
+        //picker.random = newRandom
+        //Global.getSector().memoryWithoutUpdate[SA_ids.SA_nextAugmentBlueprintSeedMemId] = newRandom.nextLong()
         for (entry in allAugments.entries) {
             val id = entry.key
             val data = entry.value
@@ -70,6 +76,7 @@ class SA_augmentBlueprintPlugin: BaseSpecialItemPlugin() {
         val brX = cx + 15f
         val brY = cy - 19f
 
+        Global.getSettings().loadTexture(augment.spriteId)
         val sprite = Global.getSettings().getSprite(augment.spriteId)
         val known = getPlayerKnownAugments().contains(augment.id)
 
@@ -96,7 +103,7 @@ class SA_augmentBlueprintPlugin: BaseSpecialItemPlugin() {
     }
 
     override fun getName(): String {
-        return ("Station augment: ${augment.name}")
+        return ("${augment.name} - Station Augment")
     }
 
     override fun createTooltip(

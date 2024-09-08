@@ -1,12 +1,30 @@
 0.1.0dev
+PROBABLY SAVE COMPATIBLE?
 
 Added new augments
+    Reinforced bulkheads - Always known
+        Also prevents modules from detaching or breaking apart
+    Armored Weapon Mounts
     ECCM Package
     Automated repair unit
     Stabilized shields
+    ECM Package
+    Resistant flux conduits
+        +20% ECM rating, +1.1x defense rating
+    Nav Relay
+        +20% Nav rating, +1 burn to nearby fleets
+    Command center
+        Infinite CP for defending fleets, +10% accessability
+    Economic Conversion - Rare
+        +1 industry on the market
+        30 AP
+        Worse flux and hull stats
 
-Flux shunt made cheaper
-Shield shunt armor reduced
+Augments made cheaper across the board
+
+Redid the distribution of augments across the core worlds
+
+New lunasettings
 
 0.0.2dev
 NOT SAVE COMPATIBLE

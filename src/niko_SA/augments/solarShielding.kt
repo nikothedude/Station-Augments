@@ -17,7 +17,7 @@ class solarShielding(market: MarketAPI?, id: String) : stationAttachment(market,
     }
 
     override val manufacturer: String = "Sindrian Diktat"
-    override val augmentCost: Float = 10f
+    override val augmentCost: Float = 8f
         get() {
             if (SA_settings.MCTE_enabled) {
                 return field * 2f // for obvious reasons

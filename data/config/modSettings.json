@@ -3,17 +3,26 @@
 		# this is merely a easy way to add augments to markets, you can do it manually too
 		"MarketsWithAugments": {
 			"chicomoztoc":[
-				"SA_shieldShunt",
-				"SA_bubbleShield",
+				"SA_heavyArmor",
+				"SA_commsCenter",
+				"SA_automatedRepairUnit"
 			],
 			"nachiketa": ["SA_bubbleShield"],
 			"jangala": [
 				"SA_shieldShunt",
-				"SA_regenerativeDrones",
+				"SA_commsCenter",
 				"SA_heavyArmor",
 			],
 			"coatl": [
 				"SA_supportOutfit",
+			],
+			"eventide": [
+				"SA_heavyArmor",
+				"SA_fluxShunt"
+			],
+			"tigra_city": [
+				"SA_navRelay",
+				"SA_resistantFluxConduits"
 			],
 
 			"mairaath_abandoned_station2": ["SA_safetyOverrides"], # abandoned astropolis
@@ -23,6 +32,7 @@
 			"kazeron": [
 				"SA_regenerativeDrones",
 				"SA_fluxShunt",
+				"SA_stabilizedShields"
 			],
 
 			"eochu_bres": [
@@ -32,6 +42,9 @@
 			"culann": [
 				"SA_solarShielding",
 			],
+			"tibicenea": [
+				"SA_ECMPackage",
+			],
 
 			"sindria": [
 				"SA_highExplosive", # THE LION DEMANDS SPECTACLE
@@ -40,8 +53,20 @@
 
 			"gilead": [
 				"SA_shieldShunt",
-				"SA_regenerativeDrones",
+				"SA_automatedRepairUnit",
 				"SA_heavyArmor",
+				"SA_armoredWeaponMounts"
+			],
+			"tartessus": [
+				"SA_automatedRepairUnit",
+				"SA_resistantFluxConduits"
+			],
+			"hesperus":[
+				"SA_supportOutfit"
+			],
+
+			"new_maxios": [
+				"SA_commsCenter",
 			],
 		},
 	},

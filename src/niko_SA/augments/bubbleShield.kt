@@ -22,7 +22,7 @@ class bubbleShield(market: MarketAPI?, id: String) : stationAttachment(market, i
         const val OVERLOAD_DURATION_MULT = 6f
     }
 
-    override val augmentCost: Float = 30f
+    override val augmentCost: Float = 25f
 
     override val manufacturer: String = "Fabrique Orbitale"
     override val name: String = "Bubble Shield"

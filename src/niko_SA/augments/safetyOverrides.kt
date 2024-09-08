@@ -29,7 +29,7 @@ class safetyOverrides(market: MarketAPI?, id: String) : stationAttachment(market
         const val FLUX_DISSIPATION_MULT = 3f
     }
 
-    override val augmentCost: Float = 20f
+    override val augmentCost: Float = 19f
 
     override fun applyInCombat(station: ShipAPI) {
         for (module in station.childModulesCopy + station) {

@@ -17,7 +17,7 @@ import org.lazywizard.lazylib.MathUtils
 class aiFighterUplink(market: MarketAPI?, id: String) : stationAttachment(market, id) {
 
     override val manufacturer: String = "Tri-Tachyon"
-    override val augmentCost: Float = 10f
+    override val augmentCost: Float = 8f
     override val name: String = "AI Fighter Uplink"
     override val spriteId: String = "graphics/hullmods/automated.png"
 

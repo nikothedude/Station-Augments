@@ -13,7 +13,7 @@ class automatedRepairUnit(market: MarketAPI?, id: String) : stationAttachment(ma
         const val REPAIR_RATE_MULT = 1.5f
     }
 
-    override val augmentCost: Float = 10f
+    override val augmentCost: Float = 6f
     override val name: String = "Automated Repair Unit"
     override val spriteId: String = "graphics/hullmods/automated_repair_unit.png"
 

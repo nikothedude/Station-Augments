@@ -22,7 +22,7 @@ class regenerativeDrones(market: MarketAPI?, id: String) : stationAttachment(mar
         const val AMMO_PER_SECOND_INCREMENT = 0.05f // 20 secs
     }
 
-    override val augmentCost: Float = 15f
+    override val augmentCost: Float = 14f
     // i cant be sure other star forts will have drones
     override val stationTypeWhitelist: HashSet<String> = hashSetOf(
         Industries.STARFORTRESS,

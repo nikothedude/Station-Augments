@@ -33,6 +33,7 @@ object stationAugmentStore {
 
     /** The global store of all augments in the game. Make sure to modify this if adding a new augment.
      * If youre looking to add an augment as a third-party mod author, you can modify this on application load. */
+    @JvmStatic
     val allAugments = HashMap<String, stationAugmentData>()
 
     init {
@@ -106,7 +107,7 @@ object stationAugmentStore {
         allAugments["SA_solarShielding"] = stationAugmentData(
             { market: MarketAPI? -> solarShielding(market, "SA_solarShielding") },
             false,
-            mutableMapOf(Pair("SA_augmentNormal", 10f)
+            mutableMapOf(Pair("SA_augmentNormal", 9f)
             )
         )
         allAugments["SA_aiFighterUplink"] = stationAugmentData(
@@ -118,26 +119,69 @@ object stationAugmentStore {
         allAugments["SA_highExplosive"] = stationAugmentData(
             { market: MarketAPI? -> highExplosive(market, "SA_highExplosive") },
             false,
-            mutableMapOf(Pair("SA_augmentCommon", 10f)
+            mutableMapOf(Pair("SA_augmentNormal", 10f)
             )
         )
         allAugments["SA_stabilizedShields"] = stationAugmentData(
             { market: MarketAPI? -> stabilizedShields(market, "SA_stabilizedShields") },
             false,
-            mutableMapOf(Pair("SA_augmentCommon", 10f)
+            mutableMapOf(Pair("SA_augmentNormal", 10f)
             )
         )
         allAugments["SA_automatedRepairUnit"] = stationAugmentData(
             { market: MarketAPI? -> automatedRepairUnit(market, "SA_automatedRepairUnit") },
             false,
-            mutableMapOf(Pair("SA_augmentCommon", 10f)
+            mutableMapOf(Pair("SA_augmentNormal", 10f)
             )
         )
         allAugments["SA_ECCMPackage"] = stationAugmentData(
             { market: MarketAPI? -> ECCMPackage(market, "SA_ECCMPackage") },
             false,
-            mutableMapOf(Pair("SA_augmentCommon", 10f)
+            mutableMapOf(Pair("SA_augmentNormal", 10f)
             )
         )
+        allAugments["SA_commsCenter"] = stationAugmentData(
+            { market: MarketAPI? -> commsCenter(market, "SA_commsCenter") },
+            false,
+            mutableMapOf(Pair("SA_augmentNormal", 10f)
+            )
+        )
+        allAugments["SA_ECMPackage"] = stationAugmentData(
+            { market: MarketAPI? -> ECMPackage(market, "SA_ECMPackage") },
+            false,
+            mutableMapOf(Pair("SA_augmentNormal", 10f)
+            )
+        )
+        allAugments["SA_navRelay"] = stationAugmentData(
+            { market: MarketAPI? -> navRelay(market, "SA_navRelay") },
+            false,
+            mutableMapOf(Pair("SA_augmentNormal", 10f)
+            )
+        )
+        allAugments["SA_industryConversion"] = stationAugmentData(
+            { market: MarketAPI? -> industryConversion(market, "SA_industryConversion") },
+            false,
+            mutableMapOf(Pair("SA_augmentRare", 10f)
+            )
+        )
+        allAugments["SA_resistantFluxConduits"] = stationAugmentData(
+            { market: MarketAPI? -> resistantFluxConduits(market, "SA_resistantFluxConduits") },
+            false,
+            mutableMapOf(Pair("SA_augmentRare", 10f)
+            )
+        )
+        allAugments["SA_reinforcedBulkheads"] = stationAugmentData(
+            { market: MarketAPI? -> reinforcedBulkheads(market, "SA_reinforcedBulkheads") },
+            true,
+            mutableMapOf(Pair("SA_augmentNormal", 2f)
+            )
+        )
+        allAugments["SA_armoredWeaponMounts"] = stationAugmentData(
+            { market: MarketAPI? -> armoredWeaponMounts(market, "SA_armoredWeaponMounts") },
+            false,
+            mutableMapOf(Pair("SA_augmentNormal", 10f)
+            )
+        )
+
     }
 }
