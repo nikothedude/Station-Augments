@@ -9,6 +9,6 @@ object SA_debugUtils {
     val log: Logger = Global.getLogger(SA_debugUtils::class.java)
 
     init {
-        niko_MPC_debugUtils.log.level = Level.ALL
+        log.level = Level.ALL
     }
 }

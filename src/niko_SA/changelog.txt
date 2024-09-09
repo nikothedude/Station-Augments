@@ -1,3 +1,7 @@
+0.1.1dev
+
+Removes a hard dependency on WWLB
+
 0.1.0dev
 PROBABLY SAVE COMPATIBLE?
 
