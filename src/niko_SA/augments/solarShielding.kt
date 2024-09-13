@@ -16,7 +16,7 @@ class solarShielding(market: MarketAPI?, id: String) : stationAttachment(market,
         const val ENERGY_DAMAGE_TAKEN_MULT = 0.8f
     }
 
-    override val manufacturer: String = "Sindrian Diktat"
+    override val manufacturer: String = "Lion's Guard"
     override val augmentCost: Float = 8f
         get() {
             if (SA_settings.MCTE_enabled) {

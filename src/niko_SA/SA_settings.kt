@@ -11,6 +11,9 @@ import java.lang.RuntimeException
 object SA_settings {
 
     @JvmStatic
+    var isWindows = System.getProperty("os.name").contains("Windows")
+
+    @JvmStatic
     var MCTE_enabled = false
 
     @JvmStatic
@@ -31,16 +34,20 @@ object SA_settings {
 
         for (entry in marketsWithAugments.keys()) {
             val marketId = entry.toString()
+            val market = Global.getSector().economy.getMarket(marketId)
+            if (market == null) {
+                SA_debugUtils.log.error("Did not find market of id $marketId, aborting augment addition")
+                break
+            }
             val array = marketsWithAugments.getJSONArray(marketId)
             for (i in 0 until array.length()) {
                 val augmentId = array.get(i).toString()
 
-                val market = Global.getSector().economy.getMarket(marketId)
-                if (market == null) {
-                    SA_debugUtils.log.error("Did not find market of id $marketId, aborting augment addition")
+                val augment = allAugments[augmentId]?.getInstance?.let { it(market) }
+                if (augment == null) {
+                    SA_debugUtils.log.error("Invalid augment id: $augmentId!")
                     continue
                 }
-                val augment = allAugments[augmentId]?.getInstance?.let { it(market) } ?: throw RuntimeException("augment $augmentId not found in global augment list!")
 
                 market.addStationAugment(augment)
             }

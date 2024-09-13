@@ -1,3 +1,11 @@
+1.0.0
+SAVE COMPATIBLE
+
+Full release
+
+Shield shunt and regenerative drones are no longer available off windows (would crash the game otherwise)
+Finally fixed UI performance
+
 0.1.1dev
 
 Removes a hard dependency on WWLB

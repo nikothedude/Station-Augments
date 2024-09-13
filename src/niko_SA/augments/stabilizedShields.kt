@@ -28,6 +28,8 @@ class stabilizedShields(market: MarketAPI?, id: String) : stationAttachment(mark
     }
 
     override fun getBasicDescription(tooltip: TooltipMakerAPI, expanded: Boolean) {
+        super.getBasicDescription(tooltip, expanded)
+
         tooltip.addPara(
             "Reduces shield upkeep of station modules by %s.",
             5f,

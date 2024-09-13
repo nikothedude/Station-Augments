@@ -50,7 +50,7 @@ class ECCMPackage(market: MarketAPI?, id: String) : stationAttachment(market, id
             "Also reduces the weapon range reduction due to superior enemy Electronic Warfare by %s.",
             5f,
             Misc.getHighlightColor(),
-            "${ECCM_CHANCE * 100f}%", "$MISSILE_SPEED_BONUS%", "$MISSILE_RATE_BONUS%", "${(1f - EW_PENALTY_MULT) * 100f}%"
+            "${(ECCM_CHANCE * 100f).toInt()}%", "${MISSILE_SPEED_BONUS.toInt()}%", "${MISSILE_RATE_BONUS.toInt()}%", "${((1f - EW_PENALTY_MULT) * 100f).toInt()}%"
         )
     }
 }

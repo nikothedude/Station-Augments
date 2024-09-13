@@ -188,8 +188,8 @@ class AugmentMenuDialogueDelegate(val station: Industry): BaseCustomDialogDelega
             panelTooltip.addCustom(augmentButtonPanel, 0.0f)
             buttons.add(areaCheckbox)
 
-            basePanel!!.addComponent(panel!!)
         }
+        basePanel!!.addComponent(panel!!)
         panel!!.addUIElement(panelTooltip).inTMid(0f)
     }
 

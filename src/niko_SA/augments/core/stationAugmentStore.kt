@@ -4,6 +4,7 @@ import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.campaign.FactionAPI
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import niko_SA.SA_ids
+import niko_SA.SA_settings.isWindows
 import niko_SA.augments.*
 
 object stationAugmentStore {
@@ -33,10 +34,27 @@ object stationAugmentStore {
 
     /** The global store of all augments in the game. Make sure to modify this if adding a new augment.
      * If youre looking to add an augment as a third-party mod author, you can modify this on application load. */
-    @JvmStatic
+    /*@JvmStatic*/ // for some reason, this makse it near impossible for this to be accessed by mods, just use the getter
     val allAugments = HashMap<String, stationAugmentData>()
+    @JvmStatic
+    fun allAugmentsExternalGetter(): HashMap<String, stationAugmentData> = allAugments
 
     init {
+
+        if (isWindows) { // these use reflection so dont work off windows
+            allAugments["SA_regenerativeDrones"] = stationAugmentData(
+                { market: MarketAPI? -> regenerativeDrones(market, "SA_regenerativeDrones") },
+                false,
+                mutableMapOf(Pair("SA_augmentRare", 10f)
+                )
+            )
+            allAugments["SA_shieldShunt"] = stationAugmentData(
+                { market: MarketAPI? -> shieldShunt(market, "SA_shieldShunt") },
+                false,
+                mutableMapOf(Pair("SA_augmentNormal", 10f)
+                )
+            )
+        }
 
         allAugments["SA_axialOverclocking"] = stationAugmentData(
             { market: MarketAPI? -> axialOverclocking(market, "SA_axialOverclocking") },
@@ -76,18 +94,6 @@ object stationAugmentStore {
         )*/
         allAugments["SA_supportOutfit"] = stationAugmentData(
             { market: MarketAPI? -> supportOutfit(market, "SA_supportOutfit") },
-            false,
-            mutableMapOf(Pair("SA_augmentNormal", 10f)
-            )
-        )
-        allAugments["SA_regenerativeDrones"] = stationAugmentData(
-            { market: MarketAPI? -> regenerativeDrones(market, "SA_regenerativeDrones") },
-            false,
-            mutableMapOf(Pair("SA_augmentRare", 10f)
-            )
-        )
-        allAugments["SA_shieldShunt"] = stationAugmentData(
-            { market: MarketAPI? -> shieldShunt(market, "SA_shieldShunt") },
             false,
             mutableMapOf(Pair("SA_augmentNormal", 10f)
             )
