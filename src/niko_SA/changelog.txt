@@ -1,3 +1,10 @@
+1.0.1
+SAVE COMPATIBLE
+
+Fixed a bug where campaign-level effects would apply without the hullmod being applied
+Fixed fighter AI uplink crashing
+Rare augments made slightly rarer
+
 1.0.0
 SAVE COMPATIBLE
 

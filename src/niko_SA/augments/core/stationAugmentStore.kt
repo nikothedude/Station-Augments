@@ -12,6 +12,7 @@ object stationAugmentStore {
         return Global.getSector().playerFaction.getKnownAugments()
     }
 
+    @JvmStatic
     fun FactionAPI.getKnownAugments(): MutableSet<String> {
         var knownAugments = memoryWithoutUpdate[SA_ids.SA_knownAugmentsMemFlag] as? HashSet<String>
         if (knownAugments == null) {

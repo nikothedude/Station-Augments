@@ -25,6 +25,8 @@ class niko_SA_modPlugin: BaseModPlugin() {
 
         loadSettings()
         LunaSettings.addSettingsListener(settingsChangedListener())
+
+        SA_settings.currentVersion = Global.getSettings().modManager.getModSpec(modId).version
         /*val starsectorVers = Global.getSettings().gameVersion
         if (starsectorVers > "0.97a-RC11") {
             throw RuntimeException("CHECK TO SEE IF stationMarketNullPatch IS NECESSARY! https://fractalsoftworks.com/forum/index.php?topic=30567")

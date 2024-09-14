@@ -18,6 +18,8 @@ import niko_SA.MarketUtils.getRemainingAugmentBudget
 import niko_SA.MarketUtils.getStationAugments
 import niko_SA.MarketUtils.removeStationAugment
 import niko_SA.ReflectionUtils
+import niko_SA.SA_debugUtils
+import niko_SA.SA_settings
 
 /** Industries of this type attempt to modify an existing station in combat, and potentially, in campaign.*/
 abstract class stationAttachment(val market: MarketAPI?, val id: String): BaseCampaignEventListener(true) {
@@ -208,36 +210,49 @@ abstract class stationAttachment(val market: MarketAPI?, val id: String): BaseCa
         para.setHighlightColors(Misc.getHighlightColor(), augmentBudgetColor)
     }
 
-    fun getImageName(market: MarketAPI): String {
+    open fun getImageName(market: MarketAPI): String {
         return spriteId
     }
 
-    fun canAfford(): Boolean {
+    open fun canAfford(): Boolean {
         return true
     }
 
     override fun reportEconomyTick(iterIndex: Int) {
         super.reportEconomyTick(iterIndex)
 
-        reapply()
-        doEnabledCheck()
+        if (applied) {
+            reapply()
+        }
+        //doEnabledCheck()
     }
 
     override fun reportPlayerOpenedMarket(market: MarketAPI?) {
         super.reportPlayerOpenedMarket(market)
 
-        if (market == this.market) {
+        if (applied && market == this.market) {
             reapply()
             Global.getSector().addScript(ConstantStationCheckingScript(this))
         }
-        doEnabledCheck()
+        //doEnabledCheck()
     }
 
     override fun reportPlayerClosedMarket(market: MarketAPI?) {
         super.reportPlayerClosedMarket(market)
 
-        reapply()
-        doEnabledCheck()
+        // fixes a bug in existing augments where theyd remain applied for some reason
+        if (SA_settings.currentVersion <= "1.0.1") {
+            if (market?.getStationAugments()?.contains(this) != true) {
+                unapply()
+            }
+        } else {
+            SA_debugUtils.log.warn("needless sanity check in stationAttachment reportPlayerClosedMarket, please remove")
+        }
+
+        if (applied) {
+            reapply()
+            //doEnabledCheck()
+        }
     }
 
     open fun getBlueprintValue(): Int {

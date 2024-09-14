@@ -14,6 +14,9 @@ object SA_settings {
     var isWindows = System.getProperty("os.name").contains("Windows")
 
     @JvmStatic
+    lateinit var currentVersion: String
+
+    @JvmStatic
     var MCTE_enabled = false
 
     @JvmStatic

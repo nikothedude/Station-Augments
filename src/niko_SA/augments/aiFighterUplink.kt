@@ -80,7 +80,7 @@ class aiFighterUplink(market: MarketAPI?, id: String) : stationAttachment(market
                     member.captain = AICoreOfficerPluginImpl().createPerson(aiCoreId, factionId, MathUtils.getRandom())
                 }
             }
-            if (checkForDrones) {
+            if (checkForDrones && module.deployedDrones != null) {
                 for (drone in module.deployedDrones) {
                     if (drone.captain != null && drone.captain.isAICore) continue //drones have invisible captains, weirdly
                     drone.captain = AICoreOfficerPluginImpl().createPerson(aiCoreId, factionId, MathUtils.getRandom())
