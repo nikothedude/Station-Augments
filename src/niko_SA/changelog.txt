@@ -1,3 +1,8 @@
+1.0.2
+SAVE COMPATIBLE
+
+Fixed a crash when using fighter temporal cores on a non-star fortress
+
 1.0.1
 SAVE COMPATIBLE
 

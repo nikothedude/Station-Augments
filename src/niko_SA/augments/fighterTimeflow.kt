@@ -59,9 +59,11 @@ class fighterTimeflow(market: MarketAPI?, id: String) : stationAttachment(market
                     shipsToAlter.addAll(wing.wingMembers)
                 }
             }
-            for (drone in station.deployedDrones) {
-                shipsToAlter += drone
-                drone.mutableStats.timeMult.modifyMult(id, TIMEFLOW_INCREMENT)
+            if (station.deployedDrones != null) {
+                for (drone in station.deployedDrones) {
+                    shipsToAlter += drone
+                    drone.mutableStats.timeMult.modifyMult(id, TIMEFLOW_INCREMENT)
+                }
             }
 
             for (ship in shipsToAlter) {
