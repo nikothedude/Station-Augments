@@ -240,15 +240,6 @@ abstract class stationAttachment(val market: MarketAPI?, val id: String): BaseCa
     override fun reportPlayerClosedMarket(market: MarketAPI?) {
         super.reportPlayerClosedMarket(market)
 
-        // fixes a bug in existing augments where theyd remain applied for some reason
-        if (SA_settings.currentVersion <= "1.0.1") {
-            if (market?.getStationAugments()?.contains(this) != true) {
-                unapply()
-            }
-        } else {
-            SA_debugUtils.log.warn("needless sanity check in stationAttachment reportPlayerClosedMarket, please remove")
-        }
-
         if (applied) {
             reapply()
             //doEnabledCheck()
