@@ -1,3 +1,8 @@
+1.0.3a
+SAVE COMPATIBLE
+
+Hotfix for crashes
+
 1.0.3
 SAVE COMPATIBLE
 

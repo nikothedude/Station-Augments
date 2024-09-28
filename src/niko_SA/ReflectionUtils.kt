@@ -123,10 +123,10 @@ object ReflectionUtils { // yoinked from exotica which yoinked it from rat i lov
     fun get(fieldName: String, instanceToGetFrom: Any, classToGetFrom: Class<out Any> = instanceToGetFrom::class.java): Any? {
         var field: Any? = null
         try {
-            field = classToGetFrom.javaClass.getField(fieldName)
+            field = classToGetFrom.getField(fieldName)
         } catch (e: Throwable) {
             try {
-                field = classToGetFrom.javaClass.getDeclaredField(fieldName)
+                field = classToGetFrom.getDeclaredField(fieldName)
             } catch (e: Throwable) {
                 SA_debugUtils.log.error(e)
             }

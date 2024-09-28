@@ -3,7 +3,7 @@
 	"name":"Station Augments", # Displayed to the player
 	"author":"Niko",
     "utility":"false",
-	"version":"1.0.3",
+	"version":"1.0.3a",
 	"description":"Enables the construction of blah blah finish later. THIS MOD WILL NOT SURVIVE STARSECTOR UPDATES. DO NOT EVEN TRY TO INCREASE THE VERSION NUMBER",
     "gameVersion": "0.97a-RC11",
   	"jars":["jars/niko_stationAugments.jar"],
