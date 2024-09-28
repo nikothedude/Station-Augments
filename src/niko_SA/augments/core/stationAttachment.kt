@@ -169,7 +169,7 @@ abstract class stationAttachment(val market: MarketAPI?, val id: String): BaseCa
     /** Uses reflection - expensive. */
     fun getStationFleet(): CampaignFleetAPI? {
         val stationIndustry = getStationIndustry() ?: return null
-        return ReflectionUtils.getWithParentClass("stationFleet", stationIndustry, OrbitalStation::class.java) as? CampaignFleetAPI
+        return ReflectionUtils.get("stationFleet", stationIndustry, OrbitalStation::class.java) as? CampaignFleetAPI
     }
 
     /** Returns the in-combat station entity we are affecting. Returns null if we're not in combat, or it doesnt exist. */
@@ -191,7 +191,7 @@ abstract class stationAttachment(val market: MarketAPI?, val id: String): BaseCa
 
     fun getStationCampaignEntity(): SectorEntityToken? {
         val stationIndustry = getStationIndustry() ?: return null
-        return ReflectionUtils.getWithParentClass("stationEntity", stationIndustry, OrbitalStation::class.java) as? SectorEntityToken
+        return ReflectionUtils.get("stationEntity", stationIndustry, OrbitalStation::class.java) as? SectorEntityToken
     }
 
     open fun getBasicDescription(tooltip: TooltipMakerAPI, expanded: Boolean) {

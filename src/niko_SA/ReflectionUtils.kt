@@ -120,29 +120,13 @@ object ReflectionUtils { // yoinked from exotica which yoinked it from rat i lov
         }
     }
 
-    fun get(fieldName: String, instanceToGetFrom: Any): Any? {
+    fun get(fieldName: String, instanceToGetFrom: Any, classToGetFrom: Class<out Any> = instanceToGetFrom::class.java): Any? {
         var field: Any? = null
         try {
-            field = instanceToGetFrom.javaClass.getField(fieldName)
+            field = classToGetFrom.javaClass.getField(fieldName)
         } catch (e: Throwable) {
             try {
-                field = instanceToGetFrom.javaClass.getDeclaredField(fieldName)
-            } catch (e: Throwable) {
-                SA_debugUtils.log.error(e)
-            }
-        }
-
-        setFieldAccessibleHandle.invoke(field, true)
-        return getFieldHandle.invoke(field, instanceToGetFrom)
-    }
-
-    fun getWithParentClass(fieldName: String, instanceToGetFrom: Any, parentClass: Class<OrbitalStation>): Any? {
-        var field: Any? = null
-        try {
-            field = parentClass.getField(fieldName)
-        } catch (e: Throwable) {
-            try {
-                field = parentClass.getDeclaredField(fieldName)
+                field = classToGetFrom.javaClass.getDeclaredField(fieldName)
             } catch (e: Throwable) {
                 SA_debugUtils.log.error(e)
             }
