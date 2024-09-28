@@ -18,8 +18,6 @@ import niko_SA.MarketUtils.getRemainingAugmentBudget
 import niko_SA.MarketUtils.getStationAugments
 import niko_SA.MarketUtils.removeStationAugment
 import niko_SA.ReflectionUtils
-import niko_SA.SA_debugUtils
-import niko_SA.SA_settings
 
 /** Industries of this type attempt to modify an existing station in combat, and potentially, in campaign.*/
 abstract class stationAttachment(val market: MarketAPI?, val id: String): BaseCampaignEventListener(true) {
@@ -171,7 +169,7 @@ abstract class stationAttachment(val market: MarketAPI?, val id: String): BaseCa
     /** Uses reflection - expensive. */
     fun getStationFleet(): CampaignFleetAPI? {
         val stationIndustry = getStationIndustry() ?: return null
-        return ReflectionUtils.get("stationFleet", stationIndustry) as? CampaignFleetAPI
+        return ReflectionUtils.getWithParentClass("stationFleet", stationIndustry, OrbitalStation::class.java) as? CampaignFleetAPI
     }
 
     /** Returns the in-combat station entity we are affecting. Returns null if we're not in combat, or it doesnt exist. */
@@ -193,7 +191,7 @@ abstract class stationAttachment(val market: MarketAPI?, val id: String): BaseCa
 
     fun getStationCampaignEntity(): SectorEntityToken? {
         val stationIndustry = getStationIndustry() ?: return null
-        return ReflectionUtils.get("stationEntity", stationIndustry) as? SectorEntityToken
+        return ReflectionUtils.getWithParentClass("stationEntity", stationIndustry, OrbitalStation::class.java) as? SectorEntityToken
     }
 
     open fun getBasicDescription(tooltip: TooltipMakerAPI, expanded: Boolean) {

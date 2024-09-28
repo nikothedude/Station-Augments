@@ -1,3 +1,8 @@
+1.0.3
+SAVE COMPATIBLE
+
+Fixed reflection breaking on non-vanilla orbital stations
+
 1.0.2
 SAVE COMPATIBLE
 

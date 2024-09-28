@@ -1,5 +1,6 @@
 package niko_SA
 
+import com.fs.starfarer.api.impl.campaign.econ.impl.OrbitalStation
 import java.lang.invoke.MethodHandle
 import java.lang.invoke.MethodHandles
 import java.lang.invoke.MethodType
@@ -16,7 +17,7 @@ object ReflectionUtils { // yoinked from exotica which yoinked it from rat i lov
         MethodHandles.lookup().findVirtual(fieldClass, "get", MethodType.methodType(Any::class.java, Any::class.java))
     private val getFieldNameHandle =
         MethodHandles.lookup().findVirtual(fieldClass, "getName", MethodType.methodType(String::class.java))
-    val setFieldAccessibleHandle = MethodHandles.lookup()
+    val setFieldAccessibleHandle: MethodHandle = MethodHandles.lookup()
         .findVirtual(fieldClass, "setAccessible", MethodType.methodType(Void.TYPE, Boolean::class.javaPrimitiveType))
     private val getFieldTypeHandle = MethodHandles.lookup()
         .findVirtual(fieldClass, "getType", MethodType.methodType(Class::class.java))
@@ -127,6 +128,23 @@ object ReflectionUtils { // yoinked from exotica which yoinked it from rat i lov
             try {
                 field = instanceToGetFrom.javaClass.getDeclaredField(fieldName)
             } catch (e: Throwable) {
+                SA_debugUtils.log.error(e)
+            }
+        }
+
+        setFieldAccessibleHandle.invoke(field, true)
+        return getFieldHandle.invoke(field, instanceToGetFrom)
+    }
+
+    fun getWithParentClass(fieldName: String, instanceToGetFrom: Any, parentClass: Class<OrbitalStation>): Any? {
+        var field: Any? = null
+        try {
+            field = parentClass.getField(fieldName)
+        } catch (e: Throwable) {
+            try {
+                field = parentClass.getDeclaredField(fieldName)
+            } catch (e: Throwable) {
+                SA_debugUtils.log.error(e)
             }
         }
 
