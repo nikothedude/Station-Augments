@@ -97,6 +97,7 @@ class AugmentMenuDialogueDelegate(val station: Industry): BaseCustomDialogDelega
             val canBuild = augmentInstance.canBeModifiedOrBuilt()
             augmentInstance.considerAP = true
             val canAfford = augmentInstance.canAfford()
+            val canRemove = augmentInstance.canBeRemoved()
 
             var baseColor = Misc.getButtonTextColor()
             var bgColour = Misc.getDarkPlayerColor()
@@ -136,16 +137,18 @@ class AugmentMenuDialogueDelegate(val station: Industry): BaseCustomDialogDelega
             //textPanel.addTooltipToPrevious(anonymousTooltip, TooltipMakerAPI.TooltipLocation.LEFT, false)
            // augmentInstance.getBasicDescription(textPanel, false)
             val cost = augmentInstance.augmentCost
-            val color = if (cost <= market.getRemainingAugmentBudget()) Misc.getHighlightColor() else Misc.getNegativeHighlightColor()
+            val color = if (augmentInstance.applied || cost <= market.getRemainingAugmentBudget()) Misc.getHighlightColor() else Misc.getNegativeHighlightColor()
             textPanel.addPara(
                 "%s AP",
                 5f,
                 color,
                 "$cost"
             )
-            val unavailableReason = augmentInstance.getUnavailableReason()
-            if (unavailableReason != null) {
-                textPanel.addPara(unavailableReason, opad, Misc.getNegativeHighlightColor(), unavailableReason)
+            if (!augmentInstance.applied) {
+                val unavailableReason = augmentInstance.getUnavailableReason()
+                if (unavailableReason != null) {
+                    textPanel.addPara(unavailableReason, opad, Misc.getNegativeHighlightColor(), unavailableReason)
+                }
             }
             /*textPanel.addPara(augmentInstance.getDescription().getText2(), opad)
             if (!canBuild) {
@@ -177,7 +180,7 @@ class AugmentMenuDialogueDelegate(val station: Industry): BaseCustomDialogDelega
                 true
             )
             areaCheckbox.isChecked = augmentInstance.applied
-            areaCheckbox.isEnabled = (mode == Mode.MODIFYING && (canAfford && canBuild))
+            areaCheckbox.isEnabled = (mode == Mode.MODIFYING && (canAfford && canBuild && canRemove))
 
             augmentButtonPanel.addUIElement(anchor).inTL(-opad, 0.0f)
             anchor = augmentButtonPanel.createUIElement(adjustedWidth, 84.0f, false)

@@ -38,7 +38,7 @@ class resistantFluxConduits(market: MarketAPI?, id: String) : stationAttachment(
             "Increases flux dissipation while venting by %s.",
             5f,
             Misc.getHighlightColor(),
-            "${((1 - VENT_RATE_MULT) * 100f).toInt()}%"
+            "${((1 - VENT_RATE_MULT) * -100f).toInt()}%"
         )
     }
 }

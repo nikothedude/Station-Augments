@@ -18,15 +18,18 @@ import niko_SA.MarketUtils.getRemainingAugmentBudget
 import niko_SA.MarketUtils.getStationAugments
 import niko_SA.MarketUtils.removeStationAugment
 import niko_SA.ReflectionUtils
+import niko_SA.SA_debugUtils
+import java.lang.ref.WeakReference
 
 /** Industries of this type attempt to modify an existing station in combat, and potentially, in campaign.*/
-abstract class stationAttachment(val market: MarketAPI?, val id: String): BaseCampaignEventListener(true) {
+abstract class stationAttachment(val market: MarketAPI?, val id: String): BaseCampaignEventListener(false) {
 
     /** Domain restricted, Ko combine, etc... */
     open val manufacturer: String = "Common"
 
     /** The "cost" to be subtracted from our stations augment budget. We cannot be built if our station doesnt have enough budget for us. */
     abstract val augmentCost: Float
+    @Transient
     var reapplying = false
     /** Have we been applied to our market yet? */
     var applied = false
@@ -40,6 +43,12 @@ abstract class stationAttachment(val market: MarketAPI?, val id: String): BaseCa
     abstract val spriteId: String
     /** If an augment with this id in this set is present, the augment cannot be built. */
     val incompatibleAugments: MutableSet<String> = HashSet()
+
+    var builtInMode = BuiltInMode.NOT
+        get() {
+            if (field == null) field = BuiltInMode.NOT
+            return field
+        }
 
     companion object {
         const val stationImprovedAPBonus = 10f // arbitrary
@@ -101,6 +110,10 @@ abstract class stationAttachment(val market: MarketAPI?, val id: String): BaseCa
     /** Ran once at the beginning of combat. */
     abstract fun applyInCombat(station: ShipAPI)
 
+    open fun readResolve(): Any {
+        return this
+    }
+
     fun reapply() {
         reapplying = true
         unapply()
@@ -128,8 +141,6 @@ abstract class stationAttachment(val market: MarketAPI?, val id: String): BaseCa
         }
         considerAP = true
         considerEngagement = true
-
-
     }
 
     open fun canBeModifiedOrBuilt(): Boolean {
@@ -205,7 +216,8 @@ abstract class stationAttachment(val market: MarketAPI?, val id: String): BaseCa
             "$augmentCost", "$remainingAugmentBudget", "$stationImprovedAPBonus AP"
         )
         val augmentBudgetColor = if (remainingAugmentBudget < augmentCost) Misc.getNegativeHighlightColor() else Misc.getHighlightColor()
-        para.setHighlightColors(Misc.getHighlightColor(), augmentBudgetColor)
+        para.setHighlightColors(Misc.getHighlightColor(), augmentBudgetColor, Misc.getStoryOptionColor())
+        builtInMode.createDesc(tooltip)
     }
 
     open fun getImageName(market: MarketAPI): String {
@@ -252,6 +264,9 @@ abstract class stationAttachment(val market: MarketAPI?, val id: String): BaseCa
     open fun getCombatDropChance(): Float {
         return 20f
     }
+
+    fun isSmodded(): Boolean = (builtInMode == BuiltInMode.SMOD)
+    open fun canBeRemoved(): Boolean = (builtInMode == BuiltInMode.NOT)
 
     class ConstantStationCheckingScript(val augment: stationAttachment): EveryFrameScript {
         var done = false
