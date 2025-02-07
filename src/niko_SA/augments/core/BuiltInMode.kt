@@ -5,6 +5,7 @@ import com.fs.starfarer.api.util.Misc
 
 enum class BuiltInMode {
     NOT,
+    /** Currently unused. Use [NORMAL] instead.*/
     SMOD {
         override fun createDesc(info: TooltipMakerAPI) {
             info.addPara(

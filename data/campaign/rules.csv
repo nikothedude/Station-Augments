@@ -3,4 +3,186 @@ id,trigger,conditions,script,text,options,notes
 SA_addViewAugmentsOption,PopulateOptions,"$menuState == main
 SA_hasViewableStation","SetShortcut SA_viewAugmentsOption ""J"" true",,"998:SA_viewAugmentsOption:View station augments",
 SA_viewAugmentsOption,DialogOptionSelected,"$option == SA_viewAugmentsOption","SA_viewAugments",,,
+,,,,,,
+# Black site,,,,,,
+,,,,,,
+# Jump Anchor,,,,,,
+SA_JAExplore,OpenInteractionDialog,"$customType == SA_jumpAnchor score:1000","ShowDefaultVisual","As your $shipOrFleet approaches the anchor, sensors and nav light the bridge up in equal parts red and yellow as alarms blare. It would seem the ""space-time collapse"" phenomenon mentioned in tactical's preliminary assessment is well underway, and while the anchor itself is stable, the space around it is not. 
+
+Tactical advises against a salvage-op, which you and your ops chief agree on without argument. You'd rather not be collapsed yourself.","defaultLeave:Leave",
+"#END Jump Anchor",,,,,,
+,,,,,,
+# Mote Station,,,,,,
+SA_MSOpenComms,OpenCommLink,"$entity.SA_moteFleet score:1000","EndConversation","Your request is routed through a sub-connector, then another, before forming an elegant yet frustrating loop of errors on the main display. Your comms officer lets out a groan before getting to work.
+
+The loop forms, twists, contorts into all manners of shapes before your eyes, giving you a splitting headache. But, by the time you've pinched your eyes, it's gone - the comm-link has failed, and your subordinates eye you expectantly, seemingly immune - or unaware - of what just transpired.",,
+SA_MSInitialExplore,OpenInteractionDialog,"$SA_moteStation score:10000
+!$global.SA_exploredMSOne score:50","ShowDefaultVisual","Your $shipOrFleet carefully approaches the star fortress, tiptoeing through what might be it's sensor net.
+
+While the fortress itself seems rather inert at this distance, your sensors officer is brought to alert by the presence of ""EM anomalies"" - as your sensor officer stammers - seeming to slip in and out of the station, taking it's baryonic walls as mere suggestion. They fly in erratic pack-fashion, forming small groups that patrol the pitted exterior of the fortress.
+
+Something tickles the back of your mind - that unfamiliar music, playing a haunting tune. You snap your gaze off the weathered station, trying to regain focus.","SA_MSExploreTwo:Bring the $shipOrFleet closer
+defaultLeave:Leave",
+SA_MSRevisitActive,OpenInteractionDialog,"$SA_moteStation score:10000
+$global.SA_exploredMSOne score:60
+!$global.SA_defeatedMS score:20","SA_MSCMD showFleet
+
+SetShortcut SA_viewAugmentsOption ""J"" true
+SetOptionColor SA_viewAugmentsOption highlight","Your $shipOrFleet carefully approaches the star fortress. Almost immediately, the fortress deploys it's shields and anomalous defenders, prompting that itching in your skull to come up again. Tactical offers you a nervous glance, awaiting your next orders.","SA_MSExploreThree:Continue
+SA_viewAugmentsOption:View station augments
+defaultLeave:Leave",
+SA_MSRevisitDead,OpenInteractionDialog,"$SA_moteStation score:10000
+$global.SA_exploredMSOne score:60
+$global.SA_defeatedMS score:100","ShowDefaultVisual
+$salvageLeaveText = Leave 0
+FireAll PopulateSalvageOptions1","Your $shipOrFleet approaches the now-dead station, ripe for the picking.",,
+SA_MSExploreTwo,DialogOptionSelected,"$option == SA_MSExploreTwo","SA_MSCMD showFleet
+
+SetShortcut SA_viewAugmentsOption ""J"" true
+SetOptionColor SA_viewAugmentsOption highlight
+
+SetTextHighlights ""comes online""
+$global.SA_exploredMSOne = true","As your $shipOrFleet gets closer, the ""anomalies"" abruptly freeze in place and fly into the station - which promptly comes online. A massive aftermarket softshield deploys over the hull, it's weapons perk up and aim in your direction, and the bridge is filled with klaxon warnings from the now hundred targetting lasers tracing your flagship's hull.
+
+The sight would be astonishing if not for the now-pounding music, breaking your thoughts into small delicate chunks. Like a dance in the dark, the music drags you away...
+
+Only for your attention to be brought back by the shouting of your now-spooked subordinates, watching newly-exited anomalies fly in writhing and pulsating formation. You try to ignore the tickling in the back of your brain as you issue orders.","SA_MSExploreThree:Continue
+SA_viewAugmentsOption:View station augments
+defaultLeave:Leave","SA_viewAugmentsOption:View station augments"
+SA_MSExploreThree,DialogOptionSelected,"$option == SA_MSExploreThree","SA_MSCMD startEncounter
+",,,
+SA_moteStationDefeated,SA_moteStationDefeated,,"ShowImageVisual space_wreckage
+$global.SA_defeatedMS = true","One last explosion marks the fate of the strange station. The bubble shield comes online one more time, flickering, then finally fading, along with all the anomalies - leaving behind only a faint pinkish glow that reflects off your face, and a now-dead wreckage to pick through.
+
+Your sensors officer reports in a hushed voice that no escape pods were detected leaving the station at any point.","SA_moteStationDefeatedTwo:Assess the wreckage",
+SA_moteStationDefeatedTwo,DialogOptionSelected,"$option == SA_moteStationDefeatedTwo",,"Salvor teams dock their drone-shuttles on the conspicuously sealed hangar-bays of the fortress, and make quick work of the civilian-grade plating preventing entry. Inside, there is no sign of the mysterious anomalies, instead holding other anomalies of it's own: doors half-finished, exposed wiring across ceilings, unexplained modifications made to aftermarket systems, and most strikingly, evidence of life. Or, what was once life.
+
+Your drones enter the dormitories to the sound of dozens of alarms all crying for their owners to wake. The canteen still has food - if rotten - on plates, many with utensils jammed in them. And if that wasn't unnerving enough... piles of clothing in the hallway, seeming to be either desperately discarded, or dropped right off the flesh of their owners. All that's left is the ominous hum from the center of the station, accompanied with a small pleasant music.","SA_moteStationDefeatedThree:Continue",
+SA_moteStationDefeatedThreeNoSabo,DialogOptionSelected,"$option == SA_moteStationDefeatedThree","AddTextSmall ""Recovered secret Tri-Tach journal"" highlight","Defense systems station-wide are characteristically unoperable, given the unpowered state of the station. This does nothing to settle the salvors, who keep their vehicles at a wide birth.
+
+Attempts are made to access the station's databases and promptly turn up nothing, much to their terror. There is evidence in the logs of major activity within the database around thirty cycles ago, before... nothing. No deletion traces. No modification logs. The databases were wiped without leaving a trace - or maybe there was nothing to begin with. You detect the faintest discomfort from your eavesdropping science officer.
+
+In what seems to be standard for top-secret Tri-Tachyon operations, however, one lucky salvor finds a dusty yet intact journal - emblazened with a gold Tri-Tachyon logo - in the ""commander""'s private quarters. It is carefully placed in a hazmat-bag, vac-sealed, and transported safely to your cargo bay, and you quickly receive a ping as confirmation of scan-delivery of it's contents to your console.","SA_moteStationDefeatedFour:Investigate",
+SA_moteStationDefeatedFour,DialogOptionSelected,"$option == SA_moteStationDefeatedFour",,"You pull up the page-scan of the journal, and start reading. It appears to be owned by one ""Jensen Mariyun"", the commander-in-chief of this ""operation"". The first page is a incredibly detailed rant about the nearby jump anchor - it's impracticalities, it's expense, and most of all, it's safety. It would appear not even Jensen knows why a jump anchor had to be used, when a simple rogue planet would've sufficed for ""secrecy"".
+
+After this rant, however, it turns into the typical trail-making of paranoid Tri-Tach employees seeking to avoid blame-shifting from a panicked exec. Detailed incident reports, complaints of safety, and endless grievances, all without ever getting into much detail about the exact nature of their experiments (much to your frustration). This pattern continues for nearly twenty pages. Mentions of ""the core"" are frequent, as are ""motes"", but it's all rather clinical and referential - asking the reader to see ""report XX"" for more information. Admittadly, this officer knows OpSec.
+","SA_moteStationDefeatedFive:Keep reading",
+SA_moteStationDefeatedFive,DialogOptionSelected,"$option == SA_moteStationDefeatedFive",,"Eventually, though, on the fourty first page, the ranting is chillingly interrupted.
+          ""...despite the objections of the safety officer, Gulliman again increased power output to the core by twen""
+          ""I hear music com""
+The writing ends there, with only the smallest of ink-trails to suggest something happened. This was the last thing the commander ever wrote in this journal - all other pages are blank. Given the lifelike state of the station, you shudder to imagine what might have happened to them.","SA_moteStationDefeatedSix:Return to the salvage op",
+SA_moteStationDefeatedSix,DialogOptionSelected,"$option == SA_moteStationDefeatedSix",,"As you turn your head back up to the main viewscreen, you watch as salvage drones plasma-drill a sizable hole into the triple-reinforced blast doors protecting whatever's in the core of the fortress. You hold your breath as the final seal gives way...","SA_moteStationDefeatedSeven:Continue",
+SA_moteStationDefeatedSeven,DialogOptionSelected,"$option == SA_moteStationDefeatedSeven",,"The door falls open and the drones back away, readying their jury-rigged weaponry. But after a quick scan, and a thorough examination of the chamber, it's decided there's no threat, and the drones move in to inspect the machinery in the center of the room.
+
+Truely massive, and unlike anything you've seen before, the spherical construct in front of you is covered in abstract wiring, piping, and pulses a harsh blue across the entire room on short intervals. And every time, you swear, you can hear something humming.","SA_moteStationDefeatedEight:Request a tactical assessment",
+SA_moteStationDefeatedEight,DialogOptionSelected,"$option == SA_moteStationDefeatedEight",,"A moment of analysis later, your chief engineer hurriedly rushes towards you, barely containing their excitement.
+
+""$PlayerSirOrMadam!"" The chief cries, snapping to a salute with a second thought. ""I've finished my preliminary analysis. This..."" your chief gestures to the pulsating mass. ""Device... appears to be able to generate and control those..."" they consider their words carefully. ""...anomalies..."" Your chief nods to themselves assuredly. ""It's... quite heavily damaged. Not by our weapons fire - but by something... else."" You notice a hint of worry behind your chief's expression. ""It's currently in low power mode, hence why we haven't seen any of those things again.""","SA_moteStationDefeatedEightWhat:""'Something else?'""
+SA_moteStationDefeatedNine:Ask if it can be restored",
+SA_moteStationDefeatedEightWhat,DialogOptionSelected,"$option == SA_moteStationDefeatedEightWhat","RemoveOption SA_moteStationDefeatedEightWhat","""Yes, something..."" Your chief glances off, avoiding eye contact. ""Else. We... think it might have been the... anomalies."" Your chief hesitates.
+
+""Or... maybe a... self-scuttling procedure, in the event the station is ever compromised?"" Your chief looks back, trying to appear certain. ""But whatever it is - it's disconnected from the structural strain of the station, it's not power-burnt... it's just not working right."" A crack has appeared in your chief's usual confidence.",,
+SA_moteStationDefeatedNine,DialogOptionSelected,"$option == SA_moteStationDefeatedNine","SetTextHighlights ""marvel"" ""moved""","Your chief grins, pulling up a PDA. ""Better than restored. This whole thing - this whole marvel! It can be moved! It's portable!""
+
+""We won't be able to restore it to it's... former glory, I don't think. But... I think we could turn it on.""","SA_moteStationDefeatedEnd:Nod, and order the core - and the station - salvaged",
+SA_moteStationDefeatedEnd,DialogOptionSelected,"$option == SA_moteStationDefeatedEnd","$salvageLeaveText = Leave 0
+SalvageEntity showCost
+FireAll PopulateSalvageOptions2",,,
+"#END Mote Station",,,,,,
+,,,,,,
+# Diktat agent asking about buying the core,,,,,,
+SA_DKMAOption,AddBarEvents,"SA_barCMD canDoDiktatVisit","AddBarEvent SA_DKMAStart ""Approach the Diktat Agent"" ""A clearly diktat agent lounges in one of the various booths of your bar. Upon noticing, they wave towards themselves with a smirk."" highlight",,,
+SA_DKMAStart,DialogOptionSelected,"$option == SA_DKMAStart","BeginConversation SA_diktatMoteAgent
+FireBest SA_DKMAStartTwo
+$global.SA_didDiktatVisitToMote = true",,,
+SA_DKMAStartTwo,SA_DKMAStartTwo,,,"""A pleasure."" The officer remarks, nodding politely as you slide in the booth opposite of them. ""$playerName, I presume?"" He extends a hand. ""$PersonName. Agent of the great lion.""","SA_DKMAShake:Shake his hand
+SA_DKMANoShake:Don't shake his hand",
+SA_DKMAShake,DialogOptionSelected,"$option == SA_DKMAShake","AdjustRepActivePerson FRIENDLY 1
+FireBest SA_DKMAShakeAfter","You firmly grasp his hand and give it a good shake, much to his delight. ""Ah! Pleasant to see civilitries are dispensed liberally out in the wonderous frontier..."" He waxes, craning his head around for show.",,
+SA_DKMANoShake,DialogOptionSelected,"$option == SA_DKMANoShake","FireBest SA_DKMAShakeAfter","You opt to stare him down, hard. This is your place, your rules, and he'd better get to business.
+
+His thin lips curl into a wry smile. ""Sheepish, are we? Ah well,"" he takes a sip of his champagne. ""Can't be helped.""",,
+SA_DKMAShakeAfter,SA_DKMAShakeAfter,,"SetTextHighlights ""visual show"" highlight","""It's a wonderful place you've put together, Commander..."" He takes up his champagne and swirls it around, watching the small ice-spheres dance in the liquid. He looks up, his grin widening. ""...quite the visual show.""
+
+He ceases speech, staring intently at you.","SA_DKMAElaboratePlease:Ask him what he means",
+SA_DKMAElaboratePlease,DialogOptionSelected,"$option == SA_DKMAElaboratePlease",,"""Surely you wouldn't think people wouldn't *notice* the oddities around this station, Commander."" He gently sets down the champagne, leaning in close to stare at the blue orbs. ""Those... 'EM anomalies', as we - and you - have taken to calling them are rather... interesting, are they not?""
+
+The bar lights up a pale blue as a mote apparates and disapparates by a viewport. Most patrons are used to it by now, but $personFirstName opts to watch in (likely feigned) amazement. ""A dazzling lightshow. Quite effective in combat too, hm?"" He sips his champagne, giving you an eager look.","SA_DKMAImpatient:""Get to the point.""
+SA_DKMATolerant:""Yes. Quite.""",
+SA_DKMAImpatient,DialogOptionSelected,"$option == SA_DKMAImpatient","SetTextHighlights ""harnessing"" ""special technology"" $global.SA_DKMACreditsDGS ""patriot""
+AdjustRepActivePerson VENGEFUL -1","His lips curl into what you think might be a frown. ""...fine."" He musters, crossing his arms and activating a privacy field.
+
+""The Diktat would like to purchase whatever technology creates these... 'entities'."" He does air quotes. ""We sense there's a certain potential your... 'faction'... is not quite harnessing.""
+
+""We can offer a number of rewards... we are aware that our, ah, 'special technology' is rather sought-after. We could also offer you a hefty sum of credits, $global.SA_DKMACreditsDGS, to be precise...""
+
+He taps the table, smiling. ""Or, of course, you could merely donate it to us, and our cause."" He winks. ""You'd be remembered as a patriot...""","SA_DKMAOTech:Trade the rift-core for LG weapons and hulls
+SA_DKMAOCredits:Trade the rift-core for $global.SA_DKMACreditsDGS
+SA_DKMAORep:Trade the rift-core for Diktat reputation
+SA_DKRefuse:Refuse, and keep the core for yourself",
+SA_DKMATolerant,DialogOptionSelected,"$option == SA_DKMATolerant","SetTextHighlights ""harnessing"" ""special technology"" $global.SA_DKMACreditsDGS ""patriot""","His grin widens. A moment later, he activates a privacy field.
+
+""The Diktat would like to purchase whatever technology creates these... 'entities'."" He does air quotes. ""We sense there's a certain potential your... 'faction'... is not quite harnessing.""
+
+""We can offer a number of rewards... we are aware that our, ah, 'special technology' is rather sought-after. We could also offer you a hefty sum of credits, $global.SA_DKMACreditsDGS, to be precise...""
+
+He taps the table, smiling. ""Or, of course, you could merely donate it to us, and our cause."" He winks. ""You'd be remembered as a patriot...""","SA_DKMAOTech:Trade the rift-core for LG weapons and hulls
+SA_DKMAOCredits:Trade the rift-core for $global.SA_DKMACreditsDGS
+SA_DKMAORep:Trade the rift-core for Diktat reputation
+SA_DKRefuse:Refuse, and keep the core for yourself",
+SA_DKMAOTech,DialogOptionSelected,"$option == SA_DKMAOTech","AddRemoveAnyItem WEAPONS kineticblaster 13
+AddRemoveAnyItem WEAPONS gigacannon 9
+AddRemoveAnyItem WEAPONS amsrm 1
+
+SA_barCMD soldAugment
+SA_barCMD addShips
+
+AdjustRep sindrian_diktat COOPERATIVE 10
+
+AddTextSmall ""LG ships stockpiled on Sindria"" good
+AddTextSmall ""Rift-core removed from station"" bad
+
+HideFirstPerson","With a look of delight, he claps his hands together and grins carnivorously. ""It's a deal, Commander.""
+
+Your chief engineer objects, but has their orders. The rift-core is cordoned off and quickly hoisted into the officer's ship, which subsequently begins upholding it's end of the deal. A number of LG weapons are unloaded and taken to storage, including one your engineers can't identify; $personFirstName insists it's a ""gift"" and refuses to elaborate further. Additionally, you receive a comms-ping from your quartermaster, who insists on going to Sindria to pick up a fleet that's supposedly been set aside for you.
+
+Before too long, the officer has departed, and you are left with a pile of weapons, a promise of ships, and one less exotic piece of machinery.","SA_DKMAOEnd:Return to your duties",
+SA_DKMAOCredits,DialogOptionSelected,"$option == SA_DKMAOCredits","SA_barCMD soldAugment
+AddCredits $global.SA_DKMACredits
+
+AddTextSmall ""Rift-core removed from station"" bad
+
+AdjustRep sindrian_diktat COOPERATIVE 10
+HideFirstPerson","With a look of delight, he claps his hands together and grins carnivorously. ""It's a deal, Commander.""
+
+Your chief engineer objects, but has their orders. The rift-core is cordoned off and quickly hoisted into the officer's ship. Upon delivery of the item, you receive a ping from your quartermaster, looking baffled - you've received $global.SA_DKMACreditsDGS from an unknown source. You order them not to ask too many questions and just file it, which they do diligently.
+
+Before too long, the officer has departed, and you are left significantly richer and with one less exotic piece of machinery.","SA_DKMAOEnd:Return to your duties",
+SA_DKMAORep,DialogOptionSelected,"$option == SA_DKMAORep","SA_barCMD soldAugment
+
+AddTextSmall ""Rift-core removed from station"" bad
+
+AdjustRep sindrian_diktat COOPERATIVE 55
+HideFirstPerson","With a look of delight, he claps his hands together and grins carnivorously. ""It's a deal, Commander. Don't worry - I'll make sure the executor knows all about your... heh. 'Generosity.'""
+
+Your chief engineer objects, but has their orders. The rift-core is cordoned off and quickly hoisted into the officer's ship.
+
+Before too long, the officer has departed, and you are left with one less exotic piece of machinery.","SA_DKMAOEnd:Return to your duties",
+SA_DKRefuse,DialogOptionSelected,"$option == SA_DKRefuse","AdjustRepActivePerson VENGEFUL -5
+AdjustRep sindrian_diktat INHOSPITABLE -5
+HideFirstPerson","His smile falters, before finally falling to a frown. ""That's... a disappointment."" He mutters, before disabling the privacy field under a cold glare.
+
+""You'll never be able to fully understand it's secrets, Commander."" He gets up, staring down at you. ""You'll regret this.""
+
+He storms off without as much as another word.","SA_DKMAOEnd:Return to your duties
+SA_DKMAODrink:Finish off his champagne",
+SA_DKMAODrink,DialogOptionSelected,"$option == SA_DKMAODrink","RemoveOption SA_DKMAODrink","Free drink. You take a sip and immediately scowl - it's incredibly bitter. You make a note to see a medic to ensure you weren't poisoned.
+
+Or maybe you need to have a word with the bartender about alcohol quality.",,
+SA_DKMAOEnd,DialogOptionSelected,"$option == SA_DKMAOEnd","EndConversation
+FireBest BarPrintDesc
+BarCMD showOptions
+BarCMD playAmbience",,,
+"#END Diktat agent asking about buying the core",,,,,,
+"#END Black site",,,,,,
 

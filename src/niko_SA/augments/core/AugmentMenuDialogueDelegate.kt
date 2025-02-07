@@ -17,6 +17,7 @@ import niko_SA.MarketUtils.getRemainingAugmentBudget
 import niko_SA.MarketUtils.getStationAugments
 import niko_SA.MarketUtils.getUsedAugmentBudget
 import niko_SA.MarketUtils.toggleStationAugment
+import niko_SA.SA_mathUtils.trimHangingZero
 import niko_SA.SA_settings.ALLOW_MODIFY_OF_ALL_STATIONS
 import niko_SA.augments.core.stationAugmentStore.allAugments
 import niko_SA.augments.core.stationAugmentStore.getPlayerKnownAugments
@@ -142,7 +143,7 @@ class AugmentMenuDialogueDelegate(val station: Industry): BaseCustomDialogDelega
                 "%s AP",
                 5f,
                 color,
-                "$cost"
+                "${cost.trimHangingZero()}"
             )
             if (!augmentInstance.applied) {
                 val unavailableReason = augmentInstance.getUnavailableReason()

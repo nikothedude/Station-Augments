@@ -64,7 +64,7 @@ class commsCenter(market: MarketAPI?, id: String) : stationAttachment(market, id
             "unlimited"
         )
         tooltip.addPara(
-            "Increases market accessability by %s.",
+            "Increases market accessibility by %s.",
             5f,
             Misc.getHighlightColor(),
             "${(ACCESSABILITY_INCREMENT * 100f).toInt()}%"

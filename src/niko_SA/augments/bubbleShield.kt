@@ -33,7 +33,8 @@ class bubbleShield(market: MarketAPI?, id: String) : stationAttachment(market, i
         val fleetManager = engine.getFleetManager(station.owner)
         fleetManager.isSuppressDeploymentMessages = true
         val shieldDrone = fleetManager.spawnShipOrWing("wasp_Interceptor", Vector2f(station.location), 0f)
-        shieldDrone.spriteAPI.alphaMult = 0f
+        //shieldDrone.spriteAPI.alphaMult = 0f
+        //shieldDrone.extraAlphaMult2 = 0f // invisible
         shieldDrone.isAlly = station.isAlly
         shieldDrone.isHoldFire = true
         fleetManager.isSuppressDeploymentMessages = false
@@ -49,7 +50,6 @@ class bubbleShield(market: MarketAPI?, id: String) : stationAttachment(market, i
         shieldDrone.mutableStats.engineDamageTakenMult.modifyMult(id, 0f)
         shieldDrone.mutableStats.dynamic.getStat(Stats.SHIELD_PIERCED_MULT).modifyMult(id, 0f)
 
-        shieldDrone.addListener(BubbleShieldDamageListener())
 
         var moduleWithMaxDist: CombatEntityAPI? = null
         var maxDist = 0f
@@ -115,22 +115,6 @@ class bubbleShield(market: MarketAPI?, id: String) : stationAttachment(market, i
                 Global.getCombatEngine().removeEntity(fxDrone)
                 Global.getCombatEngine().removePlugin(this)
             }
-        }
-    }
-
-    class BubbleShieldDamageListener: DamageTakenModifier {
-
-        override fun modifyDamageTaken(
-            param: Any?,
-            target: CombatEntityAPI?,
-            damage: DamageAPI?,
-            point: Vector2f?,
-            shieldHit: Boolean
-        ): String? {
-            val testVal = "a"
-            val testVal2 = "b"
-
-            return null
         }
     }
 

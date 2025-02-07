@@ -121,7 +121,7 @@ class SA_augmentBlueprintPlugin: BaseSpecialItemPlugin() {
         var b = Misc.getButtonTextColor()
         b = Misc.getPositiveHighlightColor()
         val industryId: String = stack.specialDataIfSpecial.data
-        val known = Global.getSector().playerFaction.knowsIndustry(industryId)
+        val known = Global.getSector().playerFaction.getKnownAugments().contains(industryId)
         augment.getBasicDescription(tooltip, expanded)
         addCostLabel(tooltip, opad, transferHandler, stackSource)
         if (known) {

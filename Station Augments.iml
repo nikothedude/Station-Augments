@@ -24,5 +24,6 @@
     <orderEntry type="library" name="exotica" level="project" />
     <orderEntry type="library" name="sotf" level="project" />
     <orderEntry type="library" name="LunaLib-Kotlin" level="project" />
+    <orderEntry type="library" name="src" level="project" />
   </component>
 </module>

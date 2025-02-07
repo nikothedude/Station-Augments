@@ -3,3 +3,5 @@ SA_addAugment,niko_SA.console.SA_addAugment,"markets, augments",SA_addAugment (a
 SA_removeAugment,niko_SA.console.SA_removeAugment,"markets, augments",SA_removeAugment (augmentId),Removes a station augment to a market.
 SA_teachAugment,niko_SA.console.SA_teachAugment,"factions, augments",SA_teachAugment (factionId) (augmentId/all),Teaches a faction an augment. Input all into the 2nd arg to teach all.
 SA_generateAugments,niko_SA.console.SA_generateAugments,augments,SA_generateAugments,Will generate augments on all core worlds. Only needed if adding to a new save.
+,,,,
+SA_genSpecialContent,niko_SA.console.SA_genSpecialContent,debug,SA_doSpecialProcgen,Will update exploration content to the current version. Not guaranteed to work.

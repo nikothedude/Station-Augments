@@ -24,6 +24,9 @@
 				"SA_navRelay",
 				"SA_resistantFluxConduits"
 			],
+			"ancyra_market": [
+				"SA_hydroponics"
+			],
 
 			"mairaath_abandoned_station2": ["SA_safetyOverrides"], # abandoned astropolis
 			"station_kapteyn": ["SA_highExplosive"],
@@ -44,6 +47,7 @@
 			],
 			"tibicena": [
 				"SA_ECMPackage",
+				"SA_highResSensors",
 			],
 
 			"sindria": [

@@ -12,6 +12,9 @@ object SA_fleetUtils {
     @JvmStatic
     fun BattleAPI.getStationFleet(): CampaignFleetAPI? {
         val stationFleets = getStationFleets()
+        if (stationFleets.size > 1) {
+            SA_debugUtils.log.error("found more than 1 station fleet during getStationFleet")
+        }
         return stationFleets.firstOrNull()
     }
 
@@ -22,9 +25,6 @@ object SA_fleetUtils {
             if (potentialStationFleet.isStationFleet()) {
                 stationFleets += potentialStationFleet
             }
-        }
-        if (stationFleets.size > 1) {
-            SA_debugUtils.log.error("found more than 1 station fleet during getStationFleet")
         }
         return stationFleets
     }

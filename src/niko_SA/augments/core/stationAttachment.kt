@@ -19,6 +19,7 @@ import niko_SA.MarketUtils.getStationAugments
 import niko_SA.MarketUtils.removeStationAugment
 import niko_SA.ReflectionUtils
 import niko_SA.SA_debugUtils
+import niko_SA.SA_mathUtils.trimHangingZero
 import java.lang.ref.WeakReference
 
 /** Industries of this type attempt to modify an existing station in combat, and potentially, in campaign.*/
@@ -201,6 +202,7 @@ abstract class stationAttachment(val market: MarketAPI?, val id: String): BaseCa
     }
 
     fun getStationCampaignEntity(): SectorEntityToken? {
+        if (market?.primaryEntity?.hasTag(Tags.STATION) == true) return market.primaryEntity
         val stationIndustry = getStationIndustry() ?: return null
         return ReflectionUtils.get("stationEntity", stationIndustry, OrbitalStation::class.java) as? SectorEntityToken
     }
@@ -213,8 +215,16 @@ abstract class stationAttachment(val market: MarketAPI?, val id: String): BaseCa
             "AP can be increased by upgrading the station, or by improving it with story points (%s).",
             5f,
             Misc.getHighlightColor(),
-            "$augmentCost", "$remainingAugmentBudget", "$stationImprovedAPBonus AP"
+            "${augmentCost.trimHangingZero()}", "${remainingAugmentBudget.trimHangingZero()}", "${stationImprovedAPBonus.trimHangingZero()} AP"
         )
+        if (orbitalStation.isImproved) {
+            tooltip.addPara(
+                "The ${orbitalStation.currentName} has been improved, increasing it's AP by %s.",
+                5f,
+                Misc.getStoryOptionColor(),
+                "${stationImprovedAPBonus.trimHangingZero()}"
+            )
+        }
         val augmentBudgetColor = if (remainingAugmentBudget < augmentCost) Misc.getNegativeHighlightColor() else Misc.getHighlightColor()
         para.setHighlightColors(Misc.getHighlightColor(), augmentBudgetColor, Misc.getStoryOptionColor())
         builtInMode.createDesc(tooltip)
@@ -262,7 +272,7 @@ abstract class stationAttachment(val market: MarketAPI?, val id: String): BaseCa
 
     /** The chance for this augment to drop in combat, assuming our station was destroyed. 0-100. */
     open fun getCombatDropChance(): Float {
-        return 20f
+        return 90f
     }
 
     fun isSmodded(): Boolean = (builtInMode == BuiltInMode.SMOD)

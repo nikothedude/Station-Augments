@@ -1,0 +1,15 @@
+{
+	"quality":1,
+	"displayName":"",
+	"hullId":"SA_moteDrone",
+	"variantId":"SA_moteDrone_high",
+	"fluxVents":0,
+	"fluxCapacitors":0,
+	"hullMods":["no_weapon_flux", "high_frequency_attractor"], # array of strings
+	#"hullMods":["no_weapon_flux", "low_powered_beams"], # array of strings
+	
+	# mode is either LINKED or ALTERNATING
+	# slot ids (WS ***) must match what's in the .ship file
+	"weaponGroups":[
+	],
+}

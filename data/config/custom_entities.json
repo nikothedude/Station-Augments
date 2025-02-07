@@ -1,0 +1,27 @@
+{
+	"SA_jumpAnchor":{
+		"defaultName":"Jump Anchor", # used if name=null in addCustomEntity()
+		"defaultRadius":40, # used if radius<0 in addCustomEntity()
+		"detectionRange":2800, # must be >0 for discoverable/discoveryXP to be used
+		"discoverable":true,
+		"discoveryXP":500,
+		"icon":"graphics/icons/gate_hauler.png",
+		"iconWidth":24,
+		"iconHeight":24,
+		"spriteWidth":64,
+		"spriteHeight":64,
+		"showInCampaign":true,
+		"showIconOnMap":true,
+		"scaleIconWithZoom":true,
+		"customDescriptionId":"SA_jumpAnchor",
+		"interactionImage":"graphics/illustrations/comm_relay.jpg",
+		"tags":["has_interaction_dialog", "warning_beacon", "neutrino_high", "SA_jumpAnchor"],
+		"layers":[STATIONS], # what layer(s) to render in. See CampaignEngineLayers.java for possible values
+		"pluginClass":"com.fs.starfarer.api.impl.campaign.WarningBeaconEntityPlugin",
+	},
+	"SA_moteStation":{
+		"baseId":"station_hightech3",
+		"defaultName":"Abandoned Star Fortress",
+		"customDescriptionId":"SA_moteStation",
+	},
+}

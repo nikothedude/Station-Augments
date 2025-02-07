@@ -7,6 +7,7 @@ import com.fs.starfarer.api.util.Misc
 import niko_SA.SA_settings.BASE_STATION_AUGMENT_BUDGET
 import niko_SA.augments.core.stationAttachment
 import niko_SA.augments.core.stationAttachment.Companion.stationImprovedAPBonus
+import niko_SA.augments.core.stationAugmentStore
 
 object MarketUtils {
     /** Returns the augment budget this station has. An augment budget controls how many augments a station can have - each augment has its own cost.*/
@@ -82,9 +83,15 @@ object MarketUtils {
     }
 
     @JvmStatic
+    fun MarketAPI.addStationAugment(id: String, checkForStation: Boolean = true) {
+        val augment = stationAugmentStore.allAugments[id]?.getInstance?.let { it(this) } ?: return
+        return addStationAugment(augment, checkForStation)
+    }
+
+    @JvmStatic
     fun MarketAPI.addStationAugment(augment: stationAttachment, checkForStation: Boolean = true) {
         if (hasStationAugment(augment)) {
-            SA_debugUtils.log.error("tried to add ${augment.id} while $name already had it!")
+            SA_debugUtils.log.warn("tried to add ${augment.id} while $name already had it!")
             return
         }
         if (checkForStation) {
@@ -96,6 +103,13 @@ object MarketUtils {
         }
         augment.apply()
         getStationAugments() += augment
+    }
+
+    @JvmStatic
+    fun MarketAPI.removeStationAugment(id: String) {
+        val augment = getStationAugments().firstOrNull { it.id == id } ?: return
+
+        removeStationAugment(augment)
     }
 
     @JvmStatic

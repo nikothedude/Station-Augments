@@ -3,6 +3,7 @@ package niko_SA.augments.core
 import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.campaign.FactionAPI
 import com.fs.starfarer.api.campaign.econ.MarketAPI
+import com.fs.starfarer.api.impl.campaign.ids.Factions
 import niko_SA.SA_ids
 import niko_SA.SA_settings.isWindows
 import niko_SA.augments.*
@@ -24,10 +25,10 @@ object stationAugmentStore {
         return knownAugments
     }
 
-    private fun setupDefaultAugments(knownAugments: MutableSet<String>) {
+    private fun FactionAPI.setupDefaultAugments(knownAugments: MutableSet<String>) {
         for (augment in allAugments) {
             val data = augment.value
-            if (data.knownToAllFactionsByDefault) {
+            if (data.factionsThatKnowByDefault.contains(SA_ids.ALL_FACTIONS) || (data.factionsThatKnowByDefault.contains(this.id))) {
                 knownAugments += augment.key
             }
         }
@@ -45,35 +46,32 @@ object stationAugmentStore {
         if (isWindows) { // these use reflection so dont work off windows
             allAugments["SA_regenerativeDrones"] = stationAugmentData(
                 { market: MarketAPI? -> regenerativeDrones(market, "SA_regenerativeDrones") },
-                false,
-                mutableMapOf(Pair("SA_augmentRare", 10f)
-                )
+                hashSetOf(Factions.TRITACHYON, Factions.HEGEMONY, Factions.INDEPENDENT),
+                mutableMapOf(Pair("SA_augmentRare", 10f))
             )
             allAugments["SA_shieldShunt"] = stationAugmentData(
                 { market: MarketAPI? -> shieldShunt(market, "SA_shieldShunt") },
-                false,
-                mutableMapOf(Pair("SA_augmentNormal", 10f)
-                )
+                hashSetOf(Factions.HEGEMONY, Factions.LUDDIC_CHURCH),
+                mutableMapOf(Pair("SA_augmentNormal", 10f))
             )
         }
 
         allAugments["SA_axialOverclocking"] = stationAugmentData(
             { market: MarketAPI? -> axialOverclocking(market, "SA_axialOverclocking") },
-            false,
-                mutableMapOf(Pair("SA_augmentNormal", 10f)
-            )
+            hashSetOf(Factions.PIRATES, Factions.PERSEAN, Factions.HEGEMONY, Factions.INDEPENDENT),
+            mutableMapOf(Pair("SA_augmentNormal", 10f))
         )
         allAugments["SA_safetyOverrides"] = stationAugmentData(
             { market: MarketAPI? -> safetyOverrides(market, "SA_safetyOverrides") },
-            true,
-                mutableMapOf(Pair("SA_augmentNormal", 2f)
-            )
+            hashSetOf(SA_ids.ALL_FACTIONS),
+            mutableMapOf(Pair("SA_augmentNormal", 2f)),
+            0.5f
         )
         allAugments["SA_bubbleShield"] = stationAugmentData(
             { market: MarketAPI? -> bubbleShield(market, "SA_bubbleShield") },
-            false,
-                mutableMapOf(Pair("SA_augmentRare", 10f)
-            )
+            hashSetOf(Factions.TRITACHYON),
+            mutableMapOf(Pair("SA_augmentRare", 10f)),
+            0.1f
         )
         /*allAugments["SA_defenseGarrison"] = stationAugmentData(
             { market: MarketAPI? -> defenseGarrison(market, "SA_defenseGarrison") },
@@ -83,112 +81,140 @@ object stationAugmentStore {
         )*/
         allAugments["SA_fighterTimeflow"] = stationAugmentData(
             { market: MarketAPI? -> fighterTimeflow(market, "SA_fighterTimeflow") },
-            false,
-            mutableMapOf(Pair("SA_augmentRare", 10f)
-            )
+            hashSetOf(Factions.TRITACHYON),
+            mutableMapOf(Pair("SA_augmentRare", 10f))
         )
         /*allAugments["SA_droneAAF"] = stationAugmentData(
             { market: MarketAPI? -> droneAAF(market, "SA_droneAAF") },
-            false,
-            mutableMapOf(Pair("SA_augmentRare", 10f)
+            HashSet<String
+(),            mutableMapOf(Pair("SA_augmentRare", 10f)
             )
         )*/
         allAugments["SA_supportOutfit"] = stationAugmentData(
             { market: MarketAPI? -> supportOutfit(market, "SA_supportOutfit") },
-            false,
-            mutableMapOf(Pair("SA_augmentNormal", 10f)
-            )
+            hashSetOf(Factions.HEGEMONY),
+            mutableMapOf(Pair("SA_augmentNormal", 10f))
         )
         allAugments["SA_fluxShunt"] = stationAugmentData(
             { market: MarketAPI? -> fluxShunt(market, "SA_fluxShunt") },
-            false,
-            mutableMapOf(Pair("SA_augmentRare", 10f)
-            )
+            hashSetOf(Factions.PERSEAN),
+            mutableMapOf(Pair("SA_augmentRare", 10f))
         )
         allAugments["SA_heavyArmor"] = stationAugmentData(
             { market: MarketAPI? -> heavyArmor(market, "SA_heavyArmor") },
-            false,
-            mutableMapOf(Pair("SA_augmentNormal", 10f)
-            )
+            hashSetOf(Factions.HEGEMONY, Factions.LUDDIC_CHURCH, Factions.INDEPENDENT),
+            mutableMapOf(Pair("SA_augmentNormal", 10f))
         )
         allAugments["SA_solarShielding"] = stationAugmentData(
             { market: MarketAPI? -> solarShielding(market, "SA_solarShielding") },
-            false,
-            mutableMapOf(Pair("SA_augmentNormal", 9f)
-            )
+            hashSetOf(Factions.DIKTAT),
+            mutableMapOf(Pair("SA_augmentNormal", 9f))
         )
         allAugments["SA_aiFighterUplink"] = stationAugmentData(
             { market: MarketAPI? -> aiFighterUplink(market, "SA_aiFighterUplink") },
-            false,
-            mutableMapOf(Pair("SA_augmentRare", 10f)
-            )
+            hashSetOf(Factions.TRITACHYON),
+            mutableMapOf(Pair("SA_augmentRare", 10f))
         )
         allAugments["SA_highExplosive"] = stationAugmentData(
             { market: MarketAPI? -> highExplosive(market, "SA_highExplosive") },
-            false,
-            mutableMapOf(Pair("SA_augmentNormal", 10f)
-            )
+            hashSetOf(Factions.PIRATES, Factions.LUDDIC_PATH, Factions.DIKTAT, Factions.INDEPENDENT),
+            mutableMapOf(Pair("SA_augmentNormal", 10f))
         )
         allAugments["SA_stabilizedShields"] = stationAugmentData(
             { market: MarketAPI? -> stabilizedShields(market, "SA_stabilizedShields") },
-            false,
-            mutableMapOf(Pair("SA_augmentNormal", 10f)
-            )
+            hashSetOf(Factions.TRITACHYON, Factions.HEGEMONY, Factions.INDEPENDENT, Factions.PERSEAN),
+            mutableMapOf(Pair("SA_augmentNormal", 10f))
         )
         allAugments["SA_automatedRepairUnit"] = stationAugmentData(
             { market: MarketAPI? -> automatedRepairUnit(market, "SA_automatedRepairUnit") },
-            false,
-            mutableMapOf(Pair("SA_augmentNormal", 10f)
-            )
+            hashSetOf(Factions.HEGEMONY, Factions.LUDDIC_CHURCH, Factions.INDEPENDENT),
+            mutableMapOf(Pair("SA_augmentNormal", 10f))
         )
         allAugments["SA_ECCMPackage"] = stationAugmentData(
             { market: MarketAPI? -> ECCMPackage(market, "SA_ECCMPackage") },
-            false,
+            hashSetOf(Factions.TRITACHYON, Factions.HEGEMONY),
             mutableMapOf(Pair("SA_augmentNormal", 10f)
             )
         )
         allAugments["SA_commsCenter"] = stationAugmentData(
             { market: MarketAPI? -> commsCenter(market, "SA_commsCenter") },
-            false,
+            hashSetOf(Factions.TRITACHYON, Factions.HEGEMONY, Factions.INDEPENDENT),
             mutableMapOf(Pair("SA_augmentNormal", 10f)
             )
         )
         allAugments["SA_ECMPackage"] = stationAugmentData(
             { market: MarketAPI? -> ECMPackage(market, "SA_ECMPackage") },
-            false,
-            mutableMapOf(Pair("SA_augmentNormal", 10f)
-            )
+            hashSetOf(Factions.TRITACHYON, Factions.HEGEMONY, Factions.INDEPENDENT),
+            mutableMapOf(Pair("SA_augmentNormal", 10f))
         )
         allAugments["SA_navRelay"] = stationAugmentData(
             { market: MarketAPI? -> navRelay(market, "SA_navRelay") },
-            false,
-            mutableMapOf(Pair("SA_augmentNormal", 10f)
-            )
+            hashSetOf(Factions.HEGEMONY, Factions.INDEPENDENT),
+            mutableMapOf(Pair("SA_augmentNormal", 10f))
         )
         allAugments["SA_industryConversion"] = stationAugmentData(
             { market: MarketAPI? -> industryConversion(market, "SA_industryConversion") },
-            false,
-            mutableMapOf(Pair("SA_augmentRare", 10f)
-            )
+            HashSet<String>(),
+            mutableMapOf(Pair("SA_augmentRare", 10f))
         )
         allAugments["SA_resistantFluxConduits"] = stationAugmentData(
             { market: MarketAPI? -> resistantFluxConduits(market, "SA_resistantFluxConduits") },
-            false,
-            mutableMapOf(Pair("SA_augmentRare", 10f)
-            )
+            hashSetOf(Factions.HEGEMONY, Factions.TRITACHYON, Factions.INDEPENDENT),
+            mutableMapOf(Pair("SA_augmentRare", 10f))
         )
         allAugments["SA_reinforcedBulkheads"] = stationAugmentData(
             { market: MarketAPI? -> reinforcedBulkheads(market, "SA_reinforcedBulkheads") },
-            true,
-            mutableMapOf(Pair("SA_augmentNormal", 2f)
-            )
+            hashSetOf(SA_ids.ALL_FACTIONS),
+            mutableMapOf(Pair("SA_augmentNormal", 2f))
         )
         allAugments["SA_armoredWeaponMounts"] = stationAugmentData(
             { market: MarketAPI? -> armoredWeaponMounts(market, "SA_armoredWeaponMounts") },
-            false,
-            mutableMapOf(Pair("SA_augmentNormal", 10f)
-            )
+            hashSetOf(Factions.HEGEMONY, Factions.LUDDIC_CHURCH, Factions.INDEPENDENT, Factions.DIKTAT),
+            mutableMapOf(Pair("SA_augmentNormal", 10f))
         )
+        allAugments["SA_highResSensors"] = stationAugmentData(
+            { market: MarketAPI? -> highResSensors(market, "SA_armoredWeaponMounts") },
+            hashSetOf(Factions.TRITACHYON, Factions.DIKTAT),
+            mutableMapOf(Pair("SA_augmentNormal", 10f))
+        )
+        allAugments["SA_supportPackage"] = stationAugmentData(
+            { market: MarketAPI? -> supportPackage(market, "SA_supportPackage") },
+            HashSet<String>(),
+            mutableMapOf(Pair("SA_augmentRare", 10f))
+        )
+        allAugments["SA_logisticsDrones"] = stationAugmentData(
+            { market: MarketAPI? -> logisticsDrones(market, "SA_logisticsDrones") },
+            HashSet<String>(),
+            mutableMapOf(Pair("SA_augmentRare", 10f))
+        )
+        allAugments["SA_moteSink"] = stationAugmentData(
+            { market: MarketAPI? -> moteSink(market, "SA_moteSink") },
+            HashSet(),
+            HashMap() // doesnt spawn naturally
+        )
+        allAugments["SA_moteSinkLow"] = stationAugmentData(
+            { market: MarketAPI? -> moteSinkLow(market, "SA_moteSinkLow") },
+            HashSet<String>(),
+            HashMap(), // doesnt spawn naturally,
+            0f
+        )
+        allAugments["SA_hydroponics"] = stationAugmentData(
+            { market: MarketAPI? -> hydroponics(market, "SA_hydroponics") },
+            hashSetOf(Factions.HEGEMONY),
+            mutableMapOf(Pair("SA_augmentRare", 10f)),
+            0.1f
+        )
+        allAugments["SA_stationRepairUnit"] = stationAugmentData(
+            { market: MarketAPI? -> stationRepairUnit(market, "SA_stationRepairUnit") },
+            HashSet(),
+            mutableMapOf(Pair("SA_augmentRare", 10f))
+        )
+        // doesnt work, DTA just. dosent work on stations
+        /*allAugments["SA_defensiveTargetingArray"] = stationAugmentData(
+            { market: MarketAPI? -> defensiveTargettingArray(market, "SA_defensiveTargetingArray") },
+            HashSet<String
+(),            mutableMapOf(Pair("SA_augmentNormal", 10f))
+        )*/
 
     }
 }

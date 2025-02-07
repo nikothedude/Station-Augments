@@ -2,6 +2,7 @@ package niko_SA
 
 import com.fs.starfarer.api.BaseModPlugin
 import com.fs.starfarer.api.Global
+import com.fs.starfarer.api.util.Misc
 import data.niko_MPC_modPlugin
 import data.scripts.campaign.econ.conditions.overgrownNanoforge.industries.overgrownNanoforgeOptionsProvider
 import data.utilities.niko_MPC_ids
@@ -10,6 +11,10 @@ import lunalib.lunaSettings.LunaSettings
 import lunalib.lunaSettings.LunaSettingsListener
 import niko.MCTE.utils.MCTE_debugUtils
 import niko_SA.SA_settings.loadSettings
+import niko_SA.campaign.SA_MSLootListener
+import niko_SA.campaign.SA_People
+import niko_SA.campaign.SA_augmentMarketAdder
+import niko_SA.campaign.SA_specialProcgenHandler
 import org.apache.log4j.Level
 import org.lazywizard.lazylib.MathUtils
 import java.lang.RuntimeException
@@ -39,6 +44,14 @@ class niko_SA_modPlugin: BaseModPlugin() {
         SA_settings.MCTE_enabled = Global.getSettings().modManager.isModEnabled("niko_moreCombatTerrainEffects")
         Global.getSector().addTransientListener(SA_stationAugmentDropper())
         Global.getSector().listenerManager.addListener(SA_lootListener(), true)
+        Global.getSector().listenerManager.addListener(SA_MSLootListener(), true)
+        Global.getSector().addTransientListener(SA_augmentMarketAdder())
+        SA_People.createCharacters()
+
+        val creditsToBuyCore = 2500000f
+
+        Global.getSector().memoryWithoutUpdate["\$SA_DKMACredits"] = creditsToBuyCore
+        Global.getSector().memoryWithoutUpdate["\$SA_DKMACreditsDGS"] = Misc.getDGSCredits(creditsToBuyCore)
 
         /*if (Global.getSector().memoryWithoutUpdate[SA_ids.SA_nextAugmentBlueprintSeedMemId] == null) {
             Global.getSector().memoryWithoutUpdate[SA_ids.SA_nextAugmentBlueprintSeedMemId] = MathUtils.getRandom().nextLong()
@@ -51,6 +64,12 @@ class niko_SA_modPlugin: BaseModPlugin() {
         super.onNewGameAfterEconomyLoad()
 
         SA_settings.applyPredefinedAugments()
+    }
+
+    override fun onNewGame() {
+        super.onNewGame()
+
+        SA_specialProcgenHandler.doSpecialProcgen()
     }
 
     class settingsChangedListener : LunaSettingsListener {

@@ -39,7 +39,7 @@ class safetyOverrides(market: MarketAPI?, id: String) : stationAttachment(market
             module.mutableStats.turnAcceleration.modifyMult(id, TURN_RATE_MULT)
             module.mutableStats.maxTurnRate.modifyMult(id, TURN_RATE_MULT)
 
-            module.mutableStats.peakCRDuration.modifyMult(id, 0.000017f)
+            module.mutableStats.peakCRDuration.modifyMult(id, 0.000018f)
             module.mutableStats.crLossPerSecondPercent.modifyFlat(id, 0.5f)
 
             module.mutableStats.ballisticRoFMult.modifyMult(id, ROF_MULT)

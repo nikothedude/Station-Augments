@@ -1,3 +1,39 @@
+1.1.0
+SAVE COMPATIBLE - RUN SA_genSpecialContent AND SA_generateAugments
+
+Augments are now sold at markets
+    A bit of backend refactoring had to be done for this, so if you have a dependency...
+    stationAugmentData knownToAllFactionsByDefault replaced by a set of strings
+
+Added a few new augments
+    High Resolution Sensors
+        Massively increases station vision range in-combat, and provides a boost to nearby fleet sensor strength in campaign
+    Tactical Link
+        Escort package but reversed
+        Nearby ships receive maneuverability, speed, and weapon range
+            Stacks with escort package, to very funny effect
+    Logistics drones
+        Rare
+        Increases CR of fleets nearby the station, up to 15%
+        Also, 10% extra accessibility
+    Hydroponics basins
+        Rare
+        On ancrya by default
+        +2 food production, +1 organics
+        20 AP
+    Structural repair unit
+        Rare
+        21 AP
+        Halves the time it takes for the station to recover from being disrupted
+        Must be found via looting
+
+Added a secret to the far reaches of the sector
+    And a secret augment...
+
+getStationCampaignEntity can now defer to the primary entity itself
+
+Some more QOL
+
 1.0.4
 SAVE COMPATIBLE
 
