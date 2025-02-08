@@ -24,6 +24,8 @@ object MarketUtils {
                 points += tagBonus
             }
         }
+        val marketBonus = market?.memoryWithoutUpdate?.getFloat(SA_ids.MARKET_BONUS_BUDGET_MEMID) ?: 0f
+        points += marketBonus
         return points
     }
 

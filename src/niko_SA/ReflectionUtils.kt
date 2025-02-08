@@ -88,13 +88,13 @@ object ReflectionUtils { // yoinked from exotica which yoinked it from rat i lov
             .map { (fieldObj, fieldClass) -> ReflectedField(fieldObj) }
     }
 
-    fun set(fieldName: String, instanceToModify: Any, newValue: Any?) {
+    fun set(fieldName: String, instanceToModify: Any, newValue: Any?, clazz: Class<*> = instanceToModify::class.java) {
         var field: Any? = null
         try {
-            field = instanceToModify.javaClass.getField(fieldName)
+            field = clazz.getField(fieldName)
         } catch (e: Throwable) {
             try {
-                field = instanceToModify.javaClass.getDeclaredField(fieldName)
+                field = clazz.getDeclaredField(fieldName)
             } catch (e: Throwable) {
             }
         }

@@ -5,6 +5,7 @@ import com.fs.starfarer.api.combat.*
 import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
+import com.fs.starfarer.combat.ai.BasicShipAI
 import com.fs.starfarer.combat.ai.C
 import com.fs.starfarer.combat.ai.O0OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
 import com.fs.starfarer.combat.ai.attack.AttackAIModule
@@ -50,16 +51,16 @@ class shieldShunt(market: MarketAPI?, id: String) : stationAttachment(market, id
                 }
 
                 val shipAI = module.ai
-                if (shipAI != null) {
+                if (shipAI is BasicShipAI) { // no compatability for custom ais, sorry
                     val testVal: M = SpecStore.o00000(M::class.java, "damper") // EVIL FUCKED UP CODE
                     set(
                         "phaseCloak",
                         module,
                         testVal.createSystem(module)
                     )
-                    val threatEvalAI = get("threatEvalAI", module.ai)
-                    val attackAI = get("attackAI", module.ai)
-                    val flockingAI = get("flockingAI", module.ai)
+                    val threatEvalAI = get("threatEvalAI", module.ai, BasicShipAI::class.java)
+                    val attackAI = get("attackAI", module.ai, BasicShipAI::class.java)
+                    val flockingAI = get("flockingAI", module.ai, BasicShipAI::class.java)
 
                     val newSystemAI = testVal.createSystemAI(
                         module, module.aiFlags,
@@ -102,7 +103,7 @@ class shieldShunt(market: MarketAPI?, id: String) : stationAttachment(market, id
                             newSystemAI.`super`(var1, var3x, var4, var5)
                         }
                     }
-                    set("shieldAI", module.ai, testValTwo)
+                    set("shieldAI", module.ai, testValTwo, BasicShipAI::class.java)
 
                     module.mutableStats.armorBonus.modifyMult(id, ARMOR_MULT)
                     module.mutableStats.hullBonus.modifyMult(id, HULL_MULT)
@@ -127,6 +128,10 @@ class shieldShunt(market: MarketAPI?, id: String) : stationAttachment(market, id
             Misc.getHighlightColor(),
             "replaces", "damper field", toPercent((1 - ARMOR_MULT).absoluteValue), toPercent((1 - HULL_MULT).absoluteValue)
         )
+        tooltip.addPara(
+            "The damper field does not block firing of weapons.",
+            5f
+        ).setColor(Misc.getGrayColor())
     }
 
     override fun getBlueprintValue(): Int {

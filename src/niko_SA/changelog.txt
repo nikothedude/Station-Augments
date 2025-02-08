@@ -1,3 +1,11 @@
+1.1.2
+SAVE COMPATIBLE
+
+Fixes the AI tweaks crash
+Adds a way to add arbitrary augment budget to a market (MARKET_BONUS_BUDGET_MEMID)
+
+Clarified something in the shield shunt description
+
 1.1.1
 SAVE COMPATIBLE
 

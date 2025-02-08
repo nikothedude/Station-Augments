@@ -18,6 +18,8 @@ object SA_settings {
 
     @JvmStatic
     var MCTE_enabled = false
+    @JvmStatic
+    var AITweaksEnabled = false
 
     @JvmStatic
     var ALLOW_MODIFY_OF_ALL_STATIONS = false

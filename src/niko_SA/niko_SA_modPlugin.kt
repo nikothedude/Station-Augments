@@ -42,6 +42,7 @@ class niko_SA_modPlugin: BaseModPlugin() {
         super.onGameLoad(newGame)
 
         SA_settings.MCTE_enabled = Global.getSettings().modManager.isModEnabled("niko_moreCombatTerrainEffects")
+        SA_settings.AITweaksEnabled = Global.getSettings().modManager.isModEnabled("aitweaks")
         Global.getSector().addTransientListener(SA_stationAugmentDropper())
         Global.getSector().listenerManager.addListener(SA_lootListener(), true)
         Global.getSector().listenerManager.addListener(SA_MSLootListener(), true)
