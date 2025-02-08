@@ -10,6 +10,8 @@ import com.fs.starfarer.api.input.InputEventAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import com.fs.starfarer.combat.systems.Oo0O
+import niko_SA.ReflectionUtils
+import niko_SA.SA_mathUtils.trimHangingZero
 import niko_SA.augments.core.stationAttachment
 
 class regenerativeDrones(market: MarketAPI?, id: String) : stationAttachment(market, id) {
@@ -33,10 +35,18 @@ class regenerativeDrones(market: MarketAPI?, id: String) : stationAttachment(mar
     override fun applyInCombat(station: ShipAPI) {
         // first cast - to drone ship system, found in com.fs.starfarer.combat.systems
         // second cast - to some... thing. i dont really know, you find it by tracking getAmmoPerSecond() down the inheritance chain
-        val castedSystem = station.system as? Oo0O ?: return
+        val system = station.system
+        if (ReflectionUtils.hasMethodOfName("setDeploy", system)) { // correct system type
+            ReflectionUtils.invoke("setDeploy", system)
+            val ammoTracker = ReflectionUtils.invoke("getAmmoTracker", system)!!
+            val perSec = station.system.ammoPerSecond
+            ReflectionUtils.invoke("setAmmoPerSecond", ammoTracker, perSec + AMMO_PER_SECOND_INCREMENT)
+            Global.getCombatEngine().addPlugin(PreventRecallScript(station))
+        }
+        /*val castedSystem = station.system as? Oo0O ?: return
         castedSystem.setDeploy()
-        castedSystem.chargeTracker.Ô00000().ammoPerSecond += AMMO_PER_SECOND_INCREMENT
-        Global.getCombatEngine().addPlugin(PreventRecallScript(station))
+        //castedSystem.chargeTracker.Ô00000().ammoPerSecond += AMMO_PER_SECOND_INCREMENT
+        castedSystem.ammoTracker.ammoPerSecond += AMMO_PER_SECOND_INCREMENT*/
     }
 
     // otherwise the station recalls them constantly for some reason
@@ -64,7 +74,7 @@ class regenerativeDrones(market: MarketAPI?, id: String) : stationAttachment(mar
             "If a drone is lost, it will be replaced %s seconds later.",
             5f,
             Misc.getHighlightColor(),
-            "${1 / AMMO_PER_SECOND_INCREMENT}"
+            "${(1 / AMMO_PER_SECOND_INCREMENT).trimHangingZero()}"
         )
     }
 

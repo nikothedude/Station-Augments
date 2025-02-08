@@ -26,6 +26,7 @@ open class moteSink(market: MarketAPI?, id: String): stationAttachment(market, i
     override val augmentCost: Float = 40f
     override val name: String = "High Volition Attractor"
     override val spriteId: String = "graphics/hullmods/high_volition_attractor.png"
+    override val manufacturer: String = "Unknown"
     open val highVolatility: Boolean = true
 
     open val moteInterval = IntervalUtil(0.1f, 0.4f) // days

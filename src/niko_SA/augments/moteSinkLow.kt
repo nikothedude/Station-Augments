@@ -4,7 +4,10 @@ import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 
 class moteSinkLow(market: MarketAPI?, id: String): moteSink(market, id) {
-    override val augmentCost: Float = 20f
+    override val augmentCost: Float
+        get() {
+            return 15f // i really need to just make this a method...
+        }
     override val name: String = "Mote Sink"
     override val highVolatility = false
 

@@ -4,6 +4,7 @@ import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.combat.ShipAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
+import niko_SA.SA_mathUtils.trimHangingZero
 import niko_SA.augments.core.stationAttachment
 
 class supportOutfit(market: MarketAPI?, id: String) : stationAttachment(market, id) {
@@ -45,7 +46,7 @@ class supportOutfit(market: MarketAPI?, id: String) : stationAttachment(market, 
             "Increases fighter engagement range by %s. Increases non-missile non-PD weapon range by %s, and decreases non-missile non-PD firerate by %s.",
             5f,
             Misc.getHighlightColor(),
-            "$FIGHTER_RANGE_PERCENT%", "$WEAPON_RANGE_PERCENT%", "${-WEAPON_ROF_PERCENT}%"
+            "${FIGHTER_RANGE_PERCENT.trimHangingZero()}%", "${WEAPON_RANGE_PERCENT.trimHangingZero()}%", "${(-WEAPON_ROF_PERCENT).trimHangingZero()}%"
         )
         para.setHighlightColors(Misc.getHighlightColor(), Misc.getHighlightColor(), Misc.getNegativeHighlightColor())
     }

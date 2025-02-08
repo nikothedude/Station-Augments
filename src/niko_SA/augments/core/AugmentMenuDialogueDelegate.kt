@@ -15,14 +15,12 @@ import com.fs.starfarer.api.util.Misc
 import niko_SA.DialogUtils.getChildrenCopy
 import niko_SA.MarketUtils.getRemainingAugmentBudget
 import niko_SA.MarketUtils.getStationAugments
-import niko_SA.MarketUtils.getUsedAugmentBudget
 import niko_SA.MarketUtils.toggleStationAugment
 import niko_SA.SA_mathUtils.trimHangingZero
 import niko_SA.SA_settings.ALLOW_MODIFY_OF_ALL_STATIONS
 import niko_SA.augments.core.stationAugmentStore.allAugments
 import niko_SA.augments.core.stationAugmentStore.getPlayerKnownAugments
 import java.awt.Color
-import kotlin.math.roundToInt
 
 // all this has to do is show the existing augments, not elegant but it works
 class AugmentMenuDialogueDelegate(val station: Industry): BaseCustomDialogDelegate() {
@@ -131,6 +129,9 @@ class AugmentMenuDialogueDelegate(val station: Industry): BaseCustomDialogDelega
 
             val anonymousTooltip = object : BaseFactorTooltip() {
                 override fun createTooltip(tooltip: TooltipMakerAPI, expanded: Boolean, tooltipParam: Any) {
+                    /*val design = augmentInstance.manufacturer
+                    Misc.addDesignTypePara(tooltip, design, opad)*/
+
                     augmentInstance.getBasicDescription(tooltip, expanded)
                 }
             }

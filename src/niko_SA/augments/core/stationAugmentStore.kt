@@ -43,18 +43,18 @@ object stationAugmentStore {
 
     init {
 
-        if (isWindows) { // these use reflection so dont work off windows
-            allAugments["SA_regenerativeDrones"] = stationAugmentData(
-                { market: MarketAPI? -> regenerativeDrones(market, "SA_regenerativeDrones") },
-                hashSetOf(Factions.TRITACHYON, Factions.HEGEMONY, Factions.INDEPENDENT),
-                mutableMapOf(Pair("SA_augmentRare", 10f))
-            )
+        if (isWindows) { // these use obf symbols so dont work off windows
             allAugments["SA_shieldShunt"] = stationAugmentData(
                 { market: MarketAPI? -> shieldShunt(market, "SA_shieldShunt") },
                 hashSetOf(Factions.HEGEMONY, Factions.LUDDIC_CHURCH),
                 mutableMapOf(Pair("SA_augmentNormal", 10f))
             )
         }
+        allAugments["SA_regenerativeDrones"] = stationAugmentData(
+            { market: MarketAPI? -> regenerativeDrones(market, "SA_regenerativeDrones") },
+            hashSetOf(Factions.TRITACHYON, Factions.HEGEMONY, Factions.INDEPENDENT),
+            mutableMapOf(Pair("SA_augmentRare", 10f))
+        )
 
         allAugments["SA_axialOverclocking"] = stationAugmentData(
             { market: MarketAPI? -> axialOverclocking(market, "SA_axialOverclocking") },

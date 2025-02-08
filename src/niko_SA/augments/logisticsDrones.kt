@@ -141,7 +141,7 @@ class logisticsDrones(market: MarketAPI?, id: String) : stationAttachment(market
             "Increases CR of nearby friendly/trade fleets by %s, with maximum effect at %s.",
             5f,
             Misc.getHighlightColor(),
-            "${CR_BONUS.toInt()}%", "${DIST_FOR_MAX_EFFECT}su"
+            "${CR_BONUS.toInt()}%", "${DIST_FOR_MAX_EFFECT.trimHangingZero()}su"
         )
 
         tooltip.addPara(
