@@ -6,7 +6,7 @@ import com.fs.starfarer.api.combat.ShipAPI
 import com.fs.starfarer.api.impl.campaign.ids.Commodities
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
-import data.utilities.niko_MPC_marketUtils.applyDeficitToProductionStatic
+import niko_SA.MarketUtils.applyDeficitToProductionStatic
 import niko_SA.augments.core.stationAttachment
 
 class hydroponics(market: MarketAPI?, id: String) : stationAttachment(market, id) {

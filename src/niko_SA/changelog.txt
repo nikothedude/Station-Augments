@@ -1,3 +1,8 @@
+1.1.1
+SAVE COMPATIBLE
+
+Hotfix for hydroponics crash
+
 1.1.0
 SAVE COMPATIBLE - RUN SA_genSpecialContent AND SA_generateAugments
 

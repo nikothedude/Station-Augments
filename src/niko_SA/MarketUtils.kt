@@ -2,8 +2,10 @@ package niko_SA
 
 import com.fs.starfarer.api.campaign.econ.Industry
 import com.fs.starfarer.api.campaign.econ.MarketAPI
+import com.fs.starfarer.api.impl.campaign.econ.impl.BaseIndustry
 import com.fs.starfarer.api.impl.campaign.econ.impl.OrbitalStation
 import com.fs.starfarer.api.util.Misc
+import com.fs.starfarer.api.util.Pair
 import niko_SA.SA_settings.BASE_STATION_AUGMENT_BUDGET
 import niko_SA.augments.core.stationAttachment
 import niko_SA.augments.core.stationAttachment.Companion.stationImprovedAPBonus
@@ -131,6 +133,18 @@ object MarketUtils {
     @JvmStatic
     fun MarketAPI.hasStationAugment(augmentId: String): Boolean {
         return getStationAugments().any { it.id == augmentId }
+    }
+
+    // TODO: update this method if it ever changes, 1:1 with applyDeficitToProduction from baseindustry.java
+    fun Industry.applyDeficitToProductionStatic(index: Int, deficit: Pair<String, Int>, vararg commodities: String) {
+        if (this !is BaseIndustry) return
+        for (commodity in commodities) {
+//			if (this instanceof Mining && market.getName().equals("Louise")) {
+//				System.out.println("efwefwe");
+//			}
+            if (getSupply(commodity).quantity.isUnmodified) continue
+            supply(index, commodity, -deficit.two, BaseIndustry.getDeficitText(deficit.one))
+        }
     }
 
 }
