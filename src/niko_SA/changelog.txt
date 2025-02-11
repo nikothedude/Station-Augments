@@ -4,6 +4,8 @@ SAVE COMPATIBLE
 Regenerative drones now uses reflection rather than obf symbols, so it works off windows
 Trimmed more hanging zeros
 
+Tries to fix the highressensors crash
+
 1.1.2
 SAVE COMPATIBLE
 

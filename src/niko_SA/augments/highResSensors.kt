@@ -6,13 +6,18 @@ import com.fs.starfarer.api.campaign.CustomCampaignEntityAPI
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.combat.ShipAPI
+import com.fs.starfarer.api.combat.StatBonus
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.IntervalUtil
 import com.fs.starfarer.api.util.Misc
+import com.fs.starfarer.campaign.fleet.MutableFleetStats
+import data.utilities.niko_MPC_debugUtils
+import data.utilities.niko_MPC_reflectionUtils
 import niko_SA.SA_fleetUtils.getRepLevelForArrayBonus
 import niko_SA.SA_mathUtils.trimHangingZero
 import niko_SA.augments.core.stationAttachment
 import org.lazywizard.lazylib.MathUtils
+import java.lang.Exception
 
 class highResSensors(market: MarketAPI?, id: String) : stationAttachment(market, id), EveryFrameScript {
     override val augmentCost: Float = 7f
@@ -59,6 +64,16 @@ class highResSensors(market: MarketAPI?, id: String) : stationAttachment(market,
             if (ourFaction.getRelationshipLevel(fleet.faction) < repLevelNeeded) continue
 
             var effectLevel = getStationCampaignEntity()?.let { getPercentEffectiveness(fleet, it) } ?: return
+
+            fleet.stats.removeTemporaryMod(UUID) // maybe this will work?
+            /*val tempMod = niko_MPC_reflectionUtils.get("tempMods", fleet.stats) as? Map<String, MutableFleetStats.TemporaryStatMod> ?: return
+            val mod = tempMod[UUID]
+            val stat = mod?.let { niko_MPC_reflectionUtils.get("stat", it) } as? StatBonus ?: return
+            if (stat != fleet.stats.sensorRangeMod) {
+                niko_MPC_debugUtils.log.error("FOUND INCORRECT STATMOD! $stat")
+                return
+            } else {
+            }*/
 
             fleet.stats.addTemporaryModFlat(0.2f, UUID, "${market.name} $name", MAX_SENSOR_BONUS * effectLevel, fleet.stats.sensorRangeMod)
         }
