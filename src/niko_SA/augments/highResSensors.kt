@@ -13,8 +13,11 @@ import com.fs.starfarer.api.util.Misc
 import com.fs.starfarer.campaign.fleet.MutableFleetStats
 import data.utilities.niko_MPC_debugUtils
 import data.utilities.niko_MPC_reflectionUtils
+import niko_SA.MarketUtils.addStationAugment
+import niko_SA.MarketUtils.removeStationAugment
 import niko_SA.SA_fleetUtils.getRepLevelForArrayBonus
 import niko_SA.SA_mathUtils.trimHangingZero
+import niko_SA.SA_settings
 import niko_SA.augments.core.stationAttachment
 import org.lazywizard.lazylib.MathUtils
 import java.lang.Exception
@@ -56,6 +59,14 @@ class highResSensors(market: MarketAPI?, id: String) : stationAttachment(market,
         val days = Misc.getDays(amount)
         interval.advance(days)
         if (!interval.intervalElapsed()) return
+
+        if (SA_settings.currentVersion == "1.1.4") { // todo remove
+            if (id == "SA_armoredWeaponMounts") {
+                market?.removeStationAugment(id)
+                market?.addStationAugment("SA_highResSensors")
+                return
+            }
+        }
 
         val stationEntity = getStationCampaignEntity() ?: return
         val ourFaction = market?.faction ?: return

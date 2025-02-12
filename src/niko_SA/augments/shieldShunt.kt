@@ -16,6 +16,7 @@ import com.fs.starfarer.loading.SpecStore
 import com.fs.starfarer.loading.specs.M
 import niko_SA.ReflectionUtils.get
 import niko_SA.ReflectionUtils.set
+import niko_SA.SA_settings
 import niko_SA.augments.core.stationAttachment
 import niko_SA.stringUtils.toPercent
 import org.lwjgl.util.vector.Vector2f
@@ -51,7 +52,7 @@ class shieldShunt(market: MarketAPI?, id: String) : stationAttachment(market, id
                 }
 
                 val shipAI = module.ai
-                if (shipAI is BasicShipAI) { // no compatability for custom ais, sorry
+                if (SA_settings.isWindows && shipAI is BasicShipAI) { // no compatability for custom ais, sorry
                     val testVal: M = SpecStore.o00000(M::class.java, "damper") // EVIL FUCKED UP CODE
                     set(
                         "phaseCloak",
@@ -105,9 +106,9 @@ class shieldShunt(market: MarketAPI?, id: String) : stationAttachment(market, id
                     }
                     set("shieldAI", module.ai, testValTwo, BasicShipAI::class.java)
 
-                    module.mutableStats.armorBonus.modifyMult(id, ARMOR_MULT)
-                    module.mutableStats.hullBonus.modifyMult(id, HULL_MULT)
                 }
+                module.mutableStats.armorBonus.modifyMult(id, ARMOR_MULT)
+                module.mutableStats.hullBonus.modifyMult(id, HULL_MULT)
             }
         }
     }
@@ -128,6 +129,13 @@ class shieldShunt(market: MarketAPI?, id: String) : stationAttachment(market, id
             Misc.getHighlightColor(),
             "replaces", "damper field", toPercent((1 - ARMOR_MULT).absoluteValue), toPercent((1 - HULL_MULT).absoluteValue)
         )
+        if (!SA_settings.isWindows) {
+            tooltip.addPara(
+                "The damper field will not appear, as you are playing on a non-windows OS. This is to prevent crashes derived " +
+                "from obfuscated symbols.",
+                0f
+            ).setColor(Misc.getGrayColor())
+        }
         tooltip.addPara(
             "The damper field does not block firing of weapons.",
             5f

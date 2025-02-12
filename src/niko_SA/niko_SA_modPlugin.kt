@@ -11,6 +11,7 @@ import lunalib.lunaSettings.LunaSettings
 import lunalib.lunaSettings.LunaSettingsListener
 import niko.MCTE.utils.MCTE_debugUtils
 import niko_SA.SA_settings.loadSettings
+import niko_SA.augments.core.stationAugmentStore
 import niko_SA.campaign.SA_MSLootListener
 import niko_SA.campaign.SA_People
 import niko_SA.campaign.SA_augmentMarketAdder
@@ -36,6 +37,8 @@ class niko_SA_modPlugin: BaseModPlugin() {
         if (starsectorVers > "0.97a-RC11") {
             throw RuntimeException("CHECK TO SEE IF stationMarketNullPatch IS NECESSARY! https://fractalsoftworks.com/forum/index.php?topic=30567")
         }*/
+
+        stationAugmentStore.testIdSync()
     }
 
     override fun onGameLoad(newGame: Boolean) {
@@ -59,12 +62,15 @@ class niko_SA_modPlugin: BaseModPlugin() {
         }*/
 
         //Global.getSector().listenerManager.addListener(overgrownNanoforgeOptionsProvider(), true)
+
+        stationAugmentStore.testIdSync()
     }
 
     override fun onNewGameAfterEconomyLoad() {
         super.onNewGameAfterEconomyLoad()
 
         SA_settings.applyPredefinedAugments()
+        stationAugmentStore.testIdSync() // just in case someone fucks up
     }
 
     override fun onNewGame() {

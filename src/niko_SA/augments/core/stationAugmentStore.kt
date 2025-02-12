@@ -4,9 +4,11 @@ import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.campaign.FactionAPI
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.impl.campaign.ids.Factions
+import niko_SA.SA_delayedExecution
 import niko_SA.SA_ids
 import niko_SA.SA_settings.isWindows
 import niko_SA.augments.*
+import java.lang.RuntimeException
 
 object stationAugmentStore {
     fun getPlayerKnownAugments(): MutableSet<String> {
@@ -43,13 +45,12 @@ object stationAugmentStore {
 
     init {
 
-        if (isWindows) { // these use obf symbols so dont work off windows
-            allAugments["SA_shieldShunt"] = stationAugmentData(
-                { market: MarketAPI? -> shieldShunt(market, "SA_shieldShunt") },
-                hashSetOf(Factions.HEGEMONY, Factions.LUDDIC_CHURCH),
-                mutableMapOf(Pair("SA_augmentNormal", 10f))
-            )
-        }
+        allAugments["SA_shieldShunt"] = stationAugmentData(
+            { market: MarketAPI? -> shieldShunt(market, "SA_shieldShunt") },
+            hashSetOf(Factions.HEGEMONY, Factions.LUDDIC_CHURCH),
+            mutableMapOf(Pair("SA_augmentNormal", 10f))
+        )
+
         allAugments["SA_regenerativeDrones"] = stationAugmentData(
             { market: MarketAPI? -> regenerativeDrones(market, "SA_regenerativeDrones") },
             hashSetOf(Factions.TRITACHYON, Factions.HEGEMONY, Factions.INDEPENDENT),
@@ -173,18 +174,18 @@ object stationAugmentStore {
             mutableMapOf(Pair("SA_augmentNormal", 10f))
         )
         allAugments["SA_highResSensors"] = stationAugmentData(
-            { market: MarketAPI? -> highResSensors(market, "SA_armoredWeaponMounts") },
+            { market: MarketAPI? -> highResSensors(market, "SA_highResSensors") },
             hashSetOf(Factions.TRITACHYON, Factions.DIKTAT),
             mutableMapOf(Pair("SA_augmentNormal", 10f))
         )
         allAugments["SA_supportPackage"] = stationAugmentData(
             { market: MarketAPI? -> supportPackage(market, "SA_supportPackage") },
-            HashSet<String>(),
+            HashSet(),
             mutableMapOf(Pair("SA_augmentRare", 10f))
         )
         allAugments["SA_logisticsDrones"] = stationAugmentData(
             { market: MarketAPI? -> logisticsDrones(market, "SA_logisticsDrones") },
-            HashSet<String>(),
+            HashSet(),
             mutableMapOf(Pair("SA_augmentRare", 10f))
         )
         allAugments["SA_moteSink"] = stationAugmentData(
@@ -194,7 +195,7 @@ object stationAugmentStore {
         )
         allAugments["SA_moteSinkLow"] = stationAugmentData(
             { market: MarketAPI? -> moteSinkLow(market, "SA_moteSinkLow") },
-            HashSet<String>(),
+            HashSet(),
             HashMap(), // doesnt spawn naturally,
             0f
         )
@@ -209,6 +210,7 @@ object stationAugmentStore {
             HashSet(),
             mutableMapOf(Pair("SA_augmentRare", 10f))
         )
+
         // doesnt work, DTA just. dosent work on stations
         /*allAugments["SA_defensiveTargetingArray"] = stationAugmentData(
             { market: MarketAPI? -> defensiveTargettingArray(market, "SA_defensiveTargetingArray") },
@@ -216,5 +218,24 @@ object stationAugmentStore {
 (),            mutableMapOf(Pair("SA_augmentNormal", 10f))
         )*/
 
+    }
+
+    /**
+     * A test method used to determine if any augments have the wrong ID.
+     *
+     * @throws: A [RuntimeException] if any augments have the wrong ID.
+     * */
+    fun testIdSync() {
+        for (entry in allAugments) {
+            val data = entry.value
+            val id = entry.key
+
+            val instance = data.getInstance(null)
+            if (instance.id != id) {
+                throw RuntimeException(
+                    "Incorrect augment ID set on ${instance.name}! Expected ${id}, got ${instance.id}"
+                )
+            }
+        }
     }
 }
