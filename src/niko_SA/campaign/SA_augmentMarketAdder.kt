@@ -32,6 +32,8 @@ class SA_augmentMarketAdder: BaseCampaignEventListener(false) {
             if (submarket.specId == Submarkets.SUBMARKET_STORAGE) continue
             if (submarket.plugin !is BaseSubmarketPlugin) continue
             if ((submarket.plugin as BaseSubmarketPlugin).sinceSWUpdate > 0.001f) continue
+            // the below is necessary since other mods, namely indevo, plug into this and set sinceSWUpdate to 0.001f
+            if (market.memoryWithoutUpdate.getBoolean("\$SA_doNotUpdateAugments_${submarket.specId}")) continue
 
             addAugments(submarket, market)
         }
@@ -65,6 +67,6 @@ class SA_augmentMarketAdder: BaseCampaignEventListener(false) {
             cargo.addSpecial(SpecialItemData("SA_augmuntBlueprintNormal", picked), 1f)
         }
         (submarket.plugin as? BaseSubmarketPlugin)?.sinceSWUpdate = 0.001f
+        market.memoryWithoutUpdate.set("\$SA_doNotUpdateAugments_${submarket.specId}", true, 0f)
     }
-
 }

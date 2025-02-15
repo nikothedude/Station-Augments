@@ -1,3 +1,8 @@
+1.2.0
+SAVE COMPATIBLE
+
+Fixes a bug where you could refresh the augments available on a market
+
 1.1.4
 SAVE COMPATIBLE
 

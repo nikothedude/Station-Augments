@@ -8,6 +8,7 @@ import niko_SA.SA_delayedExecution
 import niko_SA.SA_ids
 import niko_SA.SA_settings.isWindows
 import niko_SA.augments.*
+import niko_SA.augments.jumpPoint.jumpPointCreator
 import java.lang.RuntimeException
 
 object stationAugmentStore {
@@ -209,6 +210,11 @@ object stationAugmentStore {
             { market: MarketAPI? -> stationRepairUnit(market, "SA_stationRepairUnit") },
             HashSet(),
             mutableMapOf(Pair("SA_augmentRare", 10f))
+        )
+        allAugments["SA_jumpEngine"] = stationAugmentData(
+            { market: MarketAPI? -> jumpPointCreator(market, "SA_jumpEngine") },
+            HashSet(),
+            mutableMapOf(Pair("SA_augmentRare", 8f))
         )
 
         // doesnt work, DTA just. dosent work on stations
