@@ -1,7 +1,29 @@
 1.2.0
 SAVE COMPATIBLE
 
+Finishes the mod_info.json description (lol I completely forgot about this)
+
+The augment option is now greyed out if the market has no augments and cannot be modified
+    Makes it more clear when you should hit J - and now, if you hit J, youll always get useful info
+
 Fixes a bug where you could refresh the augments available on a market
+
+ECM Package now applies it's defense rating even if the station is disrupted
+ECM Package and structural repair unit both cannot be added while the station is disrupted
+
+Augments now always show design type
+
+Added a small breadcrumb for the secret
+    Level 10, indie/tritach bars
+
+New augments
+    Jump Engine
+        Very rare
+
+        Adds a jump point on a tight orbit around the station
+        Increases market accessibility by 20%
+
+        The jump point cannot be added if the system has no jump points
 
 1.1.4
 SAVE COMPATIBLE

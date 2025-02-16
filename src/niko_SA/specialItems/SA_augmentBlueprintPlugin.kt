@@ -122,7 +122,9 @@ class SA_augmentBlueprintPlugin: BaseSpecialItemPlugin() {
         b = Misc.getPositiveHighlightColor()
         val industryId: String = stack.specialDataIfSpecial.data
         val known = Global.getSector().playerFaction.getKnownAugments().contains(industryId)
+        augment.gettingDescFromBlueprint = true
         augment.getBasicDescription(tooltip, expanded)
+        augment.gettingDescFromBlueprint = false
         addCostLabel(tooltip, opad, transferHandler, stackSource)
         if (known) {
             tooltip.addPara("Already known", g, opad)

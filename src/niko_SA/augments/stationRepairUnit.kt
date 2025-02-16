@@ -37,6 +37,14 @@ class stationRepairUnit(market: MarketAPI?, id: String) : stationAttachment(mark
         industry.setDisrupted(industry.disruptedDays - Misc.getDays(amount))
     }
 
+    override fun getUnavailableReason(): String? {
+        if (getStationIndustry()?.isDisrupted == true) {
+            return "Cannot be added to a disrupted station"
+        }
+
+        return super.getUnavailableReason()
+    }
+
     override fun getBasicDescription(tooltip: TooltipMakerAPI, expanded: Boolean) {
         super.getBasicDescription(tooltip, expanded)
 
@@ -51,5 +59,20 @@ class stationRepairUnit(market: MarketAPI?, id: String) : stationAttachment(mark
             Misc.getHighlightColor(),
             "Halves"
         )
+
+        val industry = getStationIndustry()
+        if (!applied && industry?.isDisrupted == true) {
+            tooltip.addPara(
+                "The ${industry.currentName} is currently disrupted, meaning this augment %s until it is repaired.",
+                5f,
+                Misc.getNegativeHighlightColor(),
+                "cannot be applied"
+            ).setColor(Misc.getGrayColor())
+        } else {
+            tooltip.addPara(
+                "Cannot be applied if the station is currently under repairs.",
+                5f
+            ).setColor(Misc.getGrayColor())
+        }
     }
 }

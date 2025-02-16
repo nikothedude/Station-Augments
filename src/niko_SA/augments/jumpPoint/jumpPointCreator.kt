@@ -159,4 +159,8 @@ class jumpPointCreator(market: MarketAPI?, id: String) : stationAttachment(marke
             5f
         ).setColor(Misc.getGrayColor())
     }
+
+    override fun getBlueprintValue(): Int {
+        return 40000
+    }
 }

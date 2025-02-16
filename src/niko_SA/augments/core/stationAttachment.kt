@@ -12,15 +12,14 @@ import com.fs.starfarer.api.impl.campaign.econ.impl.OrbitalStation
 import com.fs.starfarer.api.impl.campaign.ids.Industries
 import com.fs.starfarer.api.impl.campaign.ids.MemFlags
 import com.fs.starfarer.api.impl.campaign.ids.Tags
+import com.fs.starfarer.api.ui.Alignment
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import niko_SA.MarketUtils.getRemainingAugmentBudget
 import niko_SA.MarketUtils.getStationAugments
 import niko_SA.MarketUtils.removeStationAugment
 import niko_SA.ReflectionUtils
-import niko_SA.SA_debugUtils
 import niko_SA.SA_mathUtils.trimHangingZero
-import java.lang.ref.WeakReference
 
 /** Industries of this type attempt to modify an existing station in combat, and potentially, in campaign.*/
 abstract class stationAttachment(val market: MarketAPI?, val id: String): BaseCampaignEventListener(false) {
@@ -37,8 +36,12 @@ abstract class stationAttachment(val market: MarketAPI?, val id: String): BaseCa
 
     /** We can only be built on stations with these industry ids. If empty, is ignored. */
     open val stationTypeWhitelist = HashSet<String>()
+    @Transient
     var considerAP = true // used in [isAvailableToBuild]
+    @Transient
     var considerEngagement = true
+    @Transient
+    var gettingDescFromBlueprint = false
 
     abstract val name: String
     abstract val spriteId: String
@@ -148,6 +151,7 @@ abstract class stationAttachment(val market: MarketAPI?, val id: String): BaseCa
         return (getUnavailableReason() == null)
     }
 
+    /** If null is returned, the game will assume this augment CAN be added to a station. */
     open fun getUnavailableReason(): String? {
         val station = getStationIndustry() ?: return "No orbital station"
         if (considerEngagement && getStationFleet()?.battle != null) return "Station currently engaged"
@@ -228,6 +232,13 @@ abstract class stationAttachment(val market: MarketAPI?, val id: String): BaseCa
         val augmentBudgetColor = if (remainingAugmentBudget < augmentCost) Misc.getNegativeHighlightColor() else Misc.getHighlightColor()
         para.setHighlightColors(Misc.getHighlightColor(), augmentBudgetColor, Misc.getStoryOptionColor())
         builtInMode.createDesc(tooltip)
+
+        if (!gettingDescFromBlueprint) {
+            tooltip.addSectionHeading("Augment Info", Alignment.MID, 10f)
+            tooltip.addSpacer(5f)
+            Misc.addDesignTypePara(tooltip, manufacturer, 5f)
+        }
+
     }
 
     open fun getImageName(market: MarketAPI): String {

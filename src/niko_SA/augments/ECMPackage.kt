@@ -25,14 +25,19 @@ class ECMPackage(market: MarketAPI?, id: String) : stationAttachment(market, id)
     override fun apply() {
         super.apply()
 
-        val stationIndustry = getStationIndustry() ?: return
-        if (stationIndustry.isFunctional) {
-            market?.stats?.dynamic?.getMod(Stats.GROUND_DEFENSES_MOD)?.modifyMult(id, DEFENSE_MULT)
-        }
+        market?.stats?.dynamic?.getMod(Stats.GROUND_DEFENSES_MOD)?.modifyMult(id, DEFENSE_MULT)
     }
 
     override fun unapply() {
         market?.stats?.dynamic?.getMod(Stats.GROUND_DEFENSES_MOD)?.unmodify(id)
+    }
+
+    override fun getUnavailableReason(): String? {
+        if (getStationIndustry()?.isDisrupted == true) {
+            return "Cannot be added to a disrupted station"
+        }
+
+        return super.getUnavailableReason()
     }
 
     override fun getBasicDescription(tooltip: TooltipMakerAPI, expanded: Boolean) {
@@ -50,5 +55,25 @@ class ECMPackage(market: MarketAPI?, id: String) : stationAttachment(market, id)
             Misc.getHighlightColor(),
             "${DEFENSE_MULT}x"
         )
+
+        val industry = getStationIndustry()
+        if (!applied && industry?.isDisrupted == true) {
+            tooltip.addPara(
+                "The ${industry.currentName} is currently disrupted, meaning this augment %s until it is repaired.",
+                5f,
+                Misc.getNegativeHighlightColor(),
+                "cannot be applied"
+            ).setColor(Misc.getGrayColor())
+        } else {
+            tooltip.addPara(
+                "Cannot be applied if the station is currently under repairs.",
+                5f
+            ).setColor(Misc.getGrayColor())
+        }
+
+        tooltip.addPara(
+            "The defense rating increase persists even if the station is disrupted.",
+            5f
+        ).setColor(Misc.getGrayColor())
     }
 }

@@ -7,6 +7,7 @@ import com.fs.starfarer.api.impl.campaign.econ.impl.OrbitalStation
 import com.fs.starfarer.api.util.Misc
 import com.fs.starfarer.api.util.Pair
 import niko_SA.SA_settings.BASE_STATION_AUGMENT_BUDGET
+import niko_SA.augments.core.BuiltInMode
 import niko_SA.augments.core.stationAttachment
 import niko_SA.augments.core.stationAttachment.Companion.stationImprovedAPBonus
 import niko_SA.augments.core.stationAugmentStore
@@ -34,7 +35,9 @@ object MarketUtils {
         var used = 0f
 
         for (augment in getStationAugments()) {
-            used += augment.augmentCost
+            if (augment.builtInMode == BuiltInMode.NOT) {
+                used += augment.augmentCost
+            }
         }
 
         return used
@@ -87,26 +90,28 @@ object MarketUtils {
     }
 
     @JvmStatic
-    fun MarketAPI.addStationAugment(id: String, checkForStation: Boolean = true) {
-        val augment = stationAugmentStore.allAugments[id]?.getInstance?.let { it(this) } ?: return
+    fun MarketAPI.addStationAugment(id: String, checkForStation: Boolean = true): stationAttachment? {
+        val augment = stationAugmentStore.allAugments[id]?.getInstance?.let { it(this) } ?: return null
         return addStationAugment(augment, checkForStation)
     }
 
     @JvmStatic
-    fun MarketAPI.addStationAugment(augment: stationAttachment, checkForStation: Boolean = true) {
+    fun MarketAPI.addStationAugment(augment: stationAttachment, checkForStation: Boolean = true): stationAttachment? {
         if (hasStationAugment(augment)) {
             SA_debugUtils.log.warn("tried to add ${augment.id} while $name already had it!")
-            return
+            return null
         }
         if (checkForStation) {
             val industry = getStationIndustry()
             if (industry == null) {
                 SA_debugUtils.log.info("$name has no station, aborting addition of ${augment.id}")
-                return
+                return null
             }
         }
         augment.apply()
         getStationAugments() += augment
+
+        return augment
     }
 
     @JvmStatic

@@ -1,7 +1,10 @@
 id,trigger,conditions,script,text,options,notes
 "#RULESET_NAME Station Augments",,,,,,
 SA_addViewAugmentsOption,PopulateOptions,"$menuState == main
-SA_hasViewableStation","SetShortcut SA_viewAugmentsOption ""J"" true",,"998:SA_viewAugmentsOption:View station augments",
+SA_hasViewableStation","SetShortcut SA_viewAugmentsOption ""J"" true
+FireBest SA_modifyViewAugmentsOption",,"998:SA_viewAugmentsOption:View station augments",
+SA_modifyViewAugmentsOptionNoAugments,SA_modifyViewAugmentsOption,"!SA_hasAugmentsToView","SetEnabled SA_viewAugmentsOption false
+SetTooltip SA_viewAugmentsOption ""This station has no installed augments, and you cannot modify them.""",,,
 SA_viewAugmentsOption,DialogOptionSelected,"$option == SA_viewAugmentsOption","SA_viewAugments",,,
 ,,,,,,
 # Black site,,,,,,
@@ -184,5 +187,35 @@ FireBest BarPrintDesc
 BarCMD showOptions
 BarCMD playAmbience",,,
 "#END Diktat agent asking about buying the core",,,,,,
+,,,,,,
+# Breadcrumbs,,,,,,
+SA_MSBreadcrumbInit,DialogOptionSelected,"$option == marketVisitBar
+SA_breadcrumbCMD canInit score:1000","FireBest BarShuttleDownPrintDesc
+BarCMD playAmbience
+$global.SA_didMSBreadcrumb = true","As you observe the bar's patrons, you feel a bump on your side as someone walks just a bit too close.","SA_MSBreadcrumbWarn:Warn them to be more careful
+SA_MSBreadcrumbIgnore:Ignore them",
+SA_MSBreadcrumbWarn,DialogOptionSelected,"$option == SA_MSBreadcrumbWarn",,"You turn with a grumble and start mouthing them off, but quickly realize they're nowhere to be seen, having disappeared into the crowds. You make a mental note of their appearance to chew them out next you see them, but your thoughts are interrupted by a slow, horrifying realization - and a newly-found weight differential in your pocket.","SA_MSBreadcrumbDamn:Thrust your hand in your pocket to find what was stolen",
+SA_MSBreadcrumbIgnore,DialogOptionSelected,"$option == SA_MSBreadcrumbIgnore","SetTextHighlights ""feels a little different""","Not wanting to make a scene, you opt to ignore the likely-accidental incident as a move of grace. 
+
+Slowly, though, dread begins to well in your chest as you realize your pocket feels a little different...","SA_MSBreadcrumbDamn:Thrust your hand in your pocket to find what was stolen",
+SA_MSBreadcrumbDamn,DialogOptionSelected,"$option == SA_MSBreadcrumbDamn","SetTextHighlights ""data chit""","Cursing, you dig your hands into your pocket to find just what that pickpocket stole. You don't often keep much in there, due to situations like this, but you did have a credit chit this time - merely forgot to cash it in.
+
+Thankfully, though, you feel your fingers wrap around a familiar shape - rectangular, cold, small circuitry on one side... a button? A ridge? Wait, no... you turn it over in your hand, feeling it intensely...
+
+It's... some kind of data chit.","SA_MSBreadcrumbPullOut:Pull it out and inspect it",
+SA_MSBreadcrumbPullOut,DialogOptionSelected,"$option == SA_MSBreadcrumbPullOut",,"Whipping out the unknown object, you visually confirm a few things. Firstly - it's not a bomb, much to your relief. Secondly, it's most certainly a data chit - a rather common model, actually. Thirdly, it looks rather weathered, like it's been sitting in vacuum for a few cycles.
+
+You exchange weary looks with your bodyguards, and consider your next steps.","SA_MSBreadcrumbReadOptionsOne:Plug it into your PDA
+SA_MSBreadcrumbReadOptionsTwo:Plug it into your PDA - in a virtual sandbox
+SA_MSBreadcrumbReadOptionsThree:Hand it to a bodyguard and have them load it",
+SA_MSBreadcrumbReadOptionsOne,DialogOptionSelected,"$option == SA_MSBreadcrumbReadOptionsOne","FireBest SA_MSBreadcrumbContents","You insert the datachit into your PDA and quickly pull up it's contents.",,
+SA_MSBreadcrumbReadOptionsTwo,DialogOptionSelected,"$option == SA_MSBreadcrumbReadOptionsTwo","FireBest SA_MSBreadcrumbContents","You insert the datachit into your PDA, virtually isolating an environment for it to run on, just in case it has any malicious code within. A quick data-analysis from your TT AV asserts - no, in fact - no malware lurks within, and it's simply just a data storage device.",,
+SA_MSBreadcrumbReadOptionsThree,DialogOptionSelected,"$option == SA_MSBreadcrumbReadOptionsThree","FireBest SA_MSBreadcrumbContents","Not wanting to risk your own device's safety, you hand the chit to your nearest bodyguard with orders to read it. They dutifully load it up, making a note to you to have engineering inspect the PDA afterwords.",,
+SA_MSBreadcrumbContents,SA_MSBreadcrumbContents,,"SetTextHighlights ""Please, undo the mistake I made. Even if you're not an altruist, I'm sure you'll find the salvage wanting."" ""far out from the core"" ""reachable""
+SA_breadcrumbCMD startBreadcrumb","Within the chit are three files. The first is empty, save for it's title, named ""For $PlayerName."" The second, named ""A promise"", reads ""Please, undo the mistake I made. Even if you're not an altruist, I'm sure you'll find the salvage wanting."" The third is mererly a set of hyperspace coordinates - far out from the core, but reachable.
+
+You sigh, double-and-triple checking the file system for any more context, but no - that's it. Quietely, you ask yourself - ""why not include a little more info? Won't that help me 'fix your mistake'?"" Grumbling, you sigh, understanding this is the extent of help you'll be getting.","SA_MSBreadcrumbReturn:Return to your duties",
+SA_MSBreadcrumbReturn,DialogOptionSelected,"$option == SA_MSBreadcrumbReturn","BarCMD showOptions","Pocketing the chit yet again, you sigh and instruct your guards to cease the futile search for your ""benefactor"", opting instead to resume your duties of searching the bar for leads. This is all terribly interesting, yes, but you can investigate *after* you're done here.",,
+"#END Breadcrumbs",,,,,,
 "#END Black site",,,,,,
 

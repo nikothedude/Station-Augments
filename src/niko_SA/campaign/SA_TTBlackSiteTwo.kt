@@ -19,6 +19,7 @@ import com.fs.starfarer.api.impl.campaign.world.TTBlackSite
 import com.fs.starfarer.api.util.Misc
 import niko_SA.MarketUtils.addStationAugment
 import niko_SA.SA_delayedExecution
+import niko_SA.augments.core.BuiltInMode
 import niko_SA.augments.core.stationAugmentStore
 import org.lazywizard.lazylib.MathUtils
 import java.awt.Color
@@ -69,12 +70,12 @@ object SA_TTBlackSiteTwo {
                 market.getIndustry(Industries.STARFORTRESS_HIGH)?.isImproved = true
                 //market.getIndustry(Industries.STARFORTRESS_HIGH)?.aiCoreId = Commodities.ALPHA_CORE
 
-                market.addStationAugment("SA_moteSink", false)
-                market.addStationAugment("SA_bubbleShield", false)
-                market.addStationAugment("SA_stabilizedShields", false)
-                market.addStationAugment("SA_ECMPackage", false)
-                market.addStationAugment("SA_heavyArmor", false)
-                market.addStationAugment("SA_fighterTimeflow", false)
+                market.addStationAugment("SA_moteSink", false)?.builtInMode = BuiltInMode.NORMAL
+                market.addStationAugment("SA_bubbleShield", false)?.builtInMode = BuiltInMode.NORMAL
+                market.addStationAugment("SA_stabilizedShields", false)?.builtInMode = BuiltInMode.NORMAL
+                market.addStationAugment("SA_ECMPackage", false)?.builtInMode = BuiltInMode.NORMAL
+                market.addStationAugment("SA_heavyArmor", false)?.builtInMode = BuiltInMode.NORMAL
+                market.addStationAugment("SA_fighterTimeflow", false)?.builtInMode = BuiltInMode.NORMAL
 
                 market.reapplyIndustries()
 

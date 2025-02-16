@@ -33,8 +33,6 @@ class regenerativeDrones(market: MarketAPI?, id: String) : stationAttachment(mar
     )
 
     override fun applyInCombat(station: ShipAPI) {
-        // first cast - to drone ship system, found in com.fs.starfarer.combat.systems
-        // second cast - to some... thing. i dont really know, you find it by tracking getAmmoPerSecond() down the inheritance chain
         val system = station.system
         if (ReflectionUtils.hasMethodOfName("setDeploy", system)) { // correct system type
             ReflectionUtils.invoke("setDeploy", system)
@@ -43,10 +41,6 @@ class regenerativeDrones(market: MarketAPI?, id: String) : stationAttachment(mar
             ReflectionUtils.invoke("setAmmoPerSecond", ammoTracker, perSec + AMMO_PER_SECOND_INCREMENT)
             Global.getCombatEngine().addPlugin(PreventRecallScript(station))
         }
-        /*val castedSystem = station.system as? Oo0O ?: return
-        castedSystem.setDeploy()
-        //castedSystem.chargeTracker.Ô00000().ammoPerSecond += AMMO_PER_SECOND_INCREMENT
-        castedSystem.ammoTracker.ammoPerSecond += AMMO_PER_SECOND_INCREMENT*/
     }
 
     // otherwise the station recalls them constantly for some reason

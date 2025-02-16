@@ -11,6 +11,7 @@ import com.fs.starfarer.api.impl.campaign.AICoreOfficerPluginImpl
 import com.fs.starfarer.api.input.InputEventAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.IntervalUtil
+import com.fs.starfarer.api.util.Misc
 import niko_SA.augments.core.stationAttachment
 import org.lazywizard.lazylib.MathUtils
 
@@ -47,14 +48,21 @@ class aiFighterUplink(market: MarketAPI?, id: String) : stationAttachment(market
 
         tooltip.addPara(
             "Originally created in the 1st AI war, this nefarious comms module allows an AI core to directly interface" +
-            " with fighters and drones launched from the station.",
-            5f
+            " with fighters and drones launched from the station, giving them an %s of the %s as the installed AI core.",
+            5f,
+            Misc.getHighlightColor(),
+            "AI core officer", "same skill"
         )
 
         tooltip.addPara(
             "If a star fortress, also allows for the drones to be controlled.",
             5f
         )
+
+        tooltip.addPara(
+            "Even if the AI core has no effect on the station, it will still create an officer for fighters and drones if able.",
+            5f
+        ).setColor(Misc.getGrayColor())
     }
 
     override fun getBlueprintValue(): Int {
@@ -77,13 +85,15 @@ class aiFighterUplink(market: MarketAPI?, id: String) : stationAttachment(market
             for (wing in module.allWings) {
                 for (member in wing.wingMembers) {
                     if (member.captain != null) continue
-                    member.captain = AICoreOfficerPluginImpl().createPerson(aiCoreId, factionId, MathUtils.getRandom())
+                    val person = AICoreOfficerPluginImpl().createPerson(aiCoreId, factionId, MathUtils.getRandom()) ?: continue
+                    member.captain = person
                 }
             }
             if (checkForDrones && module.deployedDrones != null) {
                 for (drone in module.deployedDrones) {
                     if (drone.captain != null && drone.captain.isAICore) continue //drones have invisible captains, weirdly
-                    drone.captain = AICoreOfficerPluginImpl().createPerson(aiCoreId, factionId, MathUtils.getRandom())
+                    val person = AICoreOfficerPluginImpl().createPerson(aiCoreId, factionId, MathUtils.getRandom()) ?: continue
+                    drone.captain = person
                 }
             }
         }
