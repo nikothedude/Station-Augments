@@ -3,7 +3,7 @@
 	"name":"Station Augments", # Displayed to the player
 	"author":"Niko",
     "utility":"false",
-	"version":"1.2.0",
+	"version":"1.2.1",
 	"description":"Enables the construction of augments on stations, which act much like hullmods. THIS MOD WILL NOT SURVIVE STARSECTOR UPDATES. DO NOT EVEN TRY TO INCREASE THE VERSION NUMBER",
     "gameVersion": "0.97a-RC11",
   	"jars":["jars/niko_stationAugments.jar"],
