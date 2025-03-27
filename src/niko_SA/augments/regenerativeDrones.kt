@@ -9,7 +9,6 @@ import com.fs.starfarer.api.impl.campaign.ids.Industries
 import com.fs.starfarer.api.input.InputEventAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
-import com.fs.starfarer.combat.systems.Oo0O
 import niko_SA.ReflectionUtils
 import niko_SA.SA_mathUtils.trimHangingZero
 import niko_SA.augments.core.stationAttachment
@@ -33,7 +32,7 @@ class regenerativeDrones(market: MarketAPI?, id: String) : stationAttachment(mar
     )
 
     override fun applyInCombat(station: ShipAPI) {
-        val system = station.system
+        val system = station.system ?: return
         if (ReflectionUtils.hasMethodOfName("setDeploy", system)) { // correct system type
             ReflectionUtils.invoke("setDeploy", system)
             val ammoTracker = ReflectionUtils.invoke("getAmmoTracker", system)!!

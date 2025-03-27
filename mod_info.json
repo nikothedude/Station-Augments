@@ -3,26 +3,26 @@
 	"name":"Station Augments", # Displayed to the player
 	"author":"Niko",
     "utility":"false",
-	"version":"1.2.1",
-	"description":"Enables the construction of augments on stations, which act much like hullmods. THIS MOD WILL NOT SURVIVE STARSECTOR UPDATES. DO NOT EVEN TRY TO INCREASE THE VERSION NUMBER",
-    "gameVersion": "0.97a-RC11",
+	"version":"1.2.2",
+	"description":"Enables the construction of augments on stations, which act much like hullmods.",
+    "gameVersion": "0.98a-RC5",
   	"jars":["jars/niko_stationAugments.jar"],
   	"modPlugin":"niko_SA.niko_SA_modPlugin",
 	  	"dependencies": [
         {
 			"id": "lw_lazylib",
             "name": "LazyLib",
-			"version": "2.7b"
+			"version": "3.0.0"
         },
 		{
 			"id": "lunalib",
 			"name": "LunaLib",
-			"version": "1.8.4"
+			"version": "2.0.0"
 		},
 		{
 			"id": "MagicLib",
 			"name": "MagicLib",
-			"version": "1.4.4"
+			"version": "1.4.6"
 
 		},
     ],

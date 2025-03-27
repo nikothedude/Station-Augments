@@ -1,21 +1,19 @@
 package niko_SA.augments
 
+import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.combat.*
+import com.fs.starfarer.api.impl.campaign.ids.ShipSystems
 import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
-import com.fs.starfarer.combat.ai.BasicShipAI
-import com.fs.starfarer.combat.ai.C
-import com.fs.starfarer.combat.ai.O0OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+import com.fs.starfarer.combat.ai.*
 import com.fs.starfarer.combat.ai.attack.AttackAIModule
-import com.fs.starfarer.combat.ai.movement.maneuvers.oO0O
-import com.fs.starfarer.combat.ai.movement.oOOO
 import com.fs.starfarer.combat.entities.Ship
 import com.fs.starfarer.loading.SpecStore
-import com.fs.starfarer.loading.specs.M
 import niko_SA.ReflectionUtils.get
 import niko_SA.ReflectionUtils.set
+import niko_SA.SA_debugUtils
 import niko_SA.SA_settings
 import niko_SA.augments.core.stationAttachment
 import niko_SA.stringUtils.toPercent
@@ -53,58 +51,65 @@ class shieldShunt(market: MarketAPI?, id: String) : stationAttachment(market, id
 
                 val shipAI = module.ai
                 if (SA_settings.isWindows && shipAI is BasicShipAI) { // no compatability for custom ais, sorry
-                    val testVal: M = SpecStore.o00000(M::class.java, "damper") // EVIL FUCKED UP CODE
-                    set(
-                        "phaseCloak",
-                        module,
-                        testVal.createSystem(module)
-                    )
-                    val threatEvalAI = get("threatEvalAI", module.ai, BasicShipAI::class.java)
-                    val attackAI = get("attackAI", module.ai, BasicShipAI::class.java)
-                    val flockingAI = get("flockingAI", module.ai, BasicShipAI::class.java)
+                    try {
+                        val damperSpec = Global.getSettings().getShipSystemSpec("SA_KKdamper") as com.fs.starfarer.loading.specs.oO0O
+                        set(
+                            "phaseCloak",
+                            module,
+                            damperSpec.createSystem(module)
+                        )
 
-                    val newSystemAI = testVal.createSystemAI(
-                        module, module.aiFlags,
-                        threatEvalAI as O0OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO?,
-                        attackAI as AttackAIModule?,
-                        flockingAI as oOOO?,
-                        module.ai as (oO0O.o) //ShipAI obf class
-                    )
-                    // v mimics a anonymous wrapper the convinces the game to laod a systemai as a shieldai. see basicshipai for more, its in its constructor
-                    val testValTwo = object : com.fs.starfarer.combat.ai.G { // ABSOLUTELY FUCKING INSANE CODE
-                        override fun o00000(): Boolean {
-                            return false
-                        }
+                        val threatEvalAI = get("threatEvalAI", module.ai, BasicShipAI::class.java)
+                        val attackAI = get("attackAI", module.ai, BasicShipAI::class.java)
+                        val flockingAI = get("flockingAI", module.ai, BasicShipAI::class.java)
 
-                        override fun Object(): Boolean {
-                            return if (newSystemAI is com.fs.starfarer.combat.ai.system.V) { // phase ai
-                                val var1: com.fs.starfarer.combat.ai.system.V = newSystemAI
-                                var1.ôo0000().Ò00000().Õ00000()
-                            } else {
-                                false
+                        val newSystemAI = damperSpec.createSystemAI(
+                            module, module.aiFlags,
+                            threatEvalAI as? D,
+                            attackAI as? AttackAIModule,
+                            flockingAI as? com.fs.starfarer.combat.ai.movement.A,
+                            module.ai as? (com.fs.starfarer.combat.ai.movement.maneuvers.`do`.o) //ShipAI obf class
+                        )
+                        // v mimics a anonymous wrapper the convinces the game to laod a systemai as a shieldai. see basicshipai for more, its in its constructor
+                        val testValTwo = object : oOoOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO { // ABSOLUTELY FUCKING INSANE CODE
+                            override fun o00000(): Boolean {
+                                return false
+                            }
+
+                            override fun Ó00000(): Boolean {
+                                return if (newSystemAI is com.fs.starfarer.combat.ai.system.V) { // phase ai
+                                    val var1: com.fs.starfarer.combat.ai.system.V = newSystemAI
+                                    var1.`while.super`().new().`class`()
+                                } else {
+                                    false
+                                }
+                            }
+
+                            override fun new(): C? {
+                                return if (newSystemAI is com.fs.starfarer.combat.ai.system.V) {
+                                    val var1: com.fs.starfarer.combat.ai.system.V = newSystemAI
+                                    var1.`while.super`().new()
+                                } else {
+                                    null
+                                }
+                            }
+
+                            override fun o00000(
+                                var1: Float,
+                                var2: D?,
+                                var3x: Vector2f?,
+                                var4: Vector2f?,
+                                var5: Ship?
+                            ) {
+                                newSystemAI.o00000(var1, var3x, var4, var5)
                             }
                         }
+                        set("shieldAI", module.ai, testValTwo, BasicShipAI::class.java)
 
-                        override fun Ò00000(): C? {
-                            return if (newSystemAI is com.fs.starfarer.combat.ai.system.V) {
-                                val var1: com.fs.starfarer.combat.ai.system.V = newSystemAI
-                                var1.ôo0000().Ò00000()
-                            } else {
-                                null
-                            }
-                        }
-
-                        override fun o00000(
-                            var1: Float,
-                            var2: O0OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO?,
-                            var3x: Vector2f?,
-                            var4: Vector2f?,
-                            var5: Ship?
-                        ) {
-                            newSystemAI.`super`(var1, var3x, var4, var5)
-                        }
+                    } catch (e: ClassNotFoundException) {
+                        SA_debugUtils.log.error("incompatible starsector version!")
+                        return
                     }
-                    set("shieldAI", module.ai, testValTwo, BasicShipAI::class.java)
 
                 }
                 module.mutableStats.armorBonus.modifyMult(id, ARMOR_MULT)
@@ -127,19 +132,19 @@ class shieldShunt(market: MarketAPI?, id: String) : stationAttachment(market, id
                     "Armor is also effected, even if it doesn't have a shield.",
             5f,
             Misc.getHighlightColor(),
-            "replaces", "damper field", toPercent((1 - ARMOR_MULT).absoluteValue), toPercent((1 - HULL_MULT).absoluteValue)
+            "replaces", "modified damper field", toPercent((1 - ARMOR_MULT).absoluteValue), toPercent((1 - HULL_MULT).absoluteValue)
         )
         if (!SA_settings.isWindows) {
             tooltip.addPara(
                 "The damper field will not appear, as you are playing on a non-windows OS. This is to prevent crashes derived " +
-                "from obfuscated symbols.",
+                        "from obfuscated symbols.",
                 0f
-            ).setColor(Misc.getGrayColor())
+            ).color = Misc.getGrayColor()
         }
         tooltip.addPara(
             "The damper field does not block firing of weapons.",
             5f
-        ).setColor(Misc.getGrayColor())
+        ).color = Misc.getGrayColor()
     }
 
     override fun getBlueprintValue(): Int {
