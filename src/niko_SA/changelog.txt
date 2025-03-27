@@ -2,6 +2,8 @@
 Update to Starsector 0.98
     Now compiled on Java 17 and Kotlin 2.1
 
+Fixed regenerative drones crashing arty stations (IndEvo)
+
 1.2.1
 Fixes a crash with jump engine
     Please remove all instances of jump engine from your game before updating - might have to wait a few months too
