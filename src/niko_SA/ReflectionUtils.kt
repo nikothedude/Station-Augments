@@ -1,6 +1,5 @@
 package niko_SA
 
-import com.fs.starfarer.api.impl.campaign.econ.impl.OrbitalStation
 import java.lang.invoke.MethodHandle
 import java.lang.invoke.MethodHandles
 import java.lang.invoke.MethodType
@@ -172,17 +171,18 @@ object ReflectionUtils { // yoinked from exotica which yoinked it from rat i lov
         return instance
     }
 
-    fun invoke(methodName: String, instance: Any, vararg arguments: Any?, declared: Boolean = false): Any? {
-        var method: Any? = null
+    fun invoke(methodName: String, instance: Any, vararg arguments: Any?, declared: Boolean = false) : Any? {
+        var method: Any? = "null"
 
         val clazz = instance.javaClass
         val args = arguments.map { it!!::class.javaPrimitiveType ?: it::class.java }
         val methodType = MethodType.methodType(Void.TYPE, args)
 
         if (!declared) {
-            method = clazz.getMethod(methodName, *methodType.parameterArray())
-        } else {
-            method = clazz.getDeclaredMethod(methodName, *methodType.parameterArray())
+            method = clazz.getMethod(methodName, *methodType.parameterArray()) as Any?
+        }
+        else  {
+            method = clazz.getDeclaredMethod(methodName, *methodType.parameterArray()) as Any?
         }
 
         return invokeMethodHandle.invoke(method, instance, arguments)
@@ -212,7 +212,7 @@ object ReflectionUtils { // yoinked from exotica which yoinked it from rat i lov
         val methodType = MethodType.methodType(Void.TYPE, args)
 
         try {
-            method = clazz.getMethod(methodName, *methodType.parameterArray())
+            method = clazz.getMethod(methodName, *methodType.parameterArray()) as Any?
         } catch (e: Throwable) {
             try {
                 method = clazz.getDeclaredMethod(methodName, *methodType.parameterArray())

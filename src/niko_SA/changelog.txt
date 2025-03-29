@@ -1,3 +1,6 @@
+1.2.3
+Fixes a reflection crash
+
 1.2.2
 Update to Starsector 0.98
     Now compiled on Java 17 and Kotlin 2.1
