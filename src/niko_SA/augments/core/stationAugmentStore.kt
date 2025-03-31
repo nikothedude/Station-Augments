@@ -11,13 +11,12 @@ import niko_SA.niko_SA_modPlugin
 import org.lazywizard.lazylib.ext.json.iterator
 
 object stationAugmentStore {
-    val factionCSV = Global.getSettings().getMergedSpreadsheetData("faction", "data/world/factions/factions.csv")
     val factionsToTags = genFactionsToTags()
 
     fun genFactionsToTags(): HashMap<String, MutableSet<String>> {
         val map = HashMap<String, MutableSet<String>>()
 
-        for (obj in factionCSV) {
+        for (obj in Global.getSettings().getMergedSpreadsheetData("faction", "data/world/factions/factions.csv")) {
             val tags = HashSet<String>()
             val sourcePath = obj.getString("faction") ?: continue // gets the path where all instances of this faction should be
 
