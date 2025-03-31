@@ -1,3 +1,14 @@
+2.1.0
+New augments
+    Hardened shields
+    Effiency overhaul
+        Decreases upkeep
+
+AWM made base_bp
+Axial overclocking made base_bp
+
+[REDACTED] now has higher weight for autoresolve
+
 2.0.1
 SAVE COMPATIBLE
 

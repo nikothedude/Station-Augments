@@ -1,0 +1,35 @@
+package niko_SA.augments
+
+import com.fs.starfarer.api.combat.ShipAPI
+import com.fs.starfarer.api.impl.campaign.ids.Stats
+import com.fs.starfarer.api.ui.TooltipMakerAPI
+import com.fs.starfarer.api.util.Misc
+import niko_SA.SA_mathUtils.trimHangingZero
+import niko_SA.augments.core.stationAttachment
+import niko_SA.stringUtils.toPercent
+
+class hardenedShields: stationAttachment() {
+
+    companion object {
+        const val PIERCE_MULT: Float = 0.5f
+        const val SHIELD_BONUS: Float = 20f
+    }
+
+    override fun applyInCombat(station: ShipAPI) {
+        for (module in station.childModulesCopy + station) {
+            module.mutableStats.shieldDamageTakenMult.modifyMult(id, SHIELD_BONUS * 0.01f)
+            module.mutableStats.dynamic.getStat(Stats.SHIELD_PIERCED_MULT).modifyMult(id, PIERCE_MULT)
+        }
+    }
+
+    override fun getBasicDescription(tooltip: TooltipMakerAPI, expanded: Boolean) {
+        super.getBasicDescription(tooltip, expanded)
+
+        tooltip.addPara(
+            "Reduces the amount of damage taken by shields by %s. Also reduces the chance that shields will be pierced by EMP arcs from weapons like the Ion Beam.",
+            5f,
+            Misc.getHighlightColor(),
+            "${SHIELD_BONUS.trimHangingZero()}%"
+        )
+    }
+}

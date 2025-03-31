@@ -17,7 +17,6 @@ import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.ui.Alignment
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
-import com.sun.org.apache.xpath.internal.operations.Bool
 import niko_SA.MarketUtils.getRemainingAugmentBudget
 import niko_SA.MarketUtils.getStationAugments
 import niko_SA.MarketUtils.removeStationAugment
@@ -53,8 +52,10 @@ abstract class stationAttachment() : BaseCampaignEventListener(false), CoreAutor
             return field
         }
 
+    open var apToMemberStrengthMult = BASE_AP_TO_MEMBER_STRENGH_MULT
+
     companion object {
-        const val AP_TO_MEMBER_STRENGTH_MULT = 1.2f // arbitrary
+        const val BASE_AP_TO_MEMBER_STRENGH_MULT = 1.2f // arbitrary
         const val STATION_IMPROVED_AP_BONUS = 10f // arbitrary
         /** Additive atop BASE_STATION_AUGMENT_BUDGET. */
         @JvmStatic
@@ -311,8 +312,9 @@ abstract class stationAttachment() : BaseCampaignEventListener(false), CoreAutor
     // TODO: flesh this out
     open fun modifyAutoresolveForOurFleet(data: BattleAutoresolverPluginImpl.FleetAutoresolveData) {
         val ourMember = data.members.firstOrNull { it.member.isStation } ?: return
+        if (getSpec().usageTags.none { it.contains("combat") }) return
         val ap = getAugmentCost()
-        val bonus = if (isDetrimentalToCombat()) ap / AP_TO_MEMBER_STRENGTH_MULT else ap * AP_TO_MEMBER_STRENGTH_MULT
+        val bonus = if (isDetrimentalToCombat()) ap / apToMemberStrengthMult else ap * apToMemberStrengthMult
 
         ourMember.strength += bonus
     }

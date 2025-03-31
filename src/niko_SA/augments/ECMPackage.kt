@@ -15,13 +15,14 @@ class ECMPackage() : stationAttachment() {
     }
 
     override fun applyInCombat(station: ShipAPI) {
-        station.mutableStats.dynamic.getMod(Stats.ELECTRONIC_WARFARE_FLAT).modifyFlat(id, ECM_VALUE)
+        station.mutableStats.dynamic.getMod(Stats.ELECTRONIC_WARFARE_FLAT).modifyFlat(id, ECM_VALUE, getName())
     }
 
     override fun apply() {
         super.apply()
 
-        market?.stats?.dynamic?.getMod(Stats.GROUND_DEFENSES_MOD)?.modifyMult(id, DEFENSE_MULT)
+        val industry = getStationIndustry() ?: return
+        market?.stats?.dynamic?.getMod(Stats.GROUND_DEFENSES_MOD)?.modifyMult(id, DEFENSE_MULT, "${industry.nameForModifier} ${getName()}")
     }
 
     override fun unapply() {

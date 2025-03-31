@@ -10,6 +10,8 @@ class moteSinkLow(): moteSink() {
         return 500000
     }
 
+    override var apToMemberStrengthMult = 2.1f
+
     override fun getUnavailableReason(): String? {
         val superString = super.getUnavailableReason()
         if (superString != null) return superString
