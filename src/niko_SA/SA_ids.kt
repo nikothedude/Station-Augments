@@ -8,4 +8,12 @@ object SA_ids {
     const val SA_knownAugmentsMemFlag = "\$SA_knownAugmentsMemFlag"
     const val SA_nextAugmentBlueprintSeedMemId = "\$SA_nextAugmentBlueprintSeed"
     const val MARKET_BONUS_BUDGET_MEMID = "\$SA_marketBonusBudget"
+
+    const val SA_noAugmentAutofit = "\$SA_noAugmentAutofit"
+
+    const val SA_lastAPValueMemid = "\$SA_lastAPValue"
+
+    const val SA_augmentDefCsvPath = "data/campaign/SA_station_augments.csv"
+
+    const val CODEX_KNOWN_AUGMENTS = "\$SA_codexKnownAugments"
 }

@@ -6,4 +6,10 @@
 	"ruleCommandPackages":[
  		"niko_SA.ruleCMD",
  	],
+	
+	"graphics":{
+		"codex":{
+			"SA_stationAugments":"graphics/hullmods/detach_never.png",
+		},
+	},
  }

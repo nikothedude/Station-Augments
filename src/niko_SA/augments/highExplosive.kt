@@ -8,10 +8,7 @@ import com.fs.starfarer.api.util.Misc
 import niko_SA.augments.core.stationAttachment
 import niko_SA.stringUtils.toPercent
 
-class highExplosive(market: MarketAPI?, id: String) : stationAttachment(market, id) {
-    override val augmentCost: Float = 12f // its not that useful
-    override val name: String = "Volatile Reactor Fuel"
-    override val spriteId: String = "graphics/hullmods/erratic_injector.png"
+class highExplosive() : stationAttachment() {
 
     companion object {
         const val FLUX_CAPACITY_INCREMENT = 3000f

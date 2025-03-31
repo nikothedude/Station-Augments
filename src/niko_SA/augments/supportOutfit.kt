@@ -7,11 +7,7 @@ import com.fs.starfarer.api.util.Misc
 import niko_SA.SA_mathUtils.trimHangingZero
 import niko_SA.augments.core.stationAttachment
 
-class supportOutfit(market: MarketAPI?, id: String) : stationAttachment(market, id) {
-
-    override val manufacturer: String = "Hegemony"
-    override val name: String = "Support outfit"
-    override val spriteId: String = "graphics/hullmods/integrated_targeting_unit.png"
+class supportOutfit() : stationAttachment() {
 
     companion object {
         const val FIGHTER_RANGE_PERCENT = 1500f
@@ -20,8 +16,6 @@ class supportOutfit(market: MarketAPI?, id: String) : stationAttachment(market, 
 
         const val WEAPON_ROF_PERCENT = -30f
     }
-
-    override val augmentCost: Float = 14f
 
     override fun applyInCombat(station: ShipAPI) {
         for (module in station.childModulesCopy + station) {

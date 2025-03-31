@@ -13,11 +13,7 @@ import com.fs.starfarer.api.util.IntervalUtil
 import com.fs.starfarer.api.util.Misc
 import niko_SA.augments.core.stationAttachment
 
-class defensiveTargettingArray(market: MarketAPI?, id: String): stationAttachment(market, id) {
-
-    override val augmentCost: Float = 8f
-    override val name: String = "Defensive Targeting Array"
-    override val spriteId: String = "graphics/hullmods/defensive_targeting_array.png"
+class defensiveTargettingArray: stationAttachment() {
 
     companion object {
         const val PD_DAMAGE_BONUS = 50f

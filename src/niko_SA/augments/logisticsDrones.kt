@@ -15,11 +15,7 @@ import niko_SA.SA_mathUtils.trimHangingZero
 import niko_SA.augments.core.stationAttachment
 import org.lazywizard.lazylib.MathUtils
 
-class logisticsDrones(market: MarketAPI?, id: String) : stationAttachment(market, id), EveryFrameScript {
-    override val augmentCost: Float = 16f
-    override val name: String = "Logistics Drones"
-    override val spriteId: String = "graphics/hullmods/detach_always.png"
-
+class logisticsDrones() : stationAttachment(), EveryFrameScript {
     val affectedMembers = HashMap<FleetMemberAPI, Pair<Float, CREvent>>()
 
     val UUID = Misc.genUID()
@@ -47,7 +43,7 @@ class logisticsDrones(market: MarketAPI?, id: String) : stationAttachment(market
 
         val stationIndustry = getStationIndustry() ?: return
         if (stationIndustry.isFunctional) {
-            market?.accessibilityMod?.modifyFlat(id, ACCESSABILITY_INCREMENT, "${stationIndustry.currentName}: $name")
+            market?.accessibilityMod?.modifyFlat(id, ACCESSABILITY_INCREMENT, "${stationIndustry.currentName}: ${getName()}")
         }
     }
 
@@ -80,9 +76,9 @@ class logisticsDrones(market: MarketAPI?, id: String) : stationAttachment(market
             val repLevelNeeded = fleet.getRepLevelForArrayBonus()
             if (ourFaction.getRelationshipLevel(fleet.faction) < repLevelNeeded) continue
 
-            var effectLevel = getStationCampaignEntity()?.let { getPercentEffectiveness(fleet, it) } ?: return
+            var effectLevel = getStationCampaignEntity()?.let { getPercentEffectiveness(fleet, it) } ?: continue
 
-            if (effectLevel <= 0) return
+            if (effectLevel <= 0) continue
             fleet.fleetData.membersListCopy.forEach {
                 applyEffect(fleet, it, effectLevel)
             }
@@ -92,10 +88,10 @@ class logisticsDrones(market: MarketAPI?, id: String) : stationAttachment(market
 
     private fun applyEffect(fleet: CampaignFleetAPI, member: FleetMemberAPI, mult: Float) {
         val bonus = (CR_BONUS / 100f) * mult
-        member.stats.maxCombatReadiness.modifyFlat(UUID, bonus, "${market?.name} $name")
+        member.stats.maxCombatReadiness.modifyFlat(UUID, bonus, "${market?.name} ${getName()}")
         //member.repairTracker.cr += bonus
 
-        member.repairTracker.applyCREvent(bonus, UUID, "${market?.name} $name")
+        member.repairTracker.applyCREvent(bonus, UUID, "${market?.name} ${getName()}")
         val event = member.repairTracker.recentEvents.lastOrNull() ?: return
         val pair = Pair(bonus, event)
 

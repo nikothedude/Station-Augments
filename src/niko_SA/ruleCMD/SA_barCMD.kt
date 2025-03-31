@@ -16,6 +16,7 @@ import niko_SA.MarketUtils.addStationAugment
 import niko_SA.MarketUtils.getStationIndustry
 import niko_SA.MarketUtils.removeStationAugment
 import niko_SA.augments.core.stationAugmentStore.getKnownAugments
+import niko_SA.augments.core.stationAugmentStore.teachAugment
 import niko_SA.augments.moteSink
 import kotlin.math.sin
 
@@ -47,7 +48,7 @@ class SA_barCMD: BaseCommandPlugin() {
                 Global.getSector().playerFaction.getKnownAugments() -= "SA_moteSinkLow"
 
                 val sindria = Global.getSector().economy.getMarket("sindria") ?: return false
-                Global.getSector().getFaction(Factions.DIKTAT).getKnownAugments() += "SA_moteSinkLow"
+                Global.getSector().getFaction(Factions.DIKTAT).teachAugment("SA_moteSinkLow")
                 sindria.addStationAugment("SA_moteSinkLow")
                 sindria.removeStationAugment("SA_highExplosive")
                 sindria.getStationIndustry()?.isImproved = true

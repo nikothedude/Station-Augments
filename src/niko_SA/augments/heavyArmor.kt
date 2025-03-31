@@ -7,17 +7,12 @@ import com.fs.starfarer.api.util.Misc
 import niko_SA.augments.core.stationAttachment
 import niko_SA.stringUtils.toPercent
 
-class heavyArmor(market: MarketAPI?, id: String) : stationAttachment(market, id) {
-
-    override val name: String = "Heavy Armor"
-    override val spriteId: String = "graphics/hullmods/heavy_armor.png"
+class heavyArmor() : stationAttachment() {
 
     companion object {
         const val ARMOR_INCREMENT = 600f
         const val TURN_RATE_MULT = 0.75f
     }
-
-    override val augmentCost: Float = 15f
 
     override fun applyInCombat(station: ShipAPI) {
         for (module in station.childModulesCopy + station) {

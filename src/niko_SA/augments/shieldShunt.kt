@@ -3,14 +3,12 @@ package niko_SA.augments
 import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.combat.*
-import com.fs.starfarer.api.impl.campaign.ids.ShipSystems
 import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import com.fs.starfarer.combat.ai.*
 import com.fs.starfarer.combat.ai.attack.AttackAIModule
 import com.fs.starfarer.combat.entities.Ship
-import com.fs.starfarer.loading.SpecStore
 import niko_SA.ReflectionUtils.get
 import niko_SA.ReflectionUtils.set
 import niko_SA.SA_debugUtils
@@ -20,20 +18,13 @@ import niko_SA.stringUtils.toPercent
 import org.lwjgl.util.vector.Vector2f
 import kotlin.math.absoluteValue
 
-/** FIXME: Reflection will crash on non-windows, make non-windows versions */
 /** TODO: In the case of updating, check comments below to see what to change*/
-class shieldShunt(market: MarketAPI?, id: String) : stationAttachment(market, id) {
-
-    override val manufacturer: String = "Mbaye-Gogol"
-    override val name: String = "K-Type Shield Shunt"
-    override val spriteId: String = "graphics/hullmods/shield_shunt.png"
+class shieldShunt() : stationAttachment() {
 
     companion object {
         const val ARMOR_MULT = 1.4f
         const val HULL_MULT = 1.1f
     }
-
-    override val augmentCost: Float = 10f
 
     override fun applyInCombat(station: ShipAPI) {
         for (module in station.childModulesCopy + station) {

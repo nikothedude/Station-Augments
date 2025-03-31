@@ -7,15 +7,11 @@ import com.fs.starfarer.api.util.Misc
 import niko_SA.augments.core.stationAttachment
 import niko_SA.stringUtils.toPercent
 
-class automatedRepairUnit(market: MarketAPI?, id: String) : stationAttachment(market, id) {
+class automatedRepairUnit : stationAttachment() {
 
     companion object {
         const val REPAIR_RATE_MULT = 1.5f
     }
-
-    override val augmentCost: Float = 6f
-    override val name: String = "Automated Repair Unit"
-    override val spriteId: String = "graphics/hullmods/automated_repair_unit.png"
 
     override fun applyInCombat(station: ShipAPI) {
         for (module in station.childModulesCopy + station) {

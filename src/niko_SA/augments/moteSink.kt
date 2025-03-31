@@ -9,24 +9,18 @@ import com.fs.starfarer.api.combat.CollisionClass
 import com.fs.starfarer.api.combat.DamageType
 import com.fs.starfarer.api.combat.ShipAPI
 import com.fs.starfarer.api.impl.campaign.missions.academy.GAProjectZiggurat.SCANNED_ZIGGURAT
-import com.fs.starfarer.api.impl.campaign.world.ZigLeashAssignmentAI
 import com.fs.starfarer.api.impl.combat.MoteControlScript
 import com.fs.starfarer.api.input.InputEventAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.IntervalUtil
 import com.fs.starfarer.api.util.Misc
 import niko_SA.MarketUtils.getStationAugments
-import niko_SA.SA_delayedExecution
 import niko_SA.augments.core.stationAttachment
 import org.lazywizard.lazylib.MathUtils
 import org.lwjgl.util.vector.Vector2f
 import java.awt.Color
 
-open class moteSink(market: MarketAPI?, id: String): stationAttachment(market, id), EveryFrameScript {
-    override val augmentCost: Float = 40f
-    override val name: String = "High Volition Attractor"
-    override val spriteId: String = "graphics/hullmods/high_volition_attractor.png"
-    override val manufacturer: String = "Unknown"
+open class moteSink(): stationAttachment(), EveryFrameScript {
     open val highVolatility: Boolean = true
 
     open val moteInterval = IntervalUtil(0.1f, 0.4f) // days

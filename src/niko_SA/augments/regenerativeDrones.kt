@@ -13,17 +13,11 @@ import niko_SA.ReflectionUtils
 import niko_SA.SA_mathUtils.trimHangingZero
 import niko_SA.augments.core.stationAttachment
 
-class regenerativeDrones(market: MarketAPI?, id: String) : stationAttachment(market, id) {
-
-    override val manufacturer: String = "Ko Combine"
-    override val name: String = "Reserve drone bay"
-    override val spriteId: String = "graphics/hullmods/bdeck.png"
+class regenerativeDrones() : stationAttachment() {
 
     companion object {
         const val AMMO_PER_SECOND_INCREMENT = 0.05f // 20 secs
     }
-
-    override val augmentCost: Float = 14f
     // i cant be sure other star forts will have drones
     override val stationTypeWhitelist: HashSet<String> = hashSetOf(
         Industries.STARFORTRESS,

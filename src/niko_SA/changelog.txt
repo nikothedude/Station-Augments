@@ -1,3 +1,28 @@
+2.0.0
+NOT SAVE COMPATIBLE!!
+Please read the forum post for how to update your mods, if your mod uses station augments
+
+Augments refactored
+    Now handled through data/campaign/SA_station_augments.csv
+Basic autoresolve support
+    Good augments BOOST your autoresolve score based on the augment's AP cost, but debuffing augments DECREASE your autoresolve score
+
+AUTOFIT!!!
+    Markets without predefined augments will be given random augments based on their pick weighting
+        Military markets way more likely to get combat augments
+        Civilian markets sometimes get logistics augments
+    Additionally, factions are now dynamically given augment blueprints based on their known hullmod tags
+        MODDED FACTIONS HAVE AUGMENTS
+
+    A lunasetting, as well as a faction/market config, can disable this
+
+Codex support
+
+Stellar shielding now applies its corona resisting to nearby fleets as well
+A few tweaks to the AP cost of various augments
+
+Fixed logistics drones not working
+
 1.2.3
 Fixes a reflection crash
 

@@ -7,7 +7,7 @@ import com.fs.starfarer.api.util.Misc
 import niko_SA.augments.core.stationAttachment
 import niko_SA.stringUtils.toPercent
 
-class stabilizedShields(market: MarketAPI?, id: String) : stationAttachment(market, id) {
+class stabilizedShields() : stationAttachment() {
 
     companion object {
         const val SHIELD_UPKEEP_MULT = 0.5f
@@ -16,10 +16,6 @@ class stabilizedShields(market: MarketAPI?, id: String) : stationAttachment(mark
     init {
         incompatibleAugments += "SA_shieldShunt"
     }
-
-    override val augmentCost: Float = 8f
-    override val name: String = "Stabilized Shielding"
-    override val spriteId: String = "graphics/hullmods/stabilized_shields.png"
 
     override fun applyInCombat(station: ShipAPI) {
         for (module in station.childModulesCopy + station) {

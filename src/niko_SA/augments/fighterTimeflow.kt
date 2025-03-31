@@ -4,7 +4,6 @@ import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.combat.BaseEveryFrameCombatPlugin
 import com.fs.starfarer.api.combat.ShipAPI
-import com.fs.starfarer.api.impl.combat.TemporalShellStats
 import com.fs.starfarer.api.input.InputEventAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
@@ -12,7 +11,7 @@ import niko_SA.augments.core.stationAttachment
 import niko_SA.stringUtils.toPercent
 import java.awt.Color
 
-class fighterTimeflow(market: MarketAPI?, id: String) : stationAttachment(market, id) {
+class fighterTimeflow() : stationAttachment() {
 
     companion object {
         const val TIMEFLOW_INCREMENT = 1.3f
@@ -20,11 +19,6 @@ class fighterTimeflow(market: MarketAPI?, id: String) : stationAttachment(market
         val JITTER_COLOR = Color(90, 165, 255, 55)
         val JITTER_UNDER_COLOR = Color(90, 165, 255, 155)
     }
-
-    override val manufacturer: String = "Tri-Tachyon"
-    override val augmentCost: Float = 20f
-    override val name: String = "Fighter Temporal Cores"
-    override val spriteId: String = "graphics/hullmods/temporal_shell.png"
 
     override fun applyInCombat(station: ShipAPI) {
         val engine = Global.getCombatEngine()

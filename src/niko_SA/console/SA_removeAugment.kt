@@ -38,7 +38,7 @@ class SA_removeAugment: BaseCommand {
         }
 
         market.removeStationAugment(augment)
-        Console.showMessage("Augment ${augment.name} successfully removed!")
+        Console.showMessage("Augment ${augment.getName()} successfully removed!")
         return BaseCommand.CommandResult.SUCCESS
     }
 }

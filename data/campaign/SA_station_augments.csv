@@ -1,0 +1,41 @@
+id,name,knowledge_tags,usage_tags,codex_tags,manufac,plugin,drop_weight,sell_weight,combat_drop_chance,sprite_path,ap_cost
+#EXAMPLE,,"if name = faction, goes to that fac.
+otherwise, defers to their faction.json knownHullmods tags field","format: type number
+combatgood, combatbad, logistics
+
+used in determining autofit, higher numbers = more likely (inverse for combatbad)
+military markets are far more likely to favor combat modification, non-military markets care less and can get logistics",hide_in_codex,,from your data folder,"if 0, never drops from loot","if 0, is never sold in markets","if 0, is never dropped in combat",,can be float
+SA_shieldShunt,K-Type Shield Shunt,"hegemony, lowtech_bp, merc",combatgood20,,Mbaye-Gogol,niko_SA.augments.shieldShunt,100,100,90,graphics/hullmods/shield_shunt.png,20
+SA_heavyArmor,Heavy Armor,"hegemony, lowtech_bp, merc, standard",combatgood18,,Common,niko_SA.augments.heavyArmor,100,100,90,graphics/hullmods/heavy_armor.png,15
+SA_reinforcedBulkheads,Reinforced Bulkheads,base_bp,combatgood12,,Common,niko_SA.augments.reinforcedBulkheads,40,40,90,graphics/hullmods/reinforced_bulkheads.png,9
+SA_safetyOverrides,Safety Shunt,base_bp,combatgood19,,Common,niko_SA.augments.safetyOverrides,40,40,90,graphics/hullmods/safety_overrides.png,19
+SA_armoredWeaponMounts,Armored Weapon Mounts,"lowtech_bp, standard, merc",combatgood14,,Common,niko_SA.augments.armoredWeaponMounts,100,100,90,graphics/hullmods/armored_weapon_emplacements.png,9
+SA_automatedRepairUnit,Automated Repair Unit,"lowtech_bp, standard, merc",combatgood11,,Common,niko_SA.augments.automatedRepairUnit,100,100,90,graphics/hullmods/automated_repair_unit.png,9
+SA_axialOverclocking,Axial Overclocking,"standard, midline_bp, pirates, luddic_path, merc",combatgood7,,Ko Combine,niko_SA.augments.axialOverclocking,90,100,90,graphics/hullmods/axial_rotation.png,8
+SA_commsCenter,Command Center,"hegemony, merc","combatgood8, logistics11",,Common,niko_SA.augments.commsCenter,100,100,90,graphics/hullmods/operations_center.png,13
+SA_ecmPackage,ECM Package,"hegemony, persean, merc","combatgood8, logistics10",,Common,niko_SA.augments.ECMPackage,100,100,90,graphics/hullmods/ecm_package.png,9
+SA_navRelay,Nav Relay,"hegemony, persean, merc","combatgood8, logistics8",,Common,niko_SA.augments.navRelay,100,100,90,graphics/hullmods/nav_relay.png,9
+SA_ECCMPackage,ECCM Package,"persean, tritachyon, missile_bp, merc",combatgood13,,Common,niko_SA.augments.ECCMPackage,100,100,90,graphics/hullmods/eccm_package.png,13
+SA_highExplosive,Volatile Reactor Fuel,"diktat, pirate, luddic_path, merc",combatgood11,,Luddic Path,niko_SA.augments.highExplosive,100,100,90,graphics/hullmods/erratic_injector.png,9
+SA_highResSensors,High Resolution Sensors,"tritachyon, scavenger, independent, merc","combatgood4, logistics8",,Common,niko_SA.augments.highResSensors,100,100,90,graphics/hullmods/high_res_sensors.png,7
+SA_stabilizedShields,Stabilized Shields,"standard, merc",combatgood9,,Common,niko_SA.augments.stabilizedShields,100,100,90,graphics/hullmods/stabilized_shields.png,8
+SA_supportOutfit,Support Outfit,"hegemony, merc",combatgood11,,Hegemony,niko_SA.augments.supportOutfit,100,100,90,graphics/hullmods/integrated_targeting_unit.png,12
+SA_resistantFluxConduits,Resistant Flux Conduits,"standard, merc",combatgood12,,Common,niko_SA.augments.resistantFluxConduits,100,100,90,graphics/hullmods/resistant_flux_conduits.png,9
+SA_regenerativeDrones,Reserve drone bay,"standard, merc",combatgood13,,Ko Combine,niko_SA.augments.regenerativeDrones,80,80,90,graphics/hullmods/bdeck.png,14
+SA_stationRepairUnit,Station Repair Unit,merc,"logistics18, combatgood3",,Common,niko_SA.augments.stationRepairUnit,100,100,90,graphics/augments/SA_stationRepairUnit.png,21
+SA_tacticalLink,Tactical Link,"hegemony, merc",combatgood18,,Common,niko_SA.augments.supportPackage,100,100,90,graphics/hullmods/escort_package.png,15
+,,,,,,,,,,,
+#Rare augments below,,,,,,,,,,,
+SA_logisticsDrones,Logistics Drones,rare_bp,logistics14,,Common,niko_SA.augments.logisticsDrones,30,30,70,graphics/hullmods/detach_always.png,16
+SA_economyConversion,Economy Conversion,"rare_bp, merc","logistics20, combatbad9",,Common,niko_SA.augments.industryConversion,30,30,70,graphics/hullmods/converted_fighter_bay.png,30
+SA_hydroponics,Hydroponics Basins,"hegemony, luddic_church, rare_bp, merc",logistics10,,Common,niko_SA.augments.hydroponics,20,30,70,graphics/icons/markets/exceptional_harvest.png,20
+SA_fluxShunt,Deep shield dissipators,"persean, merc, rare_bp",combatgood23,,Common,niko_SA.augments.fluxShunt,20,30,90,graphics/hullmods/flux_shunt.png,12
+SA_solarShielding,Stellar Shielding,"diktat, merc","combatgood16, logistics9",,Lion's Guard,niko_SA.augments.solarShielding,10,70,90,graphics/hullmods/solar_shielding2.png,9
+SA_fighterTimeflow,Fighter Temporal Cores,"tritachyon, rare_bp, merc",combatgood19,,Tri-Tachyon,niko_SA.augments.fighterTimeflow,20,30,90,graphics/hullmods/temporal_shell.png,20
+SA_bubbleShield,Bubble Shield,"rare_bp, merc, tritachyon",combatgood22,,Fabrique Orbitale,niko_SA.augments.bubbleShield,12,30,90,graphics/hullmods/omni_shield_emitter.png,25
+SA_jumpEngine,Jump Engine,"rare_bp, merc",logistics20,,Domain Restricted,niko_SA.augments.jumpPoint.jumpPointCreator,10,30,90,graphics/hullmods/augmented_drive_field.png,20
+SA_aiFighterUplink,AI Fighter Uplink,"tritachyon, rare_bp, merc",combatgood15,,Tri-Tachyon,niko_SA.augments.aiFighterUplink,20,30,90,graphics/hullmods/automated.png,8
+,,,,,,,,,,,
+#Unique augments below,,,,,,,,,,,
+SA_moteSink,High Volition Attractor,special,combatgood70,hide_in_codex,Unknown,niko_SA.augments.moteSink,0,0,0,graphics/hullmods/high_volition_attractor.png,40
+SA_moteSinkLow,Mote Sink,special,combatgood40,codex_unlockable,Unknown,niko_SA.augments.moteSinkLow,0,0,0,graphics/hullmods/high_volition_attractor.png,15

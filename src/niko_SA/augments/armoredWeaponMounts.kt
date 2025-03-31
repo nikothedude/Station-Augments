@@ -6,7 +6,7 @@ import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import niko_SA.augments.core.stationAttachment
 
-class armoredWeaponMounts(market: MarketAPI?, id: String) : stationAttachment(market, id) {
+class armoredWeaponMounts : stationAttachment() {
 
     companion object {
         const val RECOIL_BONUS = 25f
@@ -14,10 +14,6 @@ class armoredWeaponMounts(market: MarketAPI?, id: String) : stationAttachment(ma
         const val ARMOR_BONUS = 10f
         const val TURN_PENALTY = 25f
     }
-
-    override val augmentCost: Float = 9f
-    override val name: String = "Armored Weapon Mounts"
-    override val spriteId: String = "graphics/hullmods/armored_weapon_emplacements.png"
 
     override fun applyInCombat(station: ShipAPI) {
         for (module in station.childModulesCopy + station) {

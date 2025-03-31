@@ -5,6 +5,7 @@ import com.fs.starfarer.api.Global
 import niko_SA.augments.core.stationAugmentStore
 import niko_SA.augments.core.stationAugmentStore.allAugments
 import niko_SA.augments.core.stationAugmentStore.getKnownAugments
+import niko_SA.augments.core.stationAugmentStore.teachAugment
 import org.lazywizard.console.BaseCommand
 import org.lazywizard.console.CommonStrings
 import org.lazywizard.console.Console
@@ -32,7 +33,7 @@ class SA_teachAugment: BaseCommand {
 
         if (code == "all") {
             for (augment in allAugments) {
-                faction.getKnownAugments() += augment.key
+                faction.teachAugment(augment.key)
             }
             Console.showMessage("Taught faction ${faction.displayName} all station augments.")
             return BaseCommand.CommandResult.SUCCESS
@@ -42,7 +43,7 @@ class SA_teachAugment: BaseCommand {
             Console.showMessage("Invalid augment ID!")
             return BaseCommand.CommandResult.ERROR
         }
-        faction.getKnownAugments() += code
+        faction.teachAugment(code)
         Console.showMessage("Taught faction ${faction.displayName} augment $code.")
         return BaseCommand.CommandResult.SUCCESS
     }

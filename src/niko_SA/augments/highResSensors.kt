@@ -2,30 +2,18 @@ package niko_SA.augments
 
 import com.fs.starfarer.api.EveryFrameScript
 import com.fs.starfarer.api.campaign.CampaignFleetAPI
-import com.fs.starfarer.api.campaign.CustomCampaignEntityAPI
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.combat.ShipAPI
-import com.fs.starfarer.api.combat.StatBonus
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.IntervalUtil
 import com.fs.starfarer.api.util.Misc
-import com.fs.starfarer.campaign.fleet.MutableFleetStats
-import data.utilities.niko_MPC_debugUtils
-import data.utilities.niko_MPC_reflectionUtils
-import niko_SA.MarketUtils.addStationAugment
-import niko_SA.MarketUtils.removeStationAugment
 import niko_SA.SA_fleetUtils.getRepLevelForArrayBonus
 import niko_SA.SA_mathUtils.trimHangingZero
-import niko_SA.SA_settings
 import niko_SA.augments.core.stationAttachment
 import org.lazywizard.lazylib.MathUtils
-import java.lang.Exception
 
-class highResSensors(market: MarketAPI?, id: String) : stationAttachment(market, id), EveryFrameScript {
-    override val augmentCost: Float = 7f
-    override val name: String = "High Resolution Sensors"
-    override val spriteId: String = "graphics/hullmods/high_res_sensors.png"
+class highResSensors() : stationAttachment(), EveryFrameScript {
     val UUID = Misc.genUID()
 
     companion object {
@@ -60,14 +48,6 @@ class highResSensors(market: MarketAPI?, id: String) : stationAttachment(market,
         interval.advance(days)
         if (!interval.intervalElapsed()) return
 
-        if (SA_settings.currentVersion == "1.1.4") { // todo remove
-            if (id == "SA_armoredWeaponMounts") {
-                market?.removeStationAugment(id)
-                market?.addStationAugment("SA_highResSensors")
-                return
-            }
-        }
-
         val stationEntity = getStationCampaignEntity() ?: return
         val ourFaction = market?.faction ?: return
         for (fleet in stationEntity.containingLocation.fleets) {
@@ -86,7 +66,7 @@ class highResSensors(market: MarketAPI?, id: String) : stationAttachment(market,
             } else {
             }*/
 
-            fleet.stats.addTemporaryModFlat(0.2f, UUID, "${market.name} $name", MAX_SENSOR_BONUS * effectLevel, fleet.stats.sensorRangeMod)
+            fleet.stats.addTemporaryModFlat(0.2f, UUID, "${market!!.name} ${getName()}", MAX_SENSOR_BONUS * effectLevel, fleet.stats.sensorRangeMod)
         }
     }
 

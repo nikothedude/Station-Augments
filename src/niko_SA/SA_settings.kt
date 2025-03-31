@@ -22,6 +22,9 @@ object SA_settings {
     var AITweaksEnabled = false
 
     @JvmStatic
+    var AUTOFIT_ENABLED = true
+
+    @JvmStatic
     var ALLOW_MODIFY_OF_ALL_STATIONS = false
     @JvmStatic
     var BASE_STATION_AUGMENT_BUDGET = 20f
@@ -29,6 +32,7 @@ object SA_settings {
     fun loadSettings() {
         ALLOW_MODIFY_OF_ALL_STATIONS = LunaSettings.getBoolean(modId, "SA_allowAlwaysModifyAugments")!!
         BASE_STATION_AUGMENT_BUDGET = LunaSettings.getFloat(modId, "SA_baseStationAugmentBudget")!!
+        AUTOFIT_ENABLED = LunaSettings.getBoolean(modId, "SA_autofitEnabled")!!
     }
 
     fun applyPredefinedAugments() {
@@ -48,13 +52,14 @@ object SA_settings {
             for (i in 0 until array.length()) {
                 val augmentId = array.get(i).toString()
 
-                val augment = allAugments[augmentId]?.getInstance?.let { it(market) }
+                val augment = allAugments[augmentId]?.getNewPluginInstance(market)
                 if (augment == null) {
                     SA_debugUtils.log.error("Invalid augment id: $augmentId!")
                     continue
                 }
 
                 market.addStationAugment(augment)
+                market.memoryWithoutUpdate[SA_ids.SA_noAugmentAutofit] = true
             }
         }
     }

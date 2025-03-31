@@ -1,12 +1,8 @@
 package niko_SA.augments
 
 import com.fs.starfarer.api.Global
-import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.combat.BaseEveryFrameCombatPlugin
-import com.fs.starfarer.api.combat.CombatEngineAPI
-import com.fs.starfarer.api.combat.EveryFrameCombatPlugin
 import com.fs.starfarer.api.combat.ShipAPI
-import com.fs.starfarer.api.combat.ViewportAPI
 import com.fs.starfarer.api.impl.campaign.AICoreOfficerPluginImpl
 import com.fs.starfarer.api.input.InputEventAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
@@ -15,12 +11,7 @@ import com.fs.starfarer.api.util.Misc
 import niko_SA.augments.core.stationAttachment
 import org.lazywizard.lazylib.MathUtils
 
-class aiFighterUplink(market: MarketAPI?, id: String) : stationAttachment(market, id) {
-
-    override val manufacturer: String = "Tri-Tachyon"
-    override val augmentCost: Float = 8f
-    override val name: String = "AI Fighter Uplink"
-    override val spriteId: String = "graphics/hullmods/automated.png"
+class aiFighterUplink() : stationAttachment() {
 
     override fun applyInCombat(station: ShipAPI) {
         val stationIndustry = getStationIndustry() ?: return

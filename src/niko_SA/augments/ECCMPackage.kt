@@ -7,7 +7,7 @@ import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import niko_SA.augments.core.stationAttachment
 
-class ECCMPackage(market: MarketAPI?, id: String) : stationAttachment(market, id) {
+class ECCMPackage : stationAttachment() {
 
     companion object {
 
@@ -21,10 +21,6 @@ class ECCMPackage(market: MarketAPI?, id: String) : stationAttachment(market, id
 
         var ECCM_CHANCE = 0.5f
     }
-
-    override val augmentCost: Float = 13f
-    override val name: String = "ECCM Package"
-    override val spriteId: String = "graphics/hullmods/eccm_package.png"
 
     override fun applyInCombat(station: ShipAPI) {
         for (module in station.childModulesCopy + station) {

@@ -7,7 +7,7 @@ import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import niko_SA.augments.core.stationAttachment
 
-class industryConversion(market: MarketAPI?, id: String) : stationAttachment(market, id) {
+class industryConversion() : stationAttachment() {
 
     companion object {
         const val INDUSTRY_INCREMENT = 1f
@@ -16,11 +16,6 @@ class industryConversion(market: MarketAPI?, id: String) : stationAttachment(mar
         const val FLUX_CAPACITY_MULT = 0.7f
         const val FLUX_DISSIPATION_MULT = 0.8f
     }
-
-    //override val manufacturer: String = "Ko Combine"
-    override val augmentCost: Float = 30f
-    override val name: String = "Economy Conversion"
-    override val spriteId: String = "graphics/hullmods/converted_fighter_bay.png"
 
     override fun applyInCombat(station: ShipAPI) {
         for (module in station.childModulesCopy + station) {
@@ -35,7 +30,7 @@ class industryConversion(market: MarketAPI?, id: String) : stationAttachment(mar
 
         val stationIndustry = getStationIndustry() ?: return
         if (stationIndustry.isFunctional) {
-            market?.stats?.dynamic?.getMod(Stats.MAX_INDUSTRIES)?.modifyFlat(id, INDUSTRY_INCREMENT, "${stationIndustry.currentName}: $name")
+            market?.stats?.dynamic?.getMod(Stats.MAX_INDUSTRIES)?.modifyFlat(id, INDUSTRY_INCREMENT, "${stationIndustry.currentName}: ${getName()}")
         }
     }
 

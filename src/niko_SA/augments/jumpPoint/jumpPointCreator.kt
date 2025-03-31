@@ -14,12 +14,7 @@ import niko_SA.SA_miscUtils.getApproximateHyperspaceLoc
 import niko_SA.augments.core.stationAttachment
 import org.lazywizard.lazylib.MathUtils
 
-class jumpPointCreator(market: MarketAPI?, id: String) : stationAttachment(market, id) {
-    override val augmentCost: Float = 20f
-    override val name: String = "Jump Engine"
-    override val spriteId: String = "graphics/hullmods/augmented_drive_field.png"
-    override val manufacturer: String = "Domain Restricted"
-
+class jumpPointCreator: stationAttachment() {
     var ourSide: JumpPointAPI? = null
     var hyperSide: JumpPointAPI? = null
 
@@ -37,7 +32,7 @@ class jumpPointCreator(market: MarketAPI?, id: String) : stationAttachment(marke
         tryAddingJumpPoint()
 
         val stationIndustry = getStationIndustry() ?: return
-        market?.accessibilityMod?.modifyFlat(id, ACCESSIBILITY_INCREMENT, "${stationIndustry.currentName}: $name")
+        market?.accessibilityMod?.modifyFlat(id, ACCESSIBILITY_INCREMENT, "${stationIndustry.currentName}: ${getName()}")
     }
 
     override fun unapply() {
@@ -72,7 +67,7 @@ class jumpPointCreator(market: MarketAPI?, id: String) : stationAttachment(marke
 
         ourSide = Global.getFactory().createJumpPoint("${getBaseJumpPointId()}_NORMAL", "Manufactured Jump Point")
         if (market?.primaryEntity is PlanetAPI) {
-            ourSide!!.relatedPlanet = market.primaryEntity
+            ourSide!!.relatedPlanet = market!!.primaryEntity
         }
         ourSide!!.setStandardWormholeToHyperspaceVisual()
         market!!.containingLocation!!.addEntity(ourSide)
@@ -108,7 +103,7 @@ class jumpPointCreator(market: MarketAPI?, id: String) : stationAttachment(marke
         if (market == null) {
             return "This augment has no market"
         }
-        if (market.containingLocation?.hasTag(Tags.SYSTEM_CUT_OFF_FROM_HYPER) == true) {
+        if (market!!.containingLocation?.hasTag(Tags.SYSTEM_CUT_OFF_FROM_HYPER) == true) {
             return "Jump point impossible to create"
         }
         if (getStationIndustry()?.isFunctional != true) {
@@ -141,16 +136,18 @@ class jumpPointCreator(market: MarketAPI?, id: String) : stationAttachment(marke
             "${(ACCESSIBILITY_INCREMENT * 100f).trimHangingZero()}%"
         )
 
-        val cantAddPointReason = getCantAddJumpPointReason()
-        if (ourSide == null && cantAddPointReason != null) {
-            tooltip.addSectionHeading("Complications", Alignment.MID, 5f)
+        if (market != null) {
+            val cantAddPointReason = getCantAddJumpPointReason()
+            if (ourSide == null && cantAddPointReason != null) {
+                tooltip.addSectionHeading("Complications", Alignment.MID, 5f)
 
-            tooltip.addPara(
-                "The portal drone will be %s and %s for the following reason: %s",
-                5f,
-                Misc.getNegativeHighlightColor(),
-                "ineffective", "fail to deploy", cantAddPointReason
-            )
+                tooltip.addPara(
+                    "The portal drone will be %s and %s for the following reason: %s",
+                    5f,
+                    Misc.getNegativeHighlightColor(),
+                    "ineffective", "fail to deploy", cantAddPointReason
+                )
+            }
         }
 
         tooltip.addPara(

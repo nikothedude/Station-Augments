@@ -9,7 +9,7 @@ import com.fs.starfarer.api.util.Pair
 import niko_SA.SA_settings.BASE_STATION_AUGMENT_BUDGET
 import niko_SA.augments.core.BuiltInMode
 import niko_SA.augments.core.stationAttachment
-import niko_SA.augments.core.stationAttachment.Companion.stationImprovedAPBonus
+import niko_SA.augments.core.stationAttachment.Companion.STATION_IMPROVED_AP_BONUS
 import niko_SA.augments.core.stationAugmentStore
 
 object MarketUtils {
@@ -17,7 +17,7 @@ object MarketUtils {
     @JvmStatic
     fun OrbitalStation.getAugmentBudget(): Float {
         var points = BASE_STATION_AUGMENT_BUDGET
-        if (isImproved) points += stationImprovedAPBonus
+        if (isImproved) points += STATION_IMPROVED_AP_BONUS
 
         for (tag in spec.tags) {
             val tagBonus = stationAttachment.tagToExtraAugmentBudget[tag]
@@ -36,7 +36,7 @@ object MarketUtils {
 
         for (augment in getStationAugments()) {
             if (augment.builtInMode == BuiltInMode.NOT) {
-                used += augment.augmentCost
+                used += augment.getAugmentCost()
             }
         }
 
@@ -91,7 +91,7 @@ object MarketUtils {
 
     @JvmStatic
     fun MarketAPI.addStationAugment(id: String, checkForStation: Boolean = true): stationAttachment? {
-        val augment = stationAugmentStore.allAugments[id]?.getInstance?.let { it(this) } ?: return null
+        val augment = stationAugmentStore.allAugments[id]?.getNewPluginInstance(this) ?: return null
         return addStationAugment(augment, checkForStation)
     }
 

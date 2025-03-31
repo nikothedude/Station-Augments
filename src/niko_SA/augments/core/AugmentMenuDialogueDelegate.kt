@@ -15,12 +15,12 @@ import com.fs.starfarer.api.util.Misc
 import niko_SA.DialogUtils.getChildrenCopy
 import niko_SA.MarketUtils.getRemainingAugmentBudget
 import niko_SA.MarketUtils.getStationAugments
-import niko_SA.MarketUtils.getStationIndustry
 import niko_SA.MarketUtils.toggleStationAugment
 import niko_SA.SA_mathUtils.trimHangingZero
 import niko_SA.SA_settings.ALLOW_MODIFY_OF_ALL_STATIONS
 import niko_SA.augments.core.stationAugmentStore.allAugments
 import niko_SA.augments.core.stationAugmentStore.getPlayerKnownAugments
+import niko_SA.codex.CodexData
 import java.awt.Color
 
 // all this has to do is show the existing augments, not elegant but it works
@@ -78,8 +78,9 @@ class AugmentMenuDialogueDelegate(val station: Industry): BaseCustomDialogDelega
         val spad = 2.0f
 
         val installedAugments = market.getStationAugments()
-        val augmentsToShow = HashMap<String, stationAugmentData>()
+        val augmentsToShow = HashMap<String, stationAugmentSpec>()
         installedAugments.forEach { augmentsToShow[it.id] = allAugments[it.id]!! }
+        installedAugments.forEach { CodexData.unlockAugment(it.id) }
         if (mode == Mode.MODIFYING) {
             getPlayerKnownAugments().forEach { augmentsToShow[it] = allAugments[it]!! }
         }
@@ -100,7 +101,7 @@ class AugmentMenuDialogueDelegate(val station: Industry): BaseCustomDialogDelega
                 val augmentId = augmentEntry.key
 
                 val preExistingAugment = (installedAugments.firstOrNull { it.id == augmentId })
-                val augmentInstance = preExistingAugment ?: augmentData.getInstance(market)
+                val augmentInstance = preExistingAugment ?: augmentData.getNewPluginInstance(market)
 
                 if (augmentInstance.applied) {
                     augmentInstance.considerAP = false
@@ -134,10 +135,10 @@ class AugmentMenuDialogueDelegate(val station: Industry): BaseCustomDialogDelega
                     augmentButtonPanel.createUIElement(595.0f - adjustedWidth - opad - defaultPadding, 80.0f, false)
 
                 if (mode == Mode.MODIFYING && (canBuild && canAfford)) {
-                    textPanel.addSectionHeading(" " + augmentInstance.name, Alignment.LMID, 0.0f)
+                    textPanel.addSectionHeading(" " + augmentInstance.getName(), Alignment.LMID, 0.0f)
                 } else {
                     textPanel.addSectionHeading(
-                        " " + augmentInstance.name,
+                        " " + augmentInstance.getName(),
                         Color.WHITE,
                         Misc.getGrayColor(),
                         Alignment.LMID,
@@ -156,7 +157,7 @@ class AugmentMenuDialogueDelegate(val station: Industry): BaseCustomDialogDelega
                 textPanel.addTooltipTo(anonymousTooltip, textPanel, TooltipMakerAPI.TooltipLocation.LEFT)
                 //textPanel.addTooltipToPrevious(anonymousTooltip, TooltipMakerAPI.TooltipLocation.LEFT, false)
                 // augmentInstance.getBasicDescription(textPanel, false)
-                val cost = augmentInstance.augmentCost
+                val cost = augmentInstance.getAugmentCost()
                 var APColor =
                     if (augmentInstance.applied || cost <= market.getRemainingAugmentBudget()) Misc.getHighlightColor() else Misc.getNegativeHighlightColor()
                 val builtInColor = augmentInstance.builtInMode.getAPColor()

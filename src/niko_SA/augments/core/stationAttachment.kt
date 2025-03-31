@@ -7,7 +7,9 @@ import com.fs.starfarer.api.campaign.BaseCampaignEventListener
 import com.fs.starfarer.api.campaign.CampaignFleetAPI
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.campaign.econ.MarketAPI
+import com.fs.starfarer.api.campaign.listeners.CoreAutoresolveListener
 import com.fs.starfarer.api.combat.ShipAPI
+import com.fs.starfarer.api.impl.campaign.BattleAutoresolverPluginImpl
 import com.fs.starfarer.api.impl.campaign.econ.impl.OrbitalStation
 import com.fs.starfarer.api.impl.campaign.ids.Industries
 import com.fs.starfarer.api.impl.campaign.ids.MemFlags
@@ -15,20 +17,19 @@ import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.ui.Alignment
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
+import com.sun.org.apache.xpath.internal.operations.Bool
 import niko_SA.MarketUtils.getRemainingAugmentBudget
 import niko_SA.MarketUtils.getStationAugments
 import niko_SA.MarketUtils.removeStationAugment
-import niko_SA.ReflectionUtils
 import niko_SA.SA_mathUtils.trimHangingZero
 
 /** Industries of this type attempt to modify an existing station in combat, and potentially, in campaign.*/
-abstract class stationAttachment(val market: MarketAPI?, val id: String): BaseCampaignEventListener(false) {
+abstract class stationAttachment() : BaseCampaignEventListener(false), CoreAutoresolveListener {
 
-    /** Domain restricted, Ko combine, etc... */
-    open val manufacturer: String = "Common"
+    /** If null, exists in the codex or a blueprint. */
+    var market: MarketAPI? = null
+    lateinit var id: String
 
-    /** The "cost" to be subtracted from our stations augment budget. We cannot be built if our station doesnt have enough budget for us. */
-    abstract val augmentCost: Float
     @Transient
     var reapplying = false
     /** Have we been applied to our market yet? */
@@ -43,8 +44,6 @@ abstract class stationAttachment(val market: MarketAPI?, val id: String): BaseCa
     @Transient
     var gettingDescFromBlueprint = false
 
-    abstract val name: String
-    abstract val spriteId: String
     /** If an augment with this id in this set is present, the augment cannot be built. */
     val incompatibleAugments: MutableSet<String> = HashSet()
 
@@ -55,7 +54,8 @@ abstract class stationAttachment(val market: MarketAPI?, val id: String): BaseCa
         }
 
     companion object {
-        const val stationImprovedAPBonus = 10f // arbitrary
+        const val AP_TO_MEMBER_STRENGTH_MULT = 1.2f // arbitrary
+        const val STATION_IMPROVED_AP_BONUS = 10f // arbitrary
         /** Additive atop BASE_STATION_AUGMENT_BUDGET. */
         @JvmStatic
         val tagToExtraAugmentBudget = hashMapOf(
@@ -110,6 +110,11 @@ abstract class stationAttachment(val market: MarketAPI?, val id: String): BaseCa
             return augments
         }*/
     }
+    var initialized = false
+    /** Called directly after creation, in [stationAugmentSpec.getNewPluginInstance]. Called BEFORE apply(). */
+    open fun init() {
+        initialized = true
+    }
 
     /** Ran once at the beginning of combat. */
     abstract fun applyInCombat(station: ShipAPI)
@@ -128,6 +133,7 @@ abstract class stationAttachment(val market: MarketAPI?, val id: String): BaseCa
     open fun apply() {
         applied = true
         Global.getSector().addListener(this)
+        Global.getSector().listenerManager.addListener(this, false)
         Global.getSector().addScript(ConstantStationCheckingScript(this)) // just in case
         doEnabledCheck()
     }
@@ -135,6 +141,7 @@ abstract class stationAttachment(val market: MarketAPI?, val id: String): BaseCa
     open fun unapply() {
         applied = false
         Global.getSector().removeListener(this)
+        Global.getSector().listenerManager.removeListener(this)
     }
 
     fun doEnabledCheck() {
@@ -158,7 +165,7 @@ abstract class stationAttachment(val market: MarketAPI?, val id: String): BaseCa
         if (stationTypeWhitelist.isNotEmpty() && !stationTypeWhitelist.contains(station.spec.id)) {
             return "Requires ${getNeededStationTypeText()}"
         }
-        if (considerAP && (station.getRemainingAugmentBudget() < augmentCost)) return "Not enough augment points to install"
+        if (considerAP && (station.getRemainingAugmentBudget() < getAugmentCost())) return "Not enough augment points to install"
         if (incompatibleAugments.isNotEmpty() && market?.getStationAugments()?.any { existingAugment -> existingAugment != this && (incompatibleAugments.contains(existingAugment.id) || existingAugment.incompatibleAugments.contains(id)) } == true ) {
             return "Incompatible with existing augments"
         }
@@ -167,25 +174,19 @@ abstract class stationAttachment(val market: MarketAPI?, val id: String): BaseCa
 
     /** Only needed if [stationTypeWhitelist] is not empty. */
     open fun getNeededStationTypeText(): String {
-        return "error! please report to the mod author"
+        return ""
     }
 
     /** Returns the orbital station industry instance. Required to not be null for us to be buildable.*/
     fun getStationIndustry(): OrbitalStation? {
         if (market == null) return null
-
-        for (industry in market.industries) {
-            if (industry.spec.hasTag(Tags.STATION)) {
-                return industry as OrbitalStation
-            }
-        }
-        return null
+        return Misc.getStationIndustry(market) as? OrbitalStation
     }
 
     /** Uses reflection - expensive. */
     fun getStationFleet(): CampaignFleetAPI? {
         val stationIndustry = getStationIndustry() ?: return null
-        return ReflectionUtils.get("stationFleet", stationIndustry, OrbitalStation::class.java) as? CampaignFleetAPI
+        return stationIndustry.stationFleet
     }
 
     /** Returns the in-combat station entity we are affecting. Returns null if we're not in combat, or it doesnt exist. */
@@ -206,43 +207,56 @@ abstract class stationAttachment(val market: MarketAPI?, val id: String): BaseCa
     }
 
     fun getStationCampaignEntity(): SectorEntityToken? {
-        if (market?.primaryEntity?.hasTag(Tags.STATION) == true) return market.primaryEntity
-        val stationIndustry = getStationIndustry() ?: return null
-        return ReflectionUtils.get("stationEntity", stationIndustry, OrbitalStation::class.java) as? SectorEntityToken
+        if (market?.primaryEntity?.hasTag(Tags.STATION) == true) return market!!.primaryEntity
+        return getStationIndustry()?.stationEntity
     }
 
     open fun getBasicDescription(tooltip: TooltipMakerAPI, expanded: Boolean) {
-        val orbitalStation = getStationIndustry() ?: return
-        val remainingAugmentBudget = orbitalStation.getRemainingAugmentBudget()
-        val para = tooltip.addPara(
-            "This augment costs %s AP to install. The ${orbitalStation.currentName} currently has %s AP remaining. " +
-            "AP can be increased by upgrading the station, or by improving it with story points (%s).",
-            5f,
-            Misc.getHighlightColor(),
-            "${augmentCost.trimHangingZero()}", "${remainingAugmentBudget.trimHangingZero()}", "${stationImprovedAPBonus.trimHangingZero()} AP"
-        )
-        if (orbitalStation.isImproved) {
-            tooltip.addPara(
-                "The ${orbitalStation.currentName} has been improved, increasing it's AP by %s.",
+        val orbitalStation = getStationIndustry()
+        if (orbitalStation != null) {
+            val remainingAugmentBudget = orbitalStation.getRemainingAugmentBudget()
+            val para = tooltip.addPara(
+                "This augment costs %s AP to install. The ${orbitalStation.currentName} currently has %s AP remaining. " +
+                        "AP can be increased by upgrading the station, or by improving it with story points (%s).",
                 5f,
-                Misc.getStoryOptionColor(),
-                "${stationImprovedAPBonus.trimHangingZero()}"
+                Misc.getHighlightColor(),
+                "${getAugmentCost().trimHangingZero()}",
+                "${remainingAugmentBudget.trimHangingZero()}",
+                "${STATION_IMPROVED_AP_BONUS.trimHangingZero()} AP"
             )
+            if (orbitalStation.isImproved) {
+                tooltip.addPara(
+                    "The ${orbitalStation.currentName} has been improved, increasing it's AP by %s.",
+                    5f,
+                    Misc.getStoryOptionColor(),
+                    "${STATION_IMPROVED_AP_BONUS.trimHangingZero()}"
+                )
+            }
+            val augmentBudgetColor =
+                if (remainingAugmentBudget < getAugmentCost()) Misc.getNegativeHighlightColor() else Misc.getHighlightColor()
+            para.setHighlightColors(Misc.getHighlightColor(), augmentBudgetColor, Misc.getStoryOptionColor())
+            builtInMode.createDesc(tooltip)
         }
-        val augmentBudgetColor = if (remainingAugmentBudget < augmentCost) Misc.getNegativeHighlightColor() else Misc.getHighlightColor()
-        para.setHighlightColors(Misc.getHighlightColor(), augmentBudgetColor, Misc.getStoryOptionColor())
-        builtInMode.createDesc(tooltip)
 
         if (!gettingDescFromBlueprint) {
             tooltip.addSectionHeading("Augment Info", Alignment.MID, 10f)
             tooltip.addSpacer(5f)
-            Misc.addDesignTypePara(tooltip, manufacturer, 5f)
+            Misc.addDesignTypePara(tooltip, getSpec().manufacturer, 5f)
+        }
+
+        if (market == null) {
+            tooltip.addPara("This augment nominally costs %s to install.", 10f, Misc.getHighlightColor(), "${getAugmentCost().trimHangingZero()} AP")
+        }
+
+        val stationRequiredString = getNeededStationTypeText()
+        if (stationRequiredString.isNotEmpty()) {
+            tooltip.addPara("Requires ${stationRequiredString}.", 5f).color = Misc.getGrayColor()
         }
 
     }
 
-    open fun getImageName(market: MarketAPI): String {
-        return spriteId
+    open fun getImageName(market: MarketAPI? = null): String {
+        return getSpec().spritePath
     }
 
     open fun canAfford(): Boolean {
@@ -283,11 +297,48 @@ abstract class stationAttachment(val market: MarketAPI?, val id: String): BaseCa
 
     /** The chance for this augment to drop in combat, assuming our station was destroyed. 0-100. */
     open fun getCombatDropChance(): Float {
-        return 90f
+        return getSpec().dropCombatWeight
+    }
+
+    override fun modifyDataForFleet(data: BattleAutoresolverPluginImpl.FleetAutoresolveData?) {
+        if (data == null) return
+        val fleet = getStationFleet() ?: return
+        if (fleet.fleetData.membersListCopy[0] == data.fleet.fleetData.membersListCopy[0]) {
+            modifyAutoresolveForOurFleet(data)
+        }
+    }
+
+    // TODO: flesh this out
+    open fun modifyAutoresolveForOurFleet(data: BattleAutoresolverPluginImpl.FleetAutoresolveData) {
+        val ourMember = data.members.firstOrNull { it.member.isStation } ?: return
+        val ap = getAugmentCost()
+        val bonus = if (isDetrimentalToCombat()) ap / AP_TO_MEMBER_STRENGTH_MULT else ap * AP_TO_MEMBER_STRENGTH_MULT
+
+        ourMember.strength += bonus
+    }
+
+    open fun isDetrimentalToCombat(): Boolean {
+        val usageTags = getSpec().usageTags
+        return (usageTags.none { it.contains("combatgood") } && usageTags.any { it.contains("combatbad") })
     }
 
     fun isSmodded(): Boolean = (builtInMode == BuiltInMode.SMOD)
     open fun canBeRemoved(): Boolean = (builtInMode == BuiltInMode.NOT)
+
+    open fun getName(): String {
+        return getSpec().name
+    }
+    open fun getAugmentCost(): Float {
+        return getSpec().apCost
+    }
+
+    fun getSpec(): stationAugmentSpec {
+        return stationAugmentStore.allAugments[id]!!
+    }
+
+    fun getKnowledgeTags(): MutableSet<String> {
+        return getSpec().knowledgeTags
+    }
 
     class ConstantStationCheckingScript(val augment: stationAttachment): EveryFrameScript {
         var done = false

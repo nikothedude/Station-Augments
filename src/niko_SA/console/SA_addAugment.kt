@@ -25,19 +25,19 @@ class SA_addAugment: BaseCommand {
             return BaseCommand.CommandResult.ERROR
         }
 
-        val augment = stationAugmentStore.allAugments[args]?.getInstance?.let { it(market) }
+        val augment = stationAugmentStore.allAugments[args]?.getNewPluginInstance(market)
         if (augment == null) {
             Console.showMessage("Invalid augment ID!")
             return BaseCommand.CommandResult.ERROR
         }
 
         if (market.getStationAugments().any { it.id == augment.id }) {
-            Console.showMessage("Augment ${augment.name} already present!")
+            Console.showMessage("Augment ${augment.getName()} already present!")
             return BaseCommand.CommandResult.ERROR
         }
 
         market.addStationAugment(augment)
-        Console.showMessage("Augment ${augment.name} successfully applied!")
+        Console.showMessage("Augment ${augment.getName()} successfully applied!")
         return BaseCommand.CommandResult.SUCCESS
     }
 }

@@ -3,7 +3,6 @@ package niko_SA.augments
 import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.combat.*
-import com.fs.starfarer.api.combat.listeners.DamageTakenModifier
 import com.fs.starfarer.api.impl.campaign.ids.Stats
 import com.fs.starfarer.api.input.InputEventAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
@@ -12,7 +11,7 @@ import niko_SA.augments.core.stationAttachment
 import org.lazywizard.lazylib.MathUtils
 import org.lwjgl.util.vector.Vector2f
 
-class bubbleShield(market: MarketAPI?, id: String) : stationAttachment(market, id) {
+class bubbleShield : stationAttachment() {
 
     companion object {
         const val SHIELD_STRENGTH = 130000f
@@ -21,12 +20,6 @@ class bubbleShield(market: MarketAPI?, id: String) : stationAttachment(market, i
 
         const val OVERLOAD_DURATION_MULT = 6f
     }
-
-    override val augmentCost: Float = 25f
-
-    override val manufacturer: String = "Fabrique Orbitale"
-    override val name: String = "Bubble Shield"
-    override val spriteId: String = "graphics/hullmods/omni_shield_emitter.png"
 
     override fun applyInCombat(station: ShipAPI) {
         val engine = Global.getCombatEngine()

@@ -3,7 +3,6 @@ package niko_SA.augments
 import com.fs.starfarer.api.EveryFrameScript
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.combat.ShipAPI
-import com.fs.starfarer.api.fleet.FleetMemberAPI
 import com.fs.starfarer.api.impl.campaign.ids.Stats
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.IntervalUtil
@@ -12,7 +11,7 @@ import niko_SA.SA_fleetUtils.getRepLevelForArrayBonus
 import niko_SA.augments.core.stationAttachment
 import org.lazywizard.lazylib.MathUtils
 
-class navRelay(market: MarketAPI?, id: String): stationAttachment(market, id), EveryFrameScript {
+class navRelay(): stationAttachment(), EveryFrameScript {
 
     companion object {
         const val NAV_BONUS = 20f
@@ -21,9 +20,6 @@ class navRelay(market: MarketAPI?, id: String): stationAttachment(market, id), E
         const val MAX_DIST_FROM_STATION_FOR_BONUS = 6000f
     }
 
-    override val augmentCost: Float = 9f
-    override val name: String = "Nav Relay"
-    override val spriteId: String = "graphics/hullmods/nav_relay.png"
     val UUID = Misc.genUID()
 
     override fun applyInCombat(station: ShipAPI) {
@@ -76,7 +72,7 @@ class navRelay(market: MarketAPI?, id: String): stationAttachment(market, id), E
             val repLevelNeeded = fleet.getRepLevelForArrayBonus()
             if (ourFaction.getRelationshipLevel(fleet.faction) < repLevelNeeded) continue
 
-            fleet.stats.addTemporaryModFlat(0.2f, UUID, "${market.name} $name",BURN_BONUS, fleet.stats.fleetwideMaxBurnMod)
+            fleet.stats.addTemporaryModFlat(0.2f, UUID, "${market!!.name} ${getName()}",BURN_BONUS, fleet.stats.fleetwideMaxBurnMod)
         }
     }
 }

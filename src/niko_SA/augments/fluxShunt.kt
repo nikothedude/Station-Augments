@@ -8,12 +8,8 @@ import com.fs.starfarer.api.util.Misc
 import niko_SA.augments.core.stationAttachment
 
 /** Locked to midline stations - a big problem with them is the fact they never drop shields. */
-class fluxShunt(market: MarketAPI?, id: String) : stationAttachment(market, id) {
+class fluxShunt() : stationAttachment() {
 
-    override val name: String = "Deep shield dissipators"
-    override val spriteId: String = "graphics/hullmods/flux_shunt.png"
-
-    override val augmentCost: Float = 12f
     override val stationTypeWhitelist: HashSet<String> = hashSetOf(Industries.ORBITALSTATION_MID, Industries.BATTLESTATION_MID, Industries.STARFORTRESS_MID)
 
     override fun applyInCombat(station: ShipAPI) {

@@ -11,15 +11,13 @@ import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import com.fs.starfarer.api.util.WeightedRandomPicker
 import niko_SA.SA_debugUtils
-import niko_SA.SA_ids
 import niko_SA.augments.core.stationAttachment
-import niko_SA.augments.core.stationAugmentData
+import niko_SA.augments.core.stationAugmentSpec
 import niko_SA.augments.core.stationAugmentStore.allAugments
 import niko_SA.augments.core.stationAugmentStore.getKnownAugments
 import niko_SA.augments.core.stationAugmentStore.getPlayerKnownAugments
-import org.lazywizard.lazylib.MathUtils
+import niko_SA.augments.core.stationAugmentStore.teachAugment
 import java.awt.Color
-import java.util.*
 
 class SA_augmentBlueprintPlugin: BaseSpecialItemPlugin() {
 
@@ -30,12 +28,12 @@ class SA_augmentBlueprintPlugin: BaseSpecialItemPlugin() {
 
         val initialAugmentCheck = allAugments[stack.specialDataIfSpecial.data]
         if (initialAugmentCheck != null) {
-            augment = initialAugmentCheck.getInstance(null)
+            augment = initialAugmentCheck.getNewPluginInstance(null)
             return
         }
 
         val droppedFrom = spec.params // the drop group we were dropped from
-        val picker = WeightedRandomPicker<Pair<String, stationAugmentData>>()
+        val picker = WeightedRandomPicker<Pair<String, stationAugmentSpec>>()
         //val newRandom = Random(Global.getSector().memoryWithoutUpdate[SA_ids.SA_nextAugmentBlueprintSeedMemId] as Long)
         //picker.random = newRandom
         //Global.getSector().memoryWithoutUpdate[SA_ids.SA_nextAugmentBlueprintSeedMemId] = newRandom.nextLong()
@@ -43,17 +41,17 @@ class SA_augmentBlueprintPlugin: BaseSpecialItemPlugin() {
             val id = entry.key
             val data = entry.value
 
-            val weight: Float? = data.dropGroupWeights[droppedFrom]
-            if (weight != null) {
+            val weight: Float = data.dropWeight
+            if (weight > 0) {
                 picker.add(Pair(id, data), weight)
             }
         }
         val augmentSet = picker.pick()
         if (augmentSet == null) {
             SA_debugUtils.log.error("null augment set when trying $droppedFrom! grabbing safety overrides to avoid a crash")
-            augment = allAugments["SA_safetyOverrides"]!!.getInstance(null)
+            augment = allAugments["SA_safetyOverrides"]!!.getNewPluginInstance(null)
         } else {
-            augment = augmentSet.second.getInstance(null)
+            augment = augmentSet.second.getNewPluginInstance(null)
         }
         stack.specialDataIfSpecial.data = augment.id
 
@@ -76,8 +74,8 @@ class SA_augmentBlueprintPlugin: BaseSpecialItemPlugin() {
         val brX = cx + 15f
         val brY = cy - 19f
 
-        Global.getSettings().loadTexture(augment.spriteId)
-        val sprite = Global.getSettings().getSprite(augment.spriteId)
+        Global.getSettings().loadTexture(augment.getImageName())
+        val sprite = Global.getSettings().getSprite(augment.getImageName())
         val known = getPlayerKnownAugments().contains(augment.id)
 
         val mult = 1f
@@ -103,7 +101,7 @@ class SA_augmentBlueprintPlugin: BaseSpecialItemPlugin() {
     }
 
     override fun getName(): String {
-        return ("${augment.name} - Station Augment")
+        return ("${augment.getName()} - Station Augment")
     }
 
     override fun createTooltip(
@@ -144,19 +142,19 @@ class SA_augmentBlueprintPlugin: BaseSpecialItemPlugin() {
     override fun performRightClickAction() {
         if (Global.getSector().playerFaction.getKnownAugments().contains(augment.id)) {
             Global.getSector().campaignUI.messageDisplay.addMessage(
-                "" + augment.name + ": blueprint already known"
+                "" + augment.getName() + ": blueprint already known"
             ) //,
         } else {
             Global.getSoundPlayer().playUISound("ui_acquired_blueprint", 1f, 1f)
-            Global.getSector().playerFaction.getKnownAugments() += augment.id
+            Global.getSector().playerFaction.teachAugment(augment.id)
             Global.getSector().campaignUI.messageDisplay.addMessage(
-                "Acquired blueprint: " + augment.name + ""
+                "Acquired blueprint: " + augment.getName() + ""
             ) //,
         }
     }
 
     override fun getDesignType(): String {
-        return augment.manufacturer
+        return augment.getSpec().manufacturer
     }
 
     override fun addCostLabel(

@@ -8,15 +8,11 @@ import com.fs.starfarer.api.util.Misc
 import niko_SA.augments.core.stationAttachment
 import niko_SA.stringUtils.toPercent
 
-class reinforcedBulkheads(market: MarketAPI?, id: String) : stationAttachment(market, id) {
+class reinforcedBulkheads() : stationAttachment() {
 
     companion object {
         const val HULL_MULT = 1.4f
     }
-
-    override val augmentCost: Float = 9f
-    override val name: String = "Reinforced Bulkheads"
-    override val spriteId: String = "graphics/hullmods/reinforced_bulkheads.png"
 
     override fun applyInCombat(station: ShipAPI) {
         for (module in station.childModulesCopy + station) {

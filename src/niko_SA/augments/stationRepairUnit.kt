@@ -7,10 +7,7 @@ import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import niko_SA.augments.core.stationAttachment
 
-class stationRepairUnit(market: MarketAPI?, id: String) : stationAttachment(market, id), EveryFrameScript {
-    override val augmentCost: Float = 21f
-    override val name: String = "Structural Repair Unit"
-    override val spriteId: String = "graphics/augments/SA_stationRepairUnit.png"
+class stationRepairUnit() : stationAttachment(), EveryFrameScript {
 
     override fun applyInCombat(station: ShipAPI) {
         return

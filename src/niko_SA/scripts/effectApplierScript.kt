@@ -6,6 +6,7 @@ import com.fs.starfarer.api.input.InputEventAPI
 import niko_SA.MarketUtils.getStationAugments
 import niko_SA.SA_ids.SA_structureTag
 import niko_SA.augments.core.stationAttachment
+import niko_SA.codex.CodexData
 
 class effectApplierScript: BaseEveryFrameCombatPlugin() {
 
@@ -31,6 +32,7 @@ class effectApplierScript: BaseEveryFrameCombatPlugin() {
                 val market = marketTracker.getMarketOfFleet(fleet) ?: return
                 for (augment in market.getStationAugments()) {
                     augment.applyInCombat(ship)
+                    CodexData.unlockAugment(augment.id)
                 }
                 //Global.getSector().addScript(stationMarketNullPatch(fleet, market)) // TEMPORARY MEASURE
             }

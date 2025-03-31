@@ -5,10 +5,11 @@ import com.fs.starfarer.api.combat.ShipAPI
 import com.fs.starfarer.api.impl.campaign.ids.Industries
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
+import com.fs.starfarer.campaign.CircularOrbitWithSpin
 import niko_SA.augments.core.stationAttachment
 import niko_SA.stringUtils.toPercent
 
-class axialOverclocking(market: MarketAPI?, id: String) : stationAttachment(market, id) {
+class axialOverclocking : stationAttachment() {
     companion object {
         const val TURN_MULT = 6f
 
@@ -17,10 +18,21 @@ class axialOverclocking(market: MarketAPI?, id: String) : stationAttachment(mark
         const val WEAPON_TURNRATE_MULT = 5f
     }
 
-    override val manufacturer: String = "Ko Combine"
-    override val augmentCost: Float = 8f // its mostly just silly
-    override val name: String = "Axial Overclocking"
-    override val spriteId: String = "graphics/hullmods/axial_rotation.png"
+    override fun apply() {
+        super.apply()
+
+        val orbit = (getStationCampaignEntity()?.orbit as? CircularOrbitWithSpin) ?: return
+
+        orbit.spinVel *= TURN_MULT
+    }
+
+    override fun unapply() {
+        super.unapply()
+
+        val orbit = (getStationCampaignEntity()?.orbit as? CircularOrbitWithSpin) ?: return
+
+        orbit.spinVel /= TURN_MULT
+    }
 
     override fun applyInCombat(station: ShipAPI) {
         station.mutableStats.maxTurnRate.modifyMult(id, TURN_MULT)

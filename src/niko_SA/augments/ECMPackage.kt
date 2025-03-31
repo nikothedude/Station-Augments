@@ -7,16 +7,12 @@ import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import niko_SA.augments.core.stationAttachment
 
-class ECMPackage(market: MarketAPI?, id: String) : stationAttachment(market, id) {
+class ECMPackage() : stationAttachment() {
 
     companion object {
         const val ECM_VALUE = 15f
         const val DEFENSE_MULT = 1.05f
     }
-
-    override val augmentCost: Float = 9f
-    override val name: String = "ECM Package"
-    override val spriteId: String = "graphics/hullmods/ecm_package.png"
 
     override fun applyInCombat(station: ShipAPI) {
         station.mutableStats.dynamic.getMod(Stats.ELECTRONIC_WARFARE_FLAT).modifyFlat(id, ECM_VALUE)

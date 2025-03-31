@@ -27,6 +27,11 @@ class SA_delayedExecution(
         val translatedAmount = if (useDays) Misc.getDays(amount) else amount
         interval.advance(translatedAmount)
         if (interval.intervalElapsed()) {
+            if (execute == null) {
+                SA_debugUtils.log.error("delayed execution null execute... why...")
+                stop()
+                return
+            }
             execute()
             stop()
         }

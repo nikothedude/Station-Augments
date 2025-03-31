@@ -12,10 +12,7 @@ import com.fs.starfarer.api.util.Misc
 import niko_SA.augments.core.stationAttachment
 import org.lazywizard.lazylib.MathUtils
 
-class supportPackage(market: MarketAPI?, id: String) : stationAttachment(market, id)  {
-    override val augmentCost: Float = 15f
-    override val name: String = "Tactical Link"
-    override val spriteId: String = "graphics/hullmods/escort_package.png"
+class supportPackage() : stationAttachment() {
 
     companion object {
         const val MANEUVER_BONUS = 30f

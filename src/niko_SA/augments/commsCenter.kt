@@ -2,15 +2,13 @@ package niko_SA.augments
 
 import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.campaign.econ.MarketAPI
-import com.fs.starfarer.api.combat.CombatFleetManagerAPI
 import com.fs.starfarer.api.combat.CombatTaskManagerAPI
 import com.fs.starfarer.api.combat.ShipAPI
-import com.fs.starfarer.api.impl.campaign.ids.Stats
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import niko_SA.augments.core.stationAttachment
 
-class commsCenter(market: MarketAPI?, id: String) : stationAttachment(market, id) {
+class commsCenter : stationAttachment() {
 
     companion object {
         //const val CP_REGEN_RATE = 750f
@@ -18,10 +16,6 @@ class commsCenter(market: MarketAPI?, id: String) : stationAttachment(market, id
 
         const val ACCESSABILITY_INCREMENT = 0.1f
     }
-
-    override val augmentCost: Float = 13f
-    override val name: String = "Command Center"
-    override val spriteId: String = "graphics/hullmods/operations_center.png"
 
     override fun applyInCombat(station: ShipAPI) {
 
@@ -44,7 +38,7 @@ class commsCenter(market: MarketAPI?, id: String) : stationAttachment(market, id
 
         val stationIndustry = getStationIndustry() ?: return
         if (stationIndustry.isFunctional) {
-            market?.accessibilityMod?.modifyFlat(id, ACCESSABILITY_INCREMENT, "${stationIndustry.currentName}: $name")
+            market?.accessibilityMod?.modifyFlat(id, ACCESSABILITY_INCREMENT, "${stationIndustry.currentName}: ${getName()}")
         }
     }
 

@@ -9,11 +9,7 @@ import com.fs.starfarer.api.util.Misc
 import niko_SA.MarketUtils.applyDeficitToProductionStatic
 import niko_SA.augments.core.stationAttachment
 
-class hydroponics(market: MarketAPI?, id: String) : stationAttachment(market, id) {
-    override val augmentCost: Float = 20f
-    override val name: String = "Hydroponics Basins"
-    override val spriteId: String = "graphics/icons/markets/exceptional_harvest.png"
-
+class hydroponics() : stationAttachment() {
     companion object {
         const val FOOD_PROD = 2
         const val ORGANICS_PROD = 1
@@ -28,8 +24,8 @@ class hydroponics(market: MarketAPI?, id: String) : stationAttachment(market, id
 
         val industry = getStationIndustry() ?: return
         if (industry.isDisrupted) return
-        industry.supply(id, Commodities.FOOD, FOOD_PROD, name)
-        industry.supply(id, Commodities.ORGANICS, ORGANICS_PROD, name)
+        industry.supply(id, Commodities.FOOD, FOOD_PROD, getName())
+        industry.supply(id, Commodities.ORGANICS, ORGANICS_PROD, getName())
 
         checkDeficits(industry)
     }

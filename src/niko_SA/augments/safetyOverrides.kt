@@ -3,7 +3,6 @@ package niko_SA.augments
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.combat.ShipAPI
 import com.fs.starfarer.api.combat.WeaponAPI
-import com.fs.starfarer.api.impl.campaign.ids.Stats
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import niko_SA.augments.core.stationAttachment
@@ -13,10 +12,7 @@ import java.util.*
 import kotlin.math.absoluteValue
 
 
-class safetyOverrides(market: MarketAPI?, id: String) : stationAttachment(market, id) {
-
-    override val name: String = "Safety Shunt"
-    override val spriteId: String = "graphics/hullmods/safety_overrides.png"
+class safetyOverrides() : stationAttachment() {
 
     companion object {
         const val ROF_MULT = 1.7f
@@ -28,8 +24,6 @@ class safetyOverrides(market: MarketAPI?, id: String) : stationAttachment(market
 
         const val FLUX_DISSIPATION_MULT = 3f
     }
-
-    override val augmentCost: Float = 19f
 
     override fun applyInCombat(station: ShipAPI) {
         for (module in station.childModulesCopy + station) {

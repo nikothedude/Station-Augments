@@ -6,16 +6,12 @@ import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import niko_SA.augments.core.stationAttachment
 
-class resistantFluxConduits(market: MarketAPI?, id: String) : stationAttachment(market, id) {
+class resistantFluxConduits() : stationAttachment() {
 
     companion object {
         const val EMP_DAMAGE_MULT = 0.5f
         const val VENT_RATE_MULT = 1.25f
     }
-
-    override val augmentCost: Float = 9f
-    override val name: String = "Resistant flux conduits"
-    override val spriteId: String = "graphics/hullmods/resistant_flux_conduits.png"
 
     override fun applyInCombat(station: ShipAPI) {
         for (module in station.childModulesCopy + station) {

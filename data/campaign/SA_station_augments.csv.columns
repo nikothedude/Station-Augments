@@ -1,0 +1,14 @@
+﻿<columns units="px">
+  <column name="id" type="Text" />
+  <column name="name" type="Text" />
+  <column name="knowledge_tags" type="Text" format="h:mm:ss tt" alignment="Left" />
+  <column name="usage_tags" type="Text" />
+  <column name="codex_tags" type="Text" />
+  <column name="manufac" type="Text" />
+  <column name="plugin" type="Text" />
+  <column name="drop_weight" type="Text" format="G" alignment="Left" />
+  <column name="sell_weight" type="Text" />
+  <column name="combat_drop_chance" type="Text" />
+  <column name="sprite_path" type="Text" />
+  <column name="ap_cost" type="Text" />
+</columns>
