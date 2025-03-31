@@ -18,6 +18,6 @@ class SA_MSLootListener: ShowLootListener {
 
         if (!dialog.interactionTarget.memoryWithoutUpdate.getBoolean("\$SA_moteStation")) return
 
-        loot.addSpecial(SpecialItemData("SA_augmuntBlueprintRare", "SA_moteSinkLow"), 1f)
+        loot.addSpecial(SpecialItemData("SA_augmentBlueprint", "SA_moteSinkLow"), 1f)
     }
 }

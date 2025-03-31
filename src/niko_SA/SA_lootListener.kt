@@ -71,11 +71,11 @@ class SA_lootListener: ShowLootListener {
                 dropOne.value = value.toInt()
                 dropValueList.add(dropOne)
 
-                val dropTwo = DropData()
+                /*val dropTwo = DropData()
                 dropTwo.group = "SA_augmentRare"
                 dropTwo.valueMult = d.valueMult
                 dropTwo.value = value.toInt()
-                dropValueList.add(dropTwo)
+                dropValueList.add(dropTwo)*/
             }
         }
         return dropValueList
@@ -121,11 +121,11 @@ class SA_lootListener: ShowLootListener {
                 dropOne.chances = chances.toInt()
                 dropRandomList.add(dropOne)
 
-                val dropTwo = DropData()
+                /*val dropTwo = DropData()
                 dropTwo.group = "SA_augmentRare"
                 dropTwo.maxChances = d.maxChances
                 dropTwo.chances = chances.toInt()
-                dropRandomList.add(dropTwo)
+                dropRandomList.add(dropTwo)*/
             }
         }
         return dropRandomList

@@ -30,7 +30,7 @@ class SA_stationAugmentDropper: BaseCampaignEventListener(false) {
             val dropChance = (augment.getCombatDropChance() * 0.01f)
             if ((MathUtils.getRandom().nextFloat() * 100f) >= dropChance) continue
 
-            loot.addSpecial(SpecialItemData("SA_augmuntBlueprintNormal", augment.id), 1f)
+            loot.addSpecial(SpecialItemData("SA_augmentBlueprint", augment.id), 1f)
         }
     }
 }

@@ -42,7 +42,7 @@ class SA_augmentMarketAdder: BaseCampaignEventListener(false) {
     private fun addAugments(submarket: SubmarketAPI, market: MarketAPI) {
         val cargo = submarket.cargo
         for (stack in cargo.stacksCopy) {
-            if (stack.isSpecialStack && stack.specialDataIfSpecial.id.contains("SA_augmuntBlueprint")) {
+            if (stack.isSpecialStack && stack.specialDataIfSpecial.id.contains("SA_augmentBlueprint")) {
                 cargo.removeStack(stack)
             }
         }
@@ -64,7 +64,7 @@ class SA_augmentMarketAdder: BaseCampaignEventListener(false) {
             val picked = picker.pick()
             if (picked == "nothing") continue
 
-            cargo.addSpecial(SpecialItemData("SA_augmuntBlueprintNormal", picked), 1f)
+            cargo.addSpecial(SpecialItemData("SA_augmentBlueprint", picked), 1f)
         }
         (submarket.plugin as? BaseSubmarketPlugin)?.sinceSWUpdate = 0.001f
         market.memoryWithoutUpdate.set("\$SA_doNotUpdateAugments_${submarket.specId}", true, 0f)

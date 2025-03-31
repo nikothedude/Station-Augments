@@ -1,6 +1,5 @@
 2.0.0
 NOT SAVE COMPATIBLE!!
-Please read the forum post for how to update your mods, if your mod uses station augments
 
 Augments refactored
     Now handled through data/campaign/SA_station_augments.csv
