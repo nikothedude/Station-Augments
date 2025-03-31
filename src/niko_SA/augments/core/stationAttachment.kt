@@ -53,6 +53,12 @@ abstract class stationAttachment() : BaseCampaignEventListener(false), CoreAutor
         }
 
     open var apToMemberStrengthMult = BASE_AP_TO_MEMBER_STRENGH_MULT
+        get() {
+            if (field == null) {
+                field = BASE_AP_TO_MEMBER_STRENGH_MULT
+            }
+            return field
+        }
 
     companion object {
         const val BASE_AP_TO_MEMBER_STRENGH_MULT = 1.2f // arbitrary

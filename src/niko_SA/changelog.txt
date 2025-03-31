@@ -1,4 +1,6 @@
 2.1.0
+SEMI-SAVE COMPATIBLE - It wont crash, but some features will be missing
+
 New augments
     Hardened shields
     Effiency overhaul
@@ -6,6 +8,8 @@ New augments
 
 AWM made base_bp
 Axial overclocking made base_bp
+
+Tag logic fixed - standard augments now go to all factions (excluding player)
 
 [REDACTED] now has higher weight for autoresolve
 

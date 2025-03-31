@@ -71,7 +71,7 @@ object stationAugmentStore {
         val ourHullmodTags = getHullmodTags()
         for (augment in allAugments) {
             val data = augment.value
-            if (data.knowledgeTags.contains(Items.TAG_BASE_BP)/* || (data.tags.contains("standard"))*/ || (data.knowledgeTags.contains(this.id))) {
+            if (data.knowledgeTags.contains(Items.TAG_BASE_BP) || (data.knowledgeTags.contains("standard") && !this.isPlayerFaction) || (data.knowledgeTags.contains(this.id))) {
                 knownAugments += augment.key
                 continue
             }

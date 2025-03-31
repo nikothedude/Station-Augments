@@ -1,6 +1,9 @@
 id,name,knowledge_tags,usage_tags,codex_tags,manufac,plugin,drop_weight,sell_weight,combat_drop_chance,sprite_path,ap_cost
 #EXAMPLE,,"if name = faction, goes to that fac.
-otherwise, defers to their faction.json knownHullmods tags field","format: type number
+otherwise, defers to their faction.json knownHullmods tags field
+
+base_bp goes to all factions
+standard goes to all factions BUT player","format: type number
 combatgood, combatbad, logistics
 
 used in determining autofit, higher numbers = more likely (inverse for combatbad)
@@ -11,7 +14,7 @@ SA_reinforcedBulkheads,Reinforced Bulkheads,base_bp,combatgood12,,Common,niko_SA
 #SA_blastDoors,Blast Doors,base_bp,"combatgood10, logistics3",,Common,niko_SA.augments.blastDoors,40,40,90,graphics/hullmods/blast_doors.png,8
 SA_safetyOverrides,Safety Shunt,base_bp,combatgood19,,Common,niko_SA.augments.safetyOverrides,40,40,90,graphics/hullmods/safety_overrides.png,19
 SA_armoredWeaponMounts,Armored Weapon Mounts,base_bp,combatgood14,,Common,niko_SA.augments.armoredWeaponMounts,40,40,90,graphics/hullmods/armored_weapon_emplacements.png,9
-SA_automatedRepairUnit,Automated Repair Unit,"lowtech_bp, standard, merc",combatgood11,,Common,niko_SA.augments.automatedRepairUnit,100,100,90,graphics/hullmods/automated_repair_unit.png,9
+SA_automatedRepairUnit,Automated Repair Unit,"lowtech_bp, merc",combatgood11,,Common,niko_SA.augments.automatedRepairUnit,100,100,90,graphics/hullmods/automated_repair_unit.png,9
 SA_axialOverclocking,Axial Overclocking,base_bp,combatgood7,,Common,niko_SA.augments.axialOverclocking,40,40,90,graphics/hullmods/axial_rotation.png,8
 SA_commsCenter,Command Center,"hegemony, merc","combatgood8, logistics11",,Common,niko_SA.augments.commsCenter,100,100,90,graphics/hullmods/operations_center.png,13
 SA_ecmPackage,ECM Package,"hegemony, persean, merc","combatgood8, logistics10",,Common,niko_SA.augments.ECMPackage,100,100,90,graphics/hullmods/ecm_package.png,9
