@@ -1,3 +1,8 @@
+2.0.1
+SAVE COMPATIBLE
+
+Fixes version checker, finally
+
 2.0.0
 NOT SAVE COMPATIBLE!!
 
