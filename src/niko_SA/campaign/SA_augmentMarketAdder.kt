@@ -57,7 +57,7 @@ class SA_augmentMarketAdder: BaseCampaignEventListener(false) {
             picker.add(entry, data.sellWeight)
             totalWeight += data.sellWeight
         }
-        picker.add("nothing", totalWeight * 7f)
+        picker.add("nothing", totalWeight * 6f)
 
         var picksLeft = TIMES_TO_PICK_PER_ROLL
         while (picksLeft-- > 0f) {

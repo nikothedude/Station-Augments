@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="ttrata">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../Random Assortment of Things-2.6.5/jars" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/../Random Assortment of Things-2.6.5/src" />
+      <root url="file://$PROJECT_DIR$/../Random Assortment of Things-2.6.5/src" />
+    </SOURCES>
+    <jarDirectory url="file://$PROJECT_DIR$/../Random Assortment of Things-2.6.5/jars" recursive="false" />
+  </library>
+</component>
