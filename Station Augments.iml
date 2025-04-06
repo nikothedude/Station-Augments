@@ -6,25 +6,18 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/jars/build" />
     </content>
-    <orderEntry type="jdk" jdkName="15" jdkType="JavaSDK" />
+    <orderEntry type="jdk" jdkName="17" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="KotlinJavaRuntime" level="project" />
     <orderEntry type="library" name="starsector-core" level="project" />
     <orderEntry type="library" name="More Combat Terrain Effects" level="project" />
-    <orderEntry type="library" name="Experimental Hull Modifications" level="project" />
-    <orderEntry type="library" name="LazyLib" level="project" />
     <orderEntry type="library" name="LazyLib-Kotlin" level="project" />
     <orderEntry type="library" name="More Planetary Conditions" level="project" />
-    <orderEntry type="library" name="Industrial.Evolution3.3" level="project" />
     <orderEntry type="library" name="Nexerelin-master" level="project" />
     <orderEntry type="library" name="Console Commands" level="project" />
-    <orderEntry type="library" name="bionicalteration" level="project" />
-    <orderEntry type="library" name="exotica" level="project" />
-    <orderEntry type="library" name="sotf" level="project" />
-    <orderEntry type="library" name="LunaLib-Kotlin" level="project" />
     <orderEntry type="library" name="LunaLib" level="project" />
     <orderEntry type="library" name="MagicLib-Kotlin" level="project" />
     <orderEntry type="library" name="lazylib" level="project" />
-    <orderEntry type="library" name="jars" level="project" />
+    <orderEntry type="library" name="starfarer_obf" level="project" />
   </component>
 </module>

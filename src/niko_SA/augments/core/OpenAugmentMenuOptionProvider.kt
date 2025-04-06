@@ -6,7 +6,6 @@ import com.fs.starfarer.api.campaign.listeners.BaseIndustryOptionProvider
 import com.fs.starfarer.api.campaign.listeners.DialogCreatorUI
 import com.fs.starfarer.api.campaign.listeners.IndustryOptionProvider.IndustryOptionData
 import com.fs.starfarer.api.impl.campaign.econ.impl.OrbitalStation
-import indevo.industries.changeling.dialogue.ChangelingIndustryDialogueDelegate
 
 // unused, since you cant open the options panel if youre not in devmode and not in control (FUCK)
 class OpenAugmentMenuOptionProvider: BaseIndustryOptionProvider() {

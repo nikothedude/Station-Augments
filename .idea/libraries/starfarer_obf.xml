@@ -1,7 +1,7 @@
 <component name="libraryTable">
-  <library name="CaptainsLog">
+  <library name="starfarer_obf">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../CaptainsLog/CaptainsLog.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../starsector-core/starfarer_obf.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

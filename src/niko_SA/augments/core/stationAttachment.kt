@@ -310,6 +310,7 @@ abstract class stationAttachment() : BaseCampaignEventListener(false), CoreAutor
     override fun modifyDataForFleet(data: BattleAutoresolverPluginImpl.FleetAutoresolveData?) {
         if (data == null) return
         val fleet = getStationFleet() ?: return
+        if (fleet.fleetData.membersListCopy.isEmpty() || data.fleet.fleetData.membersListCopy.isEmpty()) return
         if (fleet.fleetData.membersListCopy[0] == data.fleet.fleetData.membersListCopy[0]) {
             modifyAutoresolveForOurFleet(data)
         }

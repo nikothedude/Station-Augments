@@ -1,3 +1,11 @@
+2.1.1
+SAVE COMPATIBLE
+
+Fixes a rare crash on app load
+Fixes a rare crash on autoresolve
+
+Fixes shield shunt (hopefully)
+
 2.1.0
 SEMI-SAVE COMPATIBLE - It wont crash, but some features will be missing
 
