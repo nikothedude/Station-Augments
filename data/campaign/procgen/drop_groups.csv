@@ -1,3 +1,3 @@
 commodity,group,freq
 nothing,SA_augmentNormal,1000
-"item_:{tags:[SA_augmentBlueprint, !no_drop]}",SA_augmentNormal,70
+"item_:{tags:[station_augment_BP, !no_drop]}",SA_augmentNormal,90
