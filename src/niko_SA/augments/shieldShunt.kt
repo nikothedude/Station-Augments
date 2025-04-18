@@ -1,15 +1,15 @@
 package niko_SA.augments
 
 import com.fs.starfarer.api.Global
-import com.fs.starfarer.api.combat.*
+import com.fs.starfarer.api.combat.ShieldAPI
+import com.fs.starfarer.api.combat.ShipAPI
 import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
-import com.fs.starfarer.combat.OoOO.d
-import com.fs.starfarer.combat.ai.*
+import com.fs.starfarer.combat.ai.BasicShipAI
 import com.fs.starfarer.combat.ai.attack.AttackAIModule
-import com.fs.starfarer.combat.`class`.*
-import com.fs.starfarer.combat.entities.*
+import com.fs.starfarer.combat.ai.ooOO
+import com.fs.starfarer.combat.entities.Ship
 import niko_SA.ReflectionUtils.get
 import niko_SA.ReflectionUtils.set
 import niko_SA.SA_debugUtils
@@ -46,7 +46,7 @@ class shieldShunt() : stationAttachment() {
                 val shipAI = module.ai
                 if (SA_settings.isWindows && shipAI is BasicShipAI) { // no compatability for custom ais, sorry
                     try {
-                        val damperSpec = Global.getSettings().getShipSystemSpec("SA_KKdamper") as com.fs.starfarer.loading.specs.M
+                        val damperSpec = Global.getSettings().getShipSystemSpec("SA_KKdamper") as com.fs.starfarer.loading.specs.`do`
                         set(
                             "phaseCloak",
                             module,
@@ -65,7 +65,7 @@ class shieldShunt() : stationAttachment() {
                             ai as? (com.fs.starfarer.combat.ai.movement.maneuvers.M.o) //ShipAI obf class
                         )
                         // v mimics a anonymous wrapper the convinces the game to laod a systemai as a shieldai. see basicshipai for more, its in its constructor
-                        val testValTwo = object : OOoOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO {
+                        val testValTwo = object : com.fs.starfarer.combat.ai.F {
                             override fun o00000(
                                 p0: Float,
                                 p1: com.fs.starfarer.combat.ai.D?,
@@ -76,10 +76,10 @@ class shieldShunt() : stationAttachment() {
                                 newSystemAI.o00000(p0, p2, p3, p4)
                             }
 
-                            override fun Object(): Boolean {
-                                return if (newSystemAI is com.fs.starfarer.combat.ai.system.O0Oo) { // phase ai
-                                    val var1: com.fs.starfarer.combat.ai.system.O0Oo = newSystemAI
-                                    var1.`while.super`().Ò00000().Õ00000()
+                            override fun Ó00000(): Boolean {
+                                return if (newSystemAI is com.fs.starfarer.combat.ai.system.V) { // phase ai
+                                    val var1: com.fs.starfarer.combat.ai.system.V = newSystemAI
+                                    var1.ôo0000().new().Õ00000()
                                 } else {
                                     false
                                 }
@@ -88,10 +88,10 @@ class shieldShunt() : stationAttachment() {
                                 return false
                             }
 
-                            override fun Ò00000(): Object? {
-                                return if (newSystemAI is com.fs.starfarer.combat.ai.system.O0Oo) { // phase ai
-                                    val var1: com.fs.starfarer.combat.ai.system.O0Oo = newSystemAI
-                                    var1.`while.super`().Ò00000()
+                            override fun new(): ooOO? {
+                                return if (newSystemAI is com.fs.starfarer.combat.ai.system.V) { // phase ai
+                                    val var1: com.fs.starfarer.combat.ai.system.V = newSystemAI
+                                    var1.ôo0000().new()
                                 } else {
                                     null
                                 }
