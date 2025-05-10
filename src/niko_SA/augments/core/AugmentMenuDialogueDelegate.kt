@@ -6,10 +6,12 @@ import com.fs.starfarer.api.campaign.BaseCustomUIPanelPlugin
 import com.fs.starfarer.api.campaign.CustomDialogDelegate.CustomDialogCallback
 import com.fs.starfarer.api.campaign.econ.Industry
 import com.fs.starfarer.api.campaign.econ.MarketAPI
+import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.impl.campaign.intel.events.BaseFactorTooltip
 import com.fs.starfarer.api.ui.Alignment
 import com.fs.starfarer.api.ui.ButtonAPI
 import com.fs.starfarer.api.ui.CustomPanelAPI
+import com.fs.starfarer.api.ui.ScrollPanelAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import niko_SA.DialogUtils.getChildrenCopy
@@ -50,6 +52,7 @@ class AugmentMenuDialogueDelegate(val station: Industry): BaseCustomDialogDelega
 
     var basePanel: CustomPanelAPI? = null
     var panel: CustomPanelAPI? = null
+    var scroller: ScrollPanelAPI? = null
 
     // mostly taken from indevo's ChangelingIndustryDialogueDelegate
     override fun createCustomDialog(panel: CustomPanelAPI?, callback: CustomDialogCallback?) {
@@ -131,8 +134,7 @@ class AugmentMenuDialogueDelegate(val station: Industry): BaseCustomDialogDelega
                 val aspectRatio = sprite.width / sprite.height
                 val adjustedWidth = (80.0f * aspectRatio).coerceAtMost(sprite.width)
                 val defaultPadding = 2.0f
-                val textPanel: TooltipMakerAPI =
-                    augmentButtonPanel.createUIElement(595.0f - adjustedWidth - opad - defaultPadding, 80.0f, false)
+                val textPanel: TooltipMakerAPI = augmentButtonPanel.createUIElement(595.0f - adjustedWidth - opad - defaultPadding, 80.0f, false)
 
                 if (mode == Mode.MODIFYING && (canBuild && canAfford)) {
                     textPanel.addSectionHeading(" " + augmentInstance.getName(), Alignment.LMID, 0.0f)
@@ -148,8 +150,6 @@ class AugmentMenuDialogueDelegate(val station: Industry): BaseCustomDialogDelega
 
                 val anonymousTooltip = object : BaseFactorTooltip() {
                     override fun createTooltip(tooltip: TooltipMakerAPI, expanded: Boolean, tooltipParam: Any) {
-                        /*val design = augmentInstance.manufacturer
-                    Misc.addDesignTypePara(tooltip, design, opad)*/
 
                         augmentInstance.getBasicDescription(tooltip, expanded)
                     }
@@ -232,6 +232,14 @@ class AugmentMenuDialogueDelegate(val station: Industry): BaseCustomDialogDelega
         }
         basePanel!!.addComponent(panel!!)
         panel!!.addUIElement(panelTooltip).inTMid(0f)
+
+        val oldXOffset = scroller?.xOffset ?: 0f
+        val oldYOffset = scroller?.yOffset ?: 0f
+
+        scroller = panelTooltip.externalScroller
+
+        panelTooltip.externalScroller?.xOffset = oldXOffset
+        panelTooltip.externalScroller?.yOffset = oldYOffset
     }
 
     fun reportButtonPressed(buttonId: Any) {

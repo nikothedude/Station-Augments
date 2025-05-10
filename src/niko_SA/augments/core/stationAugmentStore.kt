@@ -118,6 +118,7 @@ object stationAugmentStore {
             val spritePath = row.getString("sprite_path")
             Global.getSettings().loadTexture(spritePath)
             val apCost = row.getDouble("ap_cost").toFloat()
+            val modId = row.getString("modid") ?: niko_SA_modPlugin.modId
 
             val spec = stationAugmentSpec(
                 id,
@@ -131,7 +132,8 @@ object stationAugmentStore {
                 dropCombatWeight,
                 sellWeight,
                 spritePath,
-                apCost
+                apCost,
+                modId
             )
             allAugments[id] = spec
         }

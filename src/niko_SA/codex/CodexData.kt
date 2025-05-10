@@ -91,7 +91,7 @@ object CodexData {
                 }
 
                 override fun getSourceMod(): ModSpecAPI? {
-                    return Global.getSettings().modManager.getModSpec(niko_SA_modPlugin.modId)
+                    return augmentSpec.sourceMod
                 }
             }
             augmentCat.addChild(entry)

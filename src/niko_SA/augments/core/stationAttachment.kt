@@ -260,6 +260,9 @@ abstract class stationAttachment() : BaseCampaignEventListener(false), CoreAutor
             tooltip.addPara("Requires ${stationRequiredString}.", 5f).color = Misc.getGrayColor()
         }
 
+        val spec = getSpec()
+        if (spec.codexTags.contains(Tags.HIDE_IN_CODEX)) return
+        tooltip.codexEntryId = "${spec.id}_augCodEntry"
     }
 
     open fun getImageName(market: MarketAPI? = null): String {

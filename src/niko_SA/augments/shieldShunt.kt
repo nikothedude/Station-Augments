@@ -1,14 +1,17 @@
 package niko_SA.augments
 
 import com.fs.starfarer.api.Global
+import com.fs.starfarer.api.combat.BattleObjectiveAPI
 import com.fs.starfarer.api.combat.ShieldAPI
 import com.fs.starfarer.api.combat.ShipAPI
 import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
+import com.fs.starfarer.combat.CombatEngine
 import com.fs.starfarer.combat.ai.BasicShipAI
 import com.fs.starfarer.combat.ai.attack.AttackAIModule
 import com.fs.starfarer.combat.ai.ooOO
+import com.fs.starfarer.combat.entities.BattleObjective
 import com.fs.starfarer.combat.entities.Ship
 import niko_SA.ReflectionUtils.get
 import niko_SA.ReflectionUtils.set

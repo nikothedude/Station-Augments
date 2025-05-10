@@ -1,7 +1,9 @@
 package niko_SA.augments.core
 
 import com.fs.starfarer.api.Global
+import com.fs.starfarer.api.ModSpecAPI
 import com.fs.starfarer.api.campaign.econ.MarketAPI
+import com.fs.starfarer.api.loading.WithSourceMod
 
 /** A store for constant data, and a instantiation method of the station augment. */
 class stationAugmentSpec(
@@ -19,12 +21,17 @@ class stationAugmentSpec(
     var sellWeight: Float,
     var spritePath: String,
     val apCost: Float,
-) {
+    val modId: String
+): WithSourceMod {
     fun getNewPluginInstance(market: MarketAPI?): stationAttachment {
         val new = Global.getSettings().scriptClassLoader.loadClass(pluginPath).newInstance() as stationAttachment
         new.market = market
         new.id = id
         new.init()
         return new
+    }
+
+    override fun getSourceMod(): ModSpecAPI? {
+        return Global.getSettings().modManager.getModSpec(modId)
     }
 }
