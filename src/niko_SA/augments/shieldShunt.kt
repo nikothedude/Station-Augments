@@ -32,14 +32,12 @@ class shieldShunt() : stationAttachment() {
 
     override fun applyInCombat(station: ShipAPI) {
         val shipAPIship = station as ShipAPI
-        val ai = station.ai
         for (module in station.childModulesCopy + station) {
+            val moduleShipAPI = module as ShipAPI
             if (!module.isHullDamageable()) continue
             if (module.shield != null || module.hullSpec.hasTag(Tags.MODULE_HULL_BAR_ONLY)) { // armor
-                if (module.shield != null) {
-                    module.setShield(ShieldAPI.ShieldType.PHASE, 0f, 1f, 0f)
-                }
-                if (module.mutableStats.fluxDissipation.modifiedInt < 5) {
+                module.setShield(ShieldAPI.ShieldType.PHASE, 0f, 1f, 0f)
+                if (module.mutableStats.fluxCapacity.modifiedInt < 5) {
                     module.mutableStats.fluxCapacity.modifyFlat(id, 5f)
                 }
                 if (module.mutableStats.fluxDissipation.modifiedInt < 5) {
@@ -56,16 +54,16 @@ class shieldShunt() : stationAttachment() {
                             damperSpec.createSystem(module as Ship?)
                         )
 
-                        val threatEvalAI = get("threatEvalAI", shipAPIship.ai, BasicShipAI::class.java)
-                        val attackAI = get("attackAI", shipAPIship.ai, BasicShipAI::class.java)
-                        val flockingAI = get("flockingAI", shipAPIship.ai, BasicShipAI::class.java)
+                        val threatEvalAI = get("threatEvalAI", moduleShipAPI.ai, BasicShipAI::class.java)
+                        val attackAI = get("attackAI", moduleShipAPI.ai, BasicShipAI::class.java)
+                        val flockingAI = get("flockingAI", moduleShipAPI.ai, BasicShipAI::class.java)
 
                         val newSystemAI = damperSpec.createSystemAI(
-                            module, shipAPIship.aiFlags,
+                            module, moduleShipAPI.aiFlags,
                             threatEvalAI as? com.fs.starfarer.combat.ai.D,
                             attackAI as? AttackAIModule,
                             flockingAI as? com.fs.starfarer.combat.ai.movement.A,
-                            ai as? (com.fs.starfarer.combat.ai.movement.maneuvers.M.o) //ShipAI obf class
+                            shipAI as? (com.fs.starfarer.combat.ai.movement.maneuvers.M.o) //ShipAI obf class
                         )
                         // v mimics a anonymous wrapper the convinces the game to laod a systemai as a shieldai. see basicshipai for more, its in its constructor
                         val testValTwo = object : com.fs.starfarer.combat.ai.F {
@@ -76,6 +74,7 @@ class shieldShunt() : stationAttachment() {
                                 p3: Vector2f?,
                                 p4: Ship?
                             ) {
+                                moduleShipAPI
                                 newSystemAI.o00000(p0, p2, p3, p4)
                             }
 
@@ -100,7 +99,8 @@ class shieldShunt() : stationAttachment() {
                                 }
                             }
                         }
-                        set("shieldAI", ai, testValTwo, BasicShipAI::class.java)
+                        set("shieldAI", shipAI, testValTwo, BasicShipAI::class.java)
+                        val test = 2
 
                     } catch (e: ClassNotFoundException) {
                         SA_debugUtils.log.error("incompatible starsector version!")

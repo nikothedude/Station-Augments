@@ -42,7 +42,7 @@ class bubbleShield : stationAttachment() {
         shieldDrone.mutableStats.hardFluxDissipationFraction.modifyFlat(id, 1f)
         shieldDrone.mutableStats.engineDamageTakenMult.modifyMult(id, 0f)
         shieldDrone.mutableStats.dynamic.getStat(Stats.SHIELD_PIERCED_MULT).modifyMult(id, 0f)
-
+        shieldDrone.activeLayers.remove(CombatEngineLayers.FF_INDICATORS_LAYER)
 
         var moduleWithMaxDist: CombatEntityAPI? = null
         var maxDist = 0f

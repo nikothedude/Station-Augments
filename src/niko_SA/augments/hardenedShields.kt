@@ -1,7 +1,9 @@
 package niko_SA.augments
 
 import com.fs.starfarer.api.combat.ShipAPI
+import com.fs.starfarer.api.impl.campaign.ids.Industries
 import com.fs.starfarer.api.impl.campaign.ids.Stats
+import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import niko_SA.SA_mathUtils.trimHangingZero
@@ -22,6 +24,19 @@ class hardenedShields: stationAttachment() {
         }
     }
 
+    override fun getUnavailableReason(): String? {
+        val superCall = super.getUnavailableReason()
+        if (superCall != null) return superCall
+
+        val industry = getStationIndustry() ?: return null
+        if (industry.id == Industries.ORBITALSTATION_HIGH ||
+            industry.id == Industries.BATTLESTATION_HIGH ||
+            industry.id == Industries.STARFORTRESS_HIGH
+        ) return "Cannot be installed on high-tech stations"
+
+        return null
+    }
+
     override fun getBasicDescription(tooltip: TooltipMakerAPI, expanded: Boolean) {
         super.getBasicDescription(tooltip, expanded)
 
@@ -31,5 +46,10 @@ class hardenedShields: stationAttachment() {
             Misc.getHighlightColor(),
             "${SHIELD_BONUS.trimHangingZero()}%"
         )
+
+        tooltip.addPara(
+            "Cannot be installed on high-tech stations due to their pre-existing shield optimizations.",
+            5f
+        ).color = Misc.getGrayColor()
     }
 }

@@ -8,7 +8,6 @@
     </content>
     <orderEntry type="jdk" jdkName="17" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="KotlinJavaRuntime" level="project" />
     <orderEntry type="library" name="starsector-core" level="project" />
     <orderEntry type="library" name="More Combat Terrain Effects" level="project" />
     <orderEntry type="library" name="LazyLib-Kotlin" level="project" />
@@ -19,5 +18,6 @@
     <orderEntry type="library" name="MagicLib-Kotlin" level="project" />
     <orderEntry type="library" name="lazylib" level="project" />
     <orderEntry type="library" name="starfarer_obf" level="project" />
+    <orderEntry type="library" name="Kotlin-Runtime" level="project" />
   </component>
 </module>

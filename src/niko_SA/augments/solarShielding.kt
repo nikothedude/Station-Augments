@@ -90,7 +90,7 @@ class solarShielding() : stationAttachment(), EveryFrameScript {
             if (effectLevel >= 1f && !fleet.hasTag(Tags.FLEET_IGNORES_CORONA)) {
                 fleet.addTag(Tags.FLEET_IGNORES_CORONA)
                 SA_delayedExecution(
-                    {
+                    @JvmSerializableLambda {
                         fleet.removeTag(Tags.FLEET_IGNORES_CORONA)
                     },
                     0.25f,

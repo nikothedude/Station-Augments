@@ -6,6 +6,7 @@ import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.combat.BaseEveryFrameCombatPlugin
 import com.fs.starfarer.api.combat.CollisionClass
+import com.fs.starfarer.api.combat.CombatEngineLayers
 import com.fs.starfarer.api.combat.DamageType
 import com.fs.starfarer.api.combat.ShipAPI
 import com.fs.starfarer.api.impl.campaign.missions.academy.GAProjectZiggurat.SCANNED_ZIGGURAT
@@ -41,6 +42,7 @@ open class moteSink(): stationAttachment(), EveryFrameScript {
         shieldDrone.isAlly = station.isAlly
         shieldDrone.isHoldFire = true
         shieldDrone.collisionClass = CollisionClass.FIGHTER
+        shieldDrone.activeLayers.remove(CombatEngineLayers.FF_INDICATORS_LAYER)
         fleetManager.isSuppressDeploymentMessages = false
 
         shieldDrone.mutableStats.hullDamageTakenMult.modifyMult(id, 0f) // cant kill it

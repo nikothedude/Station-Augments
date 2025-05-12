@@ -37,13 +37,6 @@ class niko_SA_modPlugin: BaseModPlugin() {
 
         SA_settings.currentVersion = Global.getSettings().modManager.getModSpec(modId).version
         stationAugmentStore.loadAugmentsFromCSV()
-        //Global.getSector().getFaction(Factions.HEGEMONY).getKnownAugments()
-        /*val starsectorVers = Global.getSettings().gameVersion
-        if (starsectorVers > "0.97a-RC11") {
-            throw RuntimeException("CHECK TO SEE IF stationMarketNullPatch IS NECESSARY! https://fractalsoftworks.com/forum/index.php?topic=30567")
-        }*/
-
-        //stationAugmentStore.testIdSync()
     }
 
     override fun onGameLoad(newGame: Boolean) {
@@ -56,6 +49,7 @@ class niko_SA_modPlugin: BaseModPlugin() {
         Global.getSector().listenerManager.addListener(SA_MSLootListener(), true)
         Global.getSector().addTransientListener(SA_augmentMarketAdder())
         Global.getSector().addTransientListener(SA_augmentAutofitter())
+        Global.getSector().addTransientListener(SA_augmentSoldListener())
         SA_People.createCharacters()
 
         val creditsToBuyCore = 2500000f
@@ -65,14 +59,6 @@ class niko_SA_modPlugin: BaseModPlugin() {
 
 
         CodexData.updateVisibleAugments()
-
-        /*if (Global.getSector().memoryWithoutUpdate[SA_ids.SA_nextAugmentBlueprintSeedMemId] == null) {
-            Global.getSector().memoryWithoutUpdate[SA_ids.SA_nextAugmentBlueprintSeedMemId] = MathUtils.getRandom().nextLong()
-        }*/
-
-        //Global.getSector().listenerManager.addListener(overgrownNanoforgeOptionsProvider(), true)
-
-        //stationAugmentStore.testIdSync()
     }
 
     override fun onAboutToStartGeneratingCodex() {
@@ -89,7 +75,6 @@ class niko_SA_modPlugin: BaseModPlugin() {
         super.onNewGameAfterEconomyLoad()
 
         SA_settings.applyPredefinedAugments()
-        //stationAugmentStore.testIdSync() // just in case someone fucks up
     }
 
     override fun onNewGame() {

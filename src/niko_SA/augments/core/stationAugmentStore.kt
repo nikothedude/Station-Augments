@@ -104,7 +104,7 @@ object stationAugmentStore {
             val row = csv.getJSONObject(index)
 
             val id = row.getString("id")
-            if (id.startsWith("#") || id == "") continue
+            if (id.startsWith("#") || id.isEmpty()) continue
             val knowledgeTags = row.getString("knowledge_tags").split(Regex("(, *)")).toMutableSet()
             val usageTags = row.getString("usage_tags").split(Regex("(, *)")).toMutableSet()
             val codexTags = row.getString("codex_tags").split(Regex("(, *)")).toMutableSet()
@@ -118,7 +118,11 @@ object stationAugmentStore {
             val spritePath = row.getString("sprite_path")
             Global.getSettings().loadTexture(spritePath)
             val apCost = row.getDouble("ap_cost").toFloat()
-            val modId = row.getString("modid") ?: niko_SA_modPlugin.modId
+            var modId = niko_SA_modPlugin.modId
+            if (row.has("modid")) {
+                modId = row.getString("modid") ?: niko_SA_modPlugin.modId
+                if (modId.isEmpty() || modId.startsWith("#")) modId = niko_SA_modPlugin.modId
+            }
 
             val spec = stationAugmentSpec(
                 id,

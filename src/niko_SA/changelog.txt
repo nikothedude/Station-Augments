@@ -1,9 +1,21 @@
 2.1.4
-
-SAVE COMPATIBLE
+PROBABLY SAVE COMPATIBLE?
 
 Selecting an augment no longer resets your position in the augment menu
 Augments now have codex links
+Augments now show what mod they are from - if correctly tagged
+Augments now display what factions have them in their codex entries
+
+Hardened/Stabilized shields blacklisted from hightech stations
+    Just, way too strong
+
+Fixed random save corruption due to lambda serialization
+Fixed shield shunt not allowing armor modules to use the damper field
+Fixed shield shunt AI in general, actually
+
+Factions now learn your augments if you sell them to them
+    Black market = pirates
+Black market now takes from pirate augment pool PLUS the owner faction pool
 
 2.1.3
 SAVE COMPATIBLE

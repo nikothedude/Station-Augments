@@ -21,6 +21,7 @@ import niko_SA.MarketUtils.getRemainingAugmentBudget
 import niko_SA.MarketUtils.getStationAugments
 import niko_SA.MarketUtils.removeStationAugment
 import niko_SA.SA_mathUtils.trimHangingZero
+import niko_SA.codex.CodexData.getAugmentEntryId
 
 /** Industries of this type attempt to modify an existing station in combat, and potentially, in campaign.*/
 abstract class stationAttachment() : BaseCampaignEventListener(false), CoreAutoresolveListener {
@@ -190,7 +191,6 @@ abstract class stationAttachment() : BaseCampaignEventListener(false), CoreAutor
         return Misc.getStationIndustry(market) as? OrbitalStation
     }
 
-    /** Uses reflection - expensive. */
     fun getStationFleet(): CampaignFleetAPI? {
         val stationIndustry = getStationIndustry() ?: return null
         return stationIndustry.stationFleet
@@ -260,9 +260,11 @@ abstract class stationAttachment() : BaseCampaignEventListener(false), CoreAutor
             tooltip.addPara("Requires ${stationRequiredString}.", 5f).color = Misc.getGrayColor()
         }
 
-        val spec = getSpec()
-        if (spec.codexTags.contains(Tags.HIDE_IN_CODEX)) return
-        tooltip.codexEntryId = "${spec.id}_augCodEntry"
+        if (!Global.getSettings().isShowingCodex) {
+            val spec = getSpec()
+            if (spec.codexTags.contains(Tags.HIDE_IN_CODEX)) return
+            tooltip.codexEntryId = getAugmentEntryId(id)
+        }
     }
 
     open fun getImageName(market: MarketAPI? = null): String {

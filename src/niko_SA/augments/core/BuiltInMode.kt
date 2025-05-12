@@ -16,7 +16,7 @@ enum class BuiltInMode {
                 "s-modded", "scuttling the entire thing"
             )
             para.setHighlightColors(Misc.getStoryOptionColor(), Misc.getNegativeHighlightColor())
-            para.setColor(Misc.getGrayColor())
+            para.color = Misc.getGrayColor()
         }
 
         override fun getAPColor(): Color? {
@@ -30,7 +30,7 @@ enum class BuiltInMode {
                 5f,
                 Misc.getHighlightColor(),
                 "built-in"
-            ).setColor(Misc.getGrayColor())
+            ).color = Misc.getGrayColor()
         }
 
         override fun getAPColor(): Color? {

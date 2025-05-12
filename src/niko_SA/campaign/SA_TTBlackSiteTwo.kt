@@ -61,7 +61,7 @@ object SA_TTBlackSiteTwo {
         station.setCircularOrbitWithSpin(center, MathUtils.getRandomNumberInRange(0f, 360f), 1f, 500f, 0.1f, 0.1f)
 
         SA_delayedExecution(
-            {
+            @JvmSerializableLambda {
                 Misc.setAbandonedStationMarket("SA_moteStationMarket", station)
                 val market = station.market
                 market.factionId = Factions.MERCENARY

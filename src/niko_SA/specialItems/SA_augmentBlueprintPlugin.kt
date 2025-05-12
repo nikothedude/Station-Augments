@@ -156,13 +156,4 @@ class SA_augmentBlueprintPlugin: BaseSpecialItemPlugin() {
     override fun getDesignType(): String {
         return augment.getSpec().manufacturer
     }
-
-    override fun addCostLabel(
-        tooltip: TooltipMakerAPI?,
-        pad: Float,
-        transferHandler: CargoTransferHandlerAPI?,
-        stackSource: Any?
-    ) {
-        super.addCostLabel(tooltip, pad, transferHandler, stackSource)
-    }
 }

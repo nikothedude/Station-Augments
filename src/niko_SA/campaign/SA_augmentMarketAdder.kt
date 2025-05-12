@@ -48,7 +48,10 @@ class SA_augmentMarketAdder: BaseCampaignEventListener(false) {
         }
         val faction = market.faction
 
-        val knownAugments = faction.getKnownAugments()
+        val knownAugments = faction.getKnownAugments().toMutableSet()
+        if (submarket.specId == Submarkets.SUBMARKET_BLACK) {
+            knownAugments += Global.getSector().getFaction(Factions.PIRATES).getKnownAugments()
+        }
         val picker = WeightedRandomPicker<String>()
         var totalWeight = 0f
         for (entry in knownAugments) {

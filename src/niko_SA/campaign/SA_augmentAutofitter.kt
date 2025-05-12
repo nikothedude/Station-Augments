@@ -46,7 +46,7 @@ class SA_augmentAutofitter: BaseCampaignEventListener(false) {
         super.reportEconomyMonthEnd()
 
         SA_delayedExecution(
-            {
+            @JvmSerializableLambda {
                 for (market in Global.getSector().economy.marketsCopy) {
                     tryAutofit(market)
                 }
@@ -72,10 +72,7 @@ class SA_augmentAutofitter: BaseCampaignEventListener(false) {
             if (getStationAugments().isEmpty()) return true
             val lastAP = memoryWithoutUpdate.getFloat(SA_lastAPValueMemid)
 
-            if (budget != lastAP) {
-                return true
-            }
-            return false
+            return budget != lastAP
         }
 
         fun MarketAPI.canGetAugmentAutofit(): Boolean {
@@ -84,13 +81,13 @@ class SA_augmentAutofitter: BaseCampaignEventListener(false) {
                 return false
             }
             if (getStationIndustry() == null) return false
-            if (memoryWithoutUpdate.getBoolean(SA_ids.SA_noAugmentAutofit) || (faction.custom.has("SA_noFactionSAAutofit"))) return false
+            if (memoryWithoutUpdate.getBoolean(SA_ids.SA_noAugmentAutofit) || (faction.custom.optBoolean("SA_noFactionSAAutofit", false))) return false
             return true
         }
 
         fun autofitMarket(market: MarketAPI) {
             var combatWeight = 9f
-            var logisticWeight = 2f
+            var logisticWeight = 4f
             if (Misc.isMilitary(market)) {
                 logisticWeight *= 0.1f
             } else {
