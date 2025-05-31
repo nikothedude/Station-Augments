@@ -1,3 +1,8 @@
+2.1.5
+SAVE COMPATIBLE
+
+Fixes incorrect weighting in station augments dropping from combat - should be far more common now
+
 2.1.4
 PROBABLY SAVE COMPATIBLE?
 
