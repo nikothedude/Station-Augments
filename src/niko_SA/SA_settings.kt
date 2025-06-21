@@ -22,6 +22,9 @@ object SA_settings {
     var AITweaksEnabled = false
 
     @JvmStatic
+    var graphicsLibEnabled = false
+
+    @JvmStatic
     var AUTOFIT_ENABLED = true
 
     @JvmStatic
@@ -58,7 +61,9 @@ object SA_settings {
                     continue
                 }
 
+                augment.considerReqItem = false
                 market.addStationAugment(augment)
+                augment.considerReqItem = true
                 market.memoryWithoutUpdate[SA_ids.SA_noAugmentAutofit] = true
             }
         }

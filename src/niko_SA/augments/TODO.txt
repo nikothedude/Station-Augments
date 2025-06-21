@@ -1,0 +1,22 @@
+Shrouded hmods
+    Thunderhead, obviously
+    Mantle - DONE
+        When X happens, make a pulse that blows away ships
+    Lens, obviously
+
+    Obviously makes the LC hate you
+        Needs bar event...
+
+Threat
+    Frag swarm, obviously
+        How do we handle this?
+        Might just make it so it's a static swarm that instantly replenishes
+    Defabrication swarm
+        Periodically fires off defab swarms that bring back fragments that both refill the swarm and repair hull
+    Attack swarm
+        Makes attack swarms. Duh
+
+PHASE TELEPORTER!!!!
+
+Maybe a sacrificial augment? Extreme modifications?
+    Adds x AP to the station, at the cost of reducing its hull and various other stats?

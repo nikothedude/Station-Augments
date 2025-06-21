@@ -19,5 +19,6 @@
     <orderEntry type="library" name="lazylib" level="project" />
     <orderEntry type="library" name="starfarer_obf" level="project" />
     <orderEntry type="library" name="Kotlin-Runtime" level="project" />
+    <orderEntry type="library" name="GraphicsLib" level="project" />
   </component>
 </module>

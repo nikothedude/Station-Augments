@@ -5,11 +5,14 @@ import com.fs.starfarer.api.GameState
 import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.campaign.BaseCampaignEventListener
 import com.fs.starfarer.api.campaign.CampaignFleetAPI
+import com.fs.starfarer.api.campaign.CargoAPI.CargoItemType
 import com.fs.starfarer.api.campaign.SectorEntityToken
+import com.fs.starfarer.api.campaign.SpecialItemData
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.campaign.listeners.CoreAutoresolveListener
 import com.fs.starfarer.api.combat.ShipAPI
 import com.fs.starfarer.api.impl.campaign.BattleAutoresolverPluginImpl
+import com.fs.starfarer.api.impl.campaign.HullModItemManager
 import com.fs.starfarer.api.impl.campaign.econ.impl.OrbitalStation
 import com.fs.starfarer.api.impl.campaign.ids.Industries
 import com.fs.starfarer.api.impl.campaign.ids.MemFlags
@@ -22,6 +25,7 @@ import niko_SA.MarketUtils.getStationAugments
 import niko_SA.MarketUtils.removeStationAugment
 import niko_SA.SA_mathUtils.trimHangingZero
 import niko_SA.codex.CodexData.getAugmentEntryId
+import org.magiclib.kotlin.getStorageCargo
 
 /** Industries of this type attempt to modify an existing station in combat, and potentially, in campaign.*/
 abstract class stationAttachment() : BaseCampaignEventListener(false), CoreAutoresolveListener {
@@ -32,15 +36,22 @@ abstract class stationAttachment() : BaseCampaignEventListener(false), CoreAutor
 
     @Transient
     var reapplying = false
+
     /** Have we been applied to our market yet? */
     var applied = false
 
     /** We can only be built on stations with these industry ids. If empty, is ignored. */
     open val stationTypeWhitelist = HashSet<String>()
+
     @Transient
     var considerAP = true // used in [isAvailableToBuild]
+
     @Transient
     var considerEngagement = true
+
+    @Transient
+    var considerReqItem = true
+
     @Transient
     var gettingDescFromBlueprint = false
 
@@ -64,6 +75,7 @@ abstract class stationAttachment() : BaseCampaignEventListener(false), CoreAutor
     companion object {
         const val BASE_AP_TO_MEMBER_STRENGH_MULT = 1.2f // arbitrary
         const val STATION_IMPROVED_AP_BONUS = 10f // arbitrary
+
         /** Additive atop BASE_STATION_AUGMENT_BUDGET. */
         @JvmStatic
         val tagToExtraAugmentBudget = hashMapOf(
@@ -71,54 +83,61 @@ abstract class stationAttachment() : BaseCampaignEventListener(false), CoreAutor
             Pair(Industries.STARFORTRESS, 20f)
         )
 
-        /*/** Returns the augment budget this station has. An augment budget controls how many augments a station can have - each augment has its own cost.*/
-        fun OrbitalStation.getAugmentBudget(): Float {
-            var points = BASE_STATION_AUGMENT_BUDGET
+        fun removeRequiredItem(itemId: String, dockedAt: MarketAPI?) {
+            val fleet = Global.getSector().playerFleet ?: return
+            val cargo = fleet.cargo!!
 
-            for (tag in spec.tags) {
-                val tagBonus = tagToExtraAugmentBudget[tag]
-                if (tagBonus != null) {
-                    points += tagBonus
+            if (cargo.getQuantity(CargoItemType.SPECIAL, SpecialItemData(itemId, null)) >= 1) {
+                cargo.removeItems(
+                    CargoItemType.SPECIAL,
+                    SpecialItemData(itemId, null),
+                    1f
+                )
+                return
+            }
+
+            if (dockedAt != null) {
+                val dockedCargo = dockedAt.getStorageCargo()
+                if (dockedCargo == null) return
+                if (dockedCargo.getQuantity(CargoItemType.SPECIAL, SpecialItemData(itemId, null)) >= 1) {
+                    dockedCargo.removeItems(
+                        CargoItemType.SPECIAL,
+                        SpecialItemData(itemId, null),
+                        1f
+                    )
+                    return
                 }
             }
-            return points
         }
 
-        fun MarketAPI.getUsedAugmentBudget(): Float {
-            var used = 0f
+        fun addRequiredItem(itemId: String, dockedAt: MarketAPI?) {
+            val fleet = Global.getSector().playerFleet ?: return
+            val cargo = fleet.cargo!!
 
-            for (augment in getStationAugments()) {
-                used += augment.augmentCost
-            }
+            cargo.addSpecial(
+                SpecialItemData(
+                    itemId,
+                    null
+                ), 1f
+            )
 
-            return used
-        }
-
-        fun OrbitalStation.getUsedAugmentBudget(): Float {
-            return market.getUsedAugmentBudget()
-        }
-
-        fun OrbitalStation.getRemainingAugmentBudget(): Float {
-            val budget = getAugmentBudget()
-            val usedBudget = getUsedAugmentBudget()
-
-            return (budget - usedBudget)
-        }
-
-        fun MarketAPI.getStationAugments(): MutableSet<stationAttachment> {
-            val augments = HashSet<stationAttachment>()
-
-            for (industry in industries) {
-                if (!industry.isFunctional) continue
-                if (industry.spec.hasTag(SA_ids.SA_structureTag)) {
-                    augments += (industry as stationAttachment)
+            /*if (dockedAt != null) {
+                val dockedCargo = dockedAt.getStorageCargo()
+                if (dockedCargo == null) return
+                if (dockedCargo.getQuantity(CargoItemType.SPECIAL, itemId) >= 1) {
+                    dockedCargo.removeItems(
+                        CargoItemType.SPECIAL,
+                        itemId,
+                        1f
+                    )
+                    return
                 }
-            }
-
-            return augments
-        }*/
+            }*/
+        }
     }
+
     var initialized = false
+
     /** Called directly after creation, in [stationAugmentSpec.getNewPluginInstance]. Called BEFORE apply(). */
     open fun init() {
         initialized = true
@@ -138,12 +157,38 @@ abstract class stationAttachment() : BaseCampaignEventListener(false), CoreAutor
         reapplying = false
     }
 
+    /** Called once when the augment is added to the market. */
+    open fun onAdded() {
+        apply()
+        market?.getStationAugments() += this
+
+        val reqId = getRequiredItemId()
+        if (applied && considerReqItem && reqId != null) {
+            var dockedAtMarket = if (market != null && Global.getSector().playerFleet?.interactionTarget == market) market else null
+
+            removeRequiredItem(reqId, dockedAtMarket)
+        }
+    }
+
     open fun apply() {
         applied = true
         Global.getSector().addListener(this)
         Global.getSector().listenerManager.addListener(this, false)
-        Global.getSector().addScript(ConstantStationCheckingScript(this)) // just in case
-        doEnabledCheck()
+        Global.getSector().addScript(ConstantStationCheckingScript(this))
+        doEnabledCheck() // just in case
+    }
+
+    /** Called once when the augment is removed from the market. */
+    open fun onRemoved() {
+        unapply()
+        market?.getStationAugments() -= this
+
+        val reqId = getRequiredItemId()
+        if (considerReqItem && reqId != null) {
+            var dockedAtMarket = if (market != null && Global.getSector().playerFleet?.interactionTarget == market) market else null
+
+            addRequiredItem(reqId, dockedAtMarket)
+        }
     }
 
     open fun unapply() {
@@ -170,6 +215,20 @@ abstract class stationAttachment() : BaseCampaignEventListener(false), CoreAutor
     open fun getUnavailableReason(): String? {
         val station = getStationIndustry() ?: return "No orbital station"
         if (considerEngagement && getStationFleet()?.battle != null) return "Station currently engaged"
+        val reqId = getRequiredItemId()
+        if (reqId != null && considerReqItem) {
+            val stack = Global.getSettings().createCargoStack(
+                CargoItemType.SPECIAL,
+                SpecialItemData(getRequiredItemId(), null), null
+            )
+            val available = HullModItemManager.getInstance().getNumAvailable(stack, market)
+            if (!applied && available <= 0) {
+                val spec = Global.getSettings().getSpecialItemSpec(getRequiredItemId())
+                val name = spec.name
+                val aOrAnd = Misc.getAOrAnFor(name)
+                return "No $aOrAnd $name"
+            }
+        }
         if (stationTypeWhitelist.isNotEmpty() && !stationTypeWhitelist.contains(station.spec.id)) {
             return "Requires ${getNeededStationTypeText()}"
         }
@@ -253,6 +312,27 @@ abstract class stationAttachment() : BaseCampaignEventListener(false), CoreAutor
 
         if (market == null) {
             tooltip.addPara("This augment nominally costs %s to install.", 10f, Misc.getHighlightColor(), "${getAugmentCost().trimHangingZero()} AP")
+        }
+
+        if (getRequiredItemId() != null) {
+            val spec = Global.getSettings().getSpecialItemSpec(getRequiredItemId())
+            val name = spec.name
+            val aOrAnd = Misc.getAOrAnFor(name)
+
+            if (gettingDescFromBlueprint || Global.getSettings().isShowingCodex) {
+                tooltip.addPara("Requires $aOrAnd $name", 5f).color = Misc.getNegativeHighlightColor()
+            } else if (applied) {
+                tooltip.addPara("Using $aOrAnd $name", 5f).color = Misc.getPositiveHighlightColor()
+            } else {
+                val stack = Global.getSettings().createCargoStack(
+                    CargoItemType.SPECIAL,
+                    SpecialItemData(getRequiredItemId(), null), null
+                )
+                val available = HullModItemManager.getInstance().getNumAvailable(stack, market)
+                tooltip.addPara("Requires $aOrAnd $name ($available available)", 5f).color = Misc.getNegativeHighlightColor()
+            }
+
+            tooltip.addSpacer(5f)
         }
 
         val stationRequiredString = getNeededStationTypeText()
@@ -353,6 +433,8 @@ abstract class stationAttachment() : BaseCampaignEventListener(false), CoreAutor
     fun getKnowledgeTags(): MutableSet<String> {
         return getSpec().knowledgeTags
     }
+
+    fun getRequiredItemId(): String? = getSpec().requiredItemId
 
     class ConstantStationCheckingScript(val augment: stationAttachment): EveryFrameScript {
         var done = false

@@ -124,8 +124,10 @@ class SA_augmentAutofitter: BaseCampaignEventListener(false) {
 
                 val instance = picked.getNewPluginInstance(market)
                 instance.considerEngagement = false
+                instance.considerReqItem = false
                 if (!instance.canBeModifiedOrBuilt()) continue
                 instance.considerEngagement = true
+                instance.considerReqItem = true
 
                 market.addStationAugment(instance)
             }

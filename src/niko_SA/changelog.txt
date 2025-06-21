@@ -1,3 +1,15 @@
+2.2.0
+SAVE COMPATIBLE
+
+Axial overclocking AP: 8 -> 12
+Heavy armor AP: 15 -> 12
+
+SRU given to hege
+
+[SECRET] no longer has stabilized shields, and no longer generates extra augments
+
+Diktat now has volatile fuel injector, solar shielding (bugfix)
+
 2.1.5
 SAVE COMPATIBLE
 

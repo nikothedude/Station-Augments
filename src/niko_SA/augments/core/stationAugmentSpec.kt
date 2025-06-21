@@ -21,7 +21,8 @@ class stationAugmentSpec(
     var sellWeight: Float,
     var spritePath: String,
     val apCost: Float,
-    val modId: String
+    val requiredItemId: String?,
+    val modId: String,
 ): WithSourceMod {
     fun getNewPluginInstance(market: MarketAPI?): stationAttachment {
         val new = Global.getSettings().scriptClassLoader.loadClass(pluginPath).newInstance() as stationAttachment

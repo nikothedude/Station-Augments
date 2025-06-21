@@ -82,8 +82,7 @@ object MarketUtils {
     @JvmStatic
     fun MarketAPI.toggleStationAugment(instance: stationAttachment, checkForStation: Boolean = true) {
         if (instance.applied) {
-            instance.unapply()
-            getStationAugments() -= instance
+            removeStationAugment(instance)
         } else {
             addStationAugment(instance, checkForStation)
         }
@@ -109,6 +108,7 @@ object MarketUtils {
             }
         }
         augment.apply()
+        augment.onAdded()
         getStationAugments() += augment
 
         return augment
@@ -123,6 +123,7 @@ object MarketUtils {
 
     @JvmStatic
     fun MarketAPI.removeStationAugment(augment: stationAttachment) {
+        augment.onRemoved()
         augment.unapply()
         getStationAugments() -= augment
     }
@@ -140,6 +141,11 @@ object MarketUtils {
     @JvmStatic
     fun MarketAPI.hasStationAugment(augmentId: String): Boolean {
         return getStationAugments().any { it.id == augmentId }
+    }
+
+    @JvmStatic
+    fun MarketAPI.hasFragmentSwarm(): Boolean {
+        return hasStationAugment("SA_fragmentSwarm")
     }
 
     // TODO: update this method if it ever changes, 1:1 with applyDeficitToProduction from baseindustry.java
