@@ -1,32 +1,30 @@
-package niko_SA.augments
+package niko_SA.augments.threat
 
 import com.fs.starfarer.api.combat.ShipAPI
+import com.fs.starfarer.api.impl.campaign.ids.Stats
+import com.fs.starfarer.api.impl.combat.threat.FragmentCoordinatorHullmod
 import com.fs.starfarer.api.ui.CustomPanelAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
-import niko_SA.augments.core.stationAttachment
-import niko_SA.stringUtils.toPercent
 
-class automatedRepairUnit : stationAttachment() {
+class FragmentCoordinator: ThreatAugment() {
 
     companion object {
-        const val REPAIR_RATE_MULT = 1.5f
+        const val SIZE_INCREASE = 40f
     }
 
     override fun applyInCombat(station: ShipAPI) {
-        for (module in station.childModulesCopy + station) {
-            module.mutableStats.combatWeaponRepairTimeMult.modifyMult(id, REPAIR_RATE_MULT)
-        }
+        station.mutableStats.dynamic.getMod(Stats.FRAGMENT_SWARM_SIZE_MOD).modifyPercent(id, SIZE_INCREASE)
     }
 
     override fun getBasicDescription(tooltip: TooltipMakerAPI, expanded: Boolean, panel: CustomPanelAPI?) {
         super.getBasicDescription(tooltip, expanded, panel)
 
         tooltip.addPara(
-            "Increases module weapon repair rate by %s.",
+            "Increases the size of the station's fragment swarm by %s.",
             5f,
             Misc.getHighlightColor(),
-            toPercent(REPAIR_RATE_MULT - 1)
+            "${SIZE_INCREASE.toInt()}%"
         )
     }
 }

@@ -3,10 +3,10 @@ package niko_SA.augments.jumpPoint
 import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.campaign.JumpPointAPI
 import com.fs.starfarer.api.campaign.PlanetAPI
-import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.combat.ShipAPI
 import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.ui.Alignment
+import com.fs.starfarer.api.ui.CustomPanelAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import niko_SA.SA_mathUtils.trimHangingZero
@@ -113,8 +113,8 @@ class jumpPointCreator: stationAttachment() {
         return null
     }
 
-    override fun getBasicDescription(tooltip: TooltipMakerAPI, expanded: Boolean) {
-        super.getBasicDescription(tooltip, expanded)
+    override fun getBasicDescription(tooltip: TooltipMakerAPI, expanded: Boolean, panel: CustomPanelAPI?) {
+        super.getBasicDescription(tooltip, expanded, panel)
 
         tooltip.addPara(
             "An exceedingly rare modification, the \"jump engine\" is little more than a highly sophisticated set of drone-hangars " +

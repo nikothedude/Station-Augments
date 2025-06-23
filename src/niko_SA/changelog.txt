@@ -10,6 +10,55 @@ SRU given to hege
 
 Diktat now has volatile fuel injector, solar shielding (bugfix)
 
+A few misc bugfixes
+
+New augments
+
+    Extreme modifications
+        +10 AP
+        Reduces defensive stats of the station, increases upkeep
+
+    Shrouded
+        Mantle
+            On module lost...
+            Shoves away nearby ships and destroys nearby hostile projectiles
+                Hostile ships lose up to 20% of their engines for a period
+
+            If module isnt armor...
+                Also expulses mass, like the shrouded maelstrom
+                Reduces flux by 40% for all modules
+        Lens
+            Same as the normal lens, except...
+            Fires a lot faster
+            Can actually hit friendly ships and missiles
+        Thunderhead
+            Basically the same as vanilla thunderhead, except it does more damage
+
+        All learned the same way as learning the original hullmods
+
+    Threat
+        Fragment swarm
+            Safe deal as normal - but with 225 fragments instead
+        Fragment Coordinator & Secondary Fab
+            Same as the hullmods
+
+        Modular Augments
+            Modular augments have multiple modes that alter their behavior and cost
+            Unless otherwise specified, modular threat augments increase in cost, power, and fragment usage as their level increases
+
+            Kinetic Fragments
+                Same deal as the weapon
+            Seeker fragments
+                Ditto
+            Swarm launcher
+                Level 3 doesnt increase swarm cap, instead increases swarm combat effectiveness
+            Defabrication Swarms
+                Same deal as defabrication swarms
+            Construction swarms
+                Constructs a small garrison of threat ships
+
+        Drops from threat battles
+
 2.1.5
 SAVE COMPATIBLE
 

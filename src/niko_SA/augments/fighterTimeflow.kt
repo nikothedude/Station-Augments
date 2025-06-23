@@ -1,10 +1,10 @@
 package niko_SA.augments
 
 import com.fs.starfarer.api.Global
-import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.combat.BaseEveryFrameCombatPlugin
 import com.fs.starfarer.api.combat.ShipAPI
 import com.fs.starfarer.api.input.InputEventAPI
+import com.fs.starfarer.api.ui.CustomPanelAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import niko_SA.augments.core.stationAttachment
@@ -25,8 +25,8 @@ class fighterTimeflow() : stationAttachment() {
         engine.addPlugin(FighterTimeflowEffectScript(station, id))
     }
 
-    override fun getBasicDescription(tooltip: TooltipMakerAPI, expanded: Boolean) {
-        super.getBasicDescription(tooltip, expanded)
+    override fun getBasicDescription(tooltip: TooltipMakerAPI, expanded: Boolean, panel: CustomPanelAPI?) {
+        super.getBasicDescription(tooltip, expanded, panel)
 
         tooltip.addPara(
             "While exceptionally unholy, temporal cores - derived from the scarab - may be manufactured on-the-fly and attached to " +

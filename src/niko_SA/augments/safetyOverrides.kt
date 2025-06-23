@@ -1,8 +1,8 @@
 package niko_SA.augments
 
-import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.combat.ShipAPI
 import com.fs.starfarer.api.combat.WeaponAPI
+import com.fs.starfarer.api.ui.CustomPanelAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import niko_SA.augments.core.stationAttachment
@@ -47,17 +47,17 @@ class safetyOverrides() : stationAttachment() {
         }
     }
 
-    override fun getBasicDescription(tooltip: TooltipMakerAPI, expanded: Boolean) {
-        super.getBasicDescription(tooltip, expanded)
+    override fun getBasicDescription(tooltip: TooltipMakerAPI, expanded: Boolean, panel: CustomPanelAPI?) {
+        super.getBasicDescription(tooltip, expanded, panel)
 
         val testTooltip = tooltip.addPara(
             "Though typically considered a \"bad idea\", stations do indeed have safeties, and they can in fact be disabled. Doing so " +
             "increases non-missile weapon firerate by %s, though the unmonitored increase typically decreases accuracy by %s for those same weapons." +
-            "\n" +
+            "\n\n" +
             "The flux dissipation rate, including that of additional vents, is increased by a factor of %s." +
-            "\n" +
+            "\n\n" +
             "The immense strain on the flux conduits %s, and starts the station with %s." +
-            "\n" +
+            "\n\n" +
             "Also increases station turnrate by %s.",
             5f,
             Misc.getHighlightColor(),

@@ -1,6 +1,7 @@
 package niko_SA.augments
 
 import com.fs.starfarer.api.combat.ShipAPI
+import com.fs.starfarer.api.ui.CustomPanelAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import niko_SA.SA_mathUtils.trimHangingZero
@@ -46,8 +47,8 @@ class efficiencyOverhaul: stationAttachment() {
         return
     }
 
-    override fun getBasicDescription(tooltip: TooltipMakerAPI, expanded: Boolean) {
-       super.getBasicDescription(tooltip, expanded)
+    override fun getBasicDescription(tooltip: TooltipMakerAPI, expanded: Boolean, panel: CustomPanelAPI?) {
+       super.getBasicDescription(tooltip, expanded, panel)
 
         tooltip.addPara(
             "Reduces upkeep cost by %s.\n" +

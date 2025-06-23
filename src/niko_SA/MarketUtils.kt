@@ -107,9 +107,8 @@ object MarketUtils {
                 return null
             }
         }
-        augment.apply()
-        augment.onAdded()
         getStationAugments() += augment
+        augment.onAdded()
 
         return augment
     }
@@ -123,9 +122,8 @@ object MarketUtils {
 
     @JvmStatic
     fun MarketAPI.removeStationAugment(augment: stationAttachment) {
-        augment.onRemoved()
-        augment.unapply()
         getStationAugments() -= augment
+        augment.onRemoved()
     }
 
     @JvmStatic

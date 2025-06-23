@@ -17,6 +17,7 @@ import niko_SA.SA_settings.loadSettings
 import niko_SA.augments.core.stationAttachment
 import niko_SA.augments.core.stationAugmentStore
 import niko_SA.augments.core.stationAugmentStore.getKnownAugments
+import niko_SA.augments.threat.SA_threatLootListener
 import niko_SA.campaign.*
 import niko_SA.codex.CodexData
 import org.apache.log4j.Level
@@ -46,6 +47,7 @@ class niko_SA_modPlugin: BaseModPlugin() {
         SA_settings.AITweaksEnabled = Global.getSettings().modManager.isModEnabled("aitweaks")
         SA_settings.graphicsLibEnabled = Global.getSettings().modManager.isModEnabled("shaderLib")
         Global.getSector().addTransientListener(SA_stationAugmentDropper())
+        Global.getSector().addTransientListener(SA_threatLootListener())
         Global.getSector().listenerManager.addListener(SA_lootListener(), true)
         Global.getSector().listenerManager.addListener(SA_MSLootListener(), true)
         Global.getSector().addTransientListener(SA_augmentMarketAdder())

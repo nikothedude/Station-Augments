@@ -3,11 +3,11 @@
 package niko_SA.augments
 
 import com.fs.starfarer.api.Global
-import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.combat.BaseEveryFrameCombatPlugin
 import com.fs.starfarer.api.combat.ShipAPI
 import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.input.InputEventAPI
+import com.fs.starfarer.api.ui.CustomPanelAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.IntervalUtil
 import com.fs.starfarer.api.util.Misc
@@ -28,8 +28,8 @@ class defensiveTargettingArray: stationAttachment() {
         }
     }
 
-    override fun getBasicDescription(tooltip: TooltipMakerAPI, expanded: Boolean) {
-        super.getBasicDescription(tooltip, expanded)
+    override fun getBasicDescription(tooltip: TooltipMakerAPI, expanded: Boolean, panel: CustomPanelAPI?) {
+        super.getBasicDescription(tooltip, expanded, panel)
 
         tooltip.addPara(
             "Standard fighter communication links are re-purposed to provide short-range targeting data. This targeting data is enhanced on stations, " +

@@ -121,7 +121,7 @@ class SA_augmentBlueprintPlugin: BaseSpecialItemPlugin() {
         val industryId: String = stack.specialDataIfSpecial.data
         val known = Global.getSector().playerFaction.getKnownAugments().contains(industryId)
         augment.gettingDescFromBlueprint = true
-        augment.getBasicDescription(tooltip, expanded)
+        augment.getBasicDescription(tooltip, expanded, null)
         augment.gettingDescFromBlueprint = false
         addCostLabel(tooltip, opad, transferHandler, stackSource)
         if (known) {

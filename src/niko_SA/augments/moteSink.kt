@@ -12,6 +12,7 @@ import com.fs.starfarer.api.combat.ShipAPI
 import com.fs.starfarer.api.impl.campaign.missions.academy.GAProjectZiggurat.SCANNED_ZIGGURAT
 import com.fs.starfarer.api.impl.combat.MoteControlScript
 import com.fs.starfarer.api.input.InputEventAPI
+import com.fs.starfarer.api.ui.CustomPanelAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.IntervalUtil
 import com.fs.starfarer.api.util.Misc
@@ -74,8 +75,8 @@ open class moteSink(): stationAttachment(), EveryFrameScript {
         }
     }
 
-    override fun getBasicDescription(tooltip: TooltipMakerAPI, expanded: Boolean) {
-        super.getBasicDescription(tooltip, expanded)
+    override fun getBasicDescription(tooltip: TooltipMakerAPI, expanded: Boolean, panel: CustomPanelAPI?) {
+        super.getBasicDescription(tooltip, expanded, panel)
 
         var descString = ""
         if (highVolatility) {

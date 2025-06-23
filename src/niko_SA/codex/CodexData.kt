@@ -2,16 +2,15 @@ package niko_SA.codex
 
 import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.ModSpecAPI
+import com.fs.starfarer.api.impl.campaign.ids.HullMods
+import com.fs.starfarer.api.impl.campaign.ids.Items
 import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.impl.codex.*
 import com.fs.starfarer.api.impl.codex.CodexEntryPlugin.ListMode
 import com.fs.starfarer.api.ui.CustomPanelAPI
-import com.fs.starfarer.api.ui.PositionAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.ui.UIPanelAPI
 import com.fs.starfarer.api.util.Misc
-import niko.MCTE.codex.CodexData.TERRAIN
-import niko_SA.DialogUtils.getChildrenCopy
 import niko_SA.SA_ids
 import niko_SA.augments.core.stationAttachment
 import niko_SA.augments.core.stationAugmentStore
@@ -79,7 +78,7 @@ object CodexData {
 
                     val text = panel.createUIElement(tw, 0f, false)
                     text.setParaSmallInsignia()
-                    ourAugment.getBasicDescription(text, false)
+                    ourAugment.getBasicDescription(text, false, panel)
                     panel.updateUIElementSizeAndMakeItProcessInput(text)
                     val box = panel.wrapTooltipWithBox(text)
                     panel.addComponent(box).inTL(0f, 0f)
@@ -158,7 +157,52 @@ object CodexData {
     }
 
     fun linkCodexInfo() {
+        createReciprocalLink(getAugmentEntryId("SA_fragmentSwarm"), CodexDataV2.getHullmodEntryId(HullMods.FRAGMENT_SWARM))
+        createReciprocalLink(getAugmentEntryId("SA_fragmentSwarm"), CodexDataV2.getItemEntryId(Items.FRAGMENT_FABRICATOR))
+        createReciprocalLink(getAugmentEntryId("SA_fragmentSwarm"), getAugmentEntryId("SA_secondaryFabricator"))
+        createReciprocalLink(getAugmentEntryId("SA_fragmentSwarm"), getAugmentEntryId("SA_fragmentCoordinator"))
 
+        createReciprocalLink(getAugmentEntryId("SA_secondaryFabricator"), CodexDataV2.getHullmodEntryId(HullMods.SECONDARY_FABRICATOR))
+        createReciprocalLink(getAugmentEntryId("SA_secondaryFabricator"), CodexDataV2.getItemEntryId(Items.FRAGMENT_FABRICATOR))
+        CodexDataV2.getEntry(getAugmentEntryId("SA_secondaryFabricator")).addRelatedEntry(getAugmentEntryId("SA_fragmentSwarm"))
+
+        createReciprocalLink(getAugmentEntryId("SA_fragmentCoordinator"), CodexDataV2.getHullmodEntryId(HullMods.FRAGMENT_COORDINATOR))
+        createReciprocalLink(getAugmentEntryId("SA_fragmentCoordinator"), CodexDataV2.getItemEntryId(Items.THREAT_PROCESSING_UNIT))
+        CodexDataV2.getEntry(getAugmentEntryId("SA_fragmentCoordinator")).addRelatedEntry(getAugmentEntryId("SA_fragmentSwarm"))
+
+        //createReciprocalLink(getAugmentEntryId("SA_constructionSwarms"), CodexDataV2.getShipEntryId("attack_swarm_Construction"))
+        createReciprocalLink(getAugmentEntryId("SA_constructionSwarms"), CodexDataV2.getItemEntryId(Items.THREAT_PROCESSING_UNIT))
+        CodexDataV2.getEntry(getAugmentEntryId("SA_constructionSwarms")).addRelatedEntry(getAugmentEntryId("SA_fragmentSwarm"))
+
+        //createReciprocalLink(getAugmentEntryId("SA_attackSwarms"), CodexDataV2.getShipEntryId("attack_swarm_Attack"))
+        createReciprocalLink(getAugmentEntryId("SA_attackSwarms"), CodexDataV2.getWeaponEntryId("swarm_launcher"))
+        createReciprocalLink(getAugmentEntryId("SA_attackSwarms"), CodexDataV2.getItemEntryId(Items.THREAT_PROCESSING_UNIT))
+        CodexDataV2.getEntry(getAugmentEntryId("SA_attackSwarms")).addRelatedEntry(getAugmentEntryId("SA_fragmentSwarm"))
+
+        createReciprocalLink(getAugmentEntryId("SA_kineticFragments"), CodexDataV2.getWeaponEntryId("kinetic_fragments"))
+        createReciprocalLink(getAugmentEntryId("SA_kineticFragments"), CodexDataV2.getItemEntryId(Items.THREAT_PROCESSING_UNIT))
+        CodexDataV2.getEntry(getAugmentEntryId("SA_kineticFragments")).addRelatedEntry(getAugmentEntryId("SA_fragmentSwarm"))
+
+        createReciprocalLink(getAugmentEntryId("SA_seekerFragments"), CodexDataV2.getWeaponEntryId("seeker_fragment"))
+        createReciprocalLink(getAugmentEntryId("SA_seekerFragments"), CodexDataV2.getItemEntryId(Items.THREAT_PROCESSING_UNIT))
+        CodexDataV2.getEntry(getAugmentEntryId("SA_seekerFragments")).addRelatedEntry(getAugmentEntryId("SA_fragmentSwarm"))
+
+        createReciprocalLink(getAugmentEntryId("SA_defabSwarms"), CodexDataV2.getWeaponEntryId("devouring_swarm"))
+        createReciprocalLink(getAugmentEntryId("SA_defabSwarms"), CodexDataV2.getItemEntryId(Items.THREAT_PROCESSING_UNIT))
+        CodexDataV2.getEntry(getAugmentEntryId("SA_defabSwarms")).addRelatedEntry(getAugmentEntryId("SA_fragmentSwarm"))
+
+        createReciprocalLink(getAugmentEntryId("SA_shroudedMantle"), CodexDataV2.getItemEntryId(Items.SHROUDED_MANTLE))
+        createReciprocalLink(getAugmentEntryId("SA_shroudedLens"), CodexDataV2.getItemEntryId(Items.SHROUDED_LENS))
+        createReciprocalLink(getAugmentEntryId("SA_shroudedThunderhead"), CodexDataV2.getItemEntryId(Items.SHROUDED_THUNDERHEAD))
+
+    }
+
+    private fun createReciprocalLink(entryIdOne: String, entryIdTwo: String) {
+        val entryOne = CodexDataV2.getEntry(entryIdOne)
+        val entryTwo = CodexDataV2.getEntry(entryIdTwo)
+
+        entryOne.addRelatedEntry(entryTwo)
+        entryTwo.addRelatedEntry(entryOne)
     }
 
     fun updateVisibleAugments() {

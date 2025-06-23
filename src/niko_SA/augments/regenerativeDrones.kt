@@ -1,12 +1,12 @@
 package niko_SA.augments
 
 import com.fs.starfarer.api.Global
-import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.combat.BaseEveryFrameCombatPlugin
 import com.fs.starfarer.api.combat.ShipAPI
 import com.fs.starfarer.api.combat.ShipCommand
 import com.fs.starfarer.api.impl.campaign.ids.Industries
 import com.fs.starfarer.api.input.InputEventAPI
+import com.fs.starfarer.api.ui.CustomPanelAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import niko_SA.ReflectionUtils
@@ -48,8 +48,8 @@ class regenerativeDrones() : stationAttachment() {
         return "a vanilla star fortress"
     }
 
-    override fun getBasicDescription(tooltip: TooltipMakerAPI, expanded: Boolean) {
-        super.getBasicDescription(tooltip, expanded)
+    override fun getBasicDescription(tooltip: TooltipMakerAPI, expanded: Boolean, panel: CustomPanelAPI?) {
+        super.getBasicDescription(tooltip, expanded, panel)
 
         tooltip.addPara(
             "Special fabricators can be installed into the drone bays of the station core, allowing on-the-fly construction " +

@@ -41,10 +41,26 @@ SA_fighterTimeflow,Fighter Temporal Cores,"tritachyon, rare_bp, merc, tahlan_leg
 SA_bubbleShield,Bubble Shield,"rare_bp, merc, tritachyon, tahlan_legioinfernalis, scavengers",combatgood22,,Fabrique Orbitale,niko_SA.augments.bubbleShield,12,30,90,graphics/hullmods/omni_shield_emitter.png,25,,niko_stationAugments
 SA_jumpEngine,Jump Engine,"rare_bp, merc",logistics20,codex_unlockable,Domain Restricted,niko_SA.augments.jumpPoint.jumpPointCreator,10,30,90,graphics/hullmods/augmented_drive_field.png,20,,niko_stationAugments
 SA_aiFighterUplink,AI Fighter Uplink,"tritachyon, rare_bp, merc, tahlan_legioinfernalis, scavengers",combatgood15,,Tri-Tachyon,niko_SA.augments.aiFighterUplink,20,30,90,graphics/hullmods/automated.png,8,,niko_stationAugments
+SA_extremeModifications,Extreme Modifications,"pirate, luddic_path, independent, sindrian_diktat, scavengers, merc","combatgood2, combatbad2",,Common,niko_SA.augments.ExtremeModifications,20,30,90,graphics/hullmods/illadvised.png,-10,,niko_stationAugments
 ,,,,,,,,,,,,,
 #Unique augments below,,,,,,,,,,,,,
 SA_moteSink,High Volition Attractor,special,combatgood70,hide_in_codex,Unknown,niko_SA.augments.moteSink,0,0,0,graphics/hullmods/high_volition_attractor.png,40,,niko_stationAugments
 SA_moteSinkLow,Mote Sink,special,combatgood40,codex_unlockable,Unknown,niko_SA.augments.moteSinkLow,0,0,0,graphics/hullmods/high_volition_attractor.png,15,,niko_stationAugments
 ,,,,,,,,,,,,,
+#SA_phaseTeleporter,Phase Teleporter,special,combatgood40,codex_unlockable,Common,niko_SA.augments.PhaseTeleporter,0,0,0,graphics/hullmods/quantum_disruptor.png,30,,niko_stationAugments
+,,,,,,,,,,,,,
 ##Shrouded,,,,,,,,,,,,,
-SA_shroudedMantle,Shrouded Mantle,"shrouded, dweller, special",combatgood12,codex_unlockable,Unknown,niko_SA.augments.shrouded.shroudedMantle,0,0,0,graphics/hullmods/shrouded_mantle.png,14,shrouded_mantle,niko_stationAugments
+SA_shroudedMantle,Shrouded Mantle,"shrouded, dweller, special",combatgood12,codex_unlockable,Unknown,niko_SA.augments.shrouded.shroudedMantle,0,0,0,graphics/hullmods/shrouded_mantle.png,17,shrouded_mantle,niko_stationAugments
+SA_shroudedLens,Shrouded Lens,"shrouded, dweller, special",combatgood20,codex_unlockable,Unknown,niko_SA.augments.shrouded.ShroudedLens,0,0,0,graphics/hullmods/shrouded_lens.png,8,shrouded_lens,niko_stationAugments
+SA_shroudedThunderhead,Shrouded Thunderhead,"shrouded, dweller, special",combatgood12,codex_unlockable,Unknown,niko_SA.augments.shrouded.ShroudedThunderhead,0,0,0,graphics/hullmods/shrouded_thunderhead.png,9,shrouded_thunderhead,niko_stationAugments
+,,,,,,,,,,,,,
+##Threat,,,,,,,,,,,,,
+SA_fragmentSwarm,Fragment Swarm,"threat, special",combatgood1,codex_unlockable,Unknown,niko_SA.augments.threat.FragmentSwarm,0,0,0,graphics/hullmods/fragment_swarm.png,6,fragment_fabricator,niko_stationAugments
+SA_secondaryFabricator,Secondary Fabricator,"threat, special",combatgood1,codex_unlockable,Unknown,niko_SA.augments.threat.SecondaryFabricator,0,0,0,graphics/hullmods/secondary_fabricator.png,6,fragment_fabricator,niko_stationAugments
+SA_fragmentCoordinator,Fragment Coordinator,"threat, special",combatgood1,codex_unlockable,Unknown,niko_SA.augments.threat.FragmentCoordinator,0,0,0,graphics/hullmods/fragment_coordinator.png,6,threat_processing_unit,niko_stationAugments
+,,,,,,,,,,,,,
+SA_kineticFragments,Kinetic Fragments,"threat, special",combatgood1,codex_unlockable,Unknown,niko_SA.augments.threat.KineticFragments,0,0,0,graphics/augments/SA_kineticFrags.png,7,threat_processing_unit,niko_stationAugments
+SA_seekerFragments,Seeker Fragments,"threat, special",combatgood1,codex_unlockable,Unknown,niko_SA.augments.threat.SeekerFragments,0,0,0,graphics/augments/SA_seekerFrags.png,7,threat_processing_unit,niko_stationAugments
+SA_attackSwarms,Attack Fragments,"threat, special",combatgood1,codex_unlockable,Unknown,niko_SA.augments.threat.AttackSwarms,0,0,0,graphics/augments/SA_attackSwarms.png,5,threat_processing_unit,niko_stationAugments
+SA_constructionSwarms,Construction Swarms,"threat, special",combatgood1,codex_unlockable,Unknown,niko_SA.augments.threat.ConstructionSwarm,0,0,0,graphics/augments/SA_constructionFrags.png,9,threat_processing_unit,niko_stationAugments
+SA_defabSwarms,Defabrication Swarms,"threat, special",combatgood1,codex_unlockable,Unknown,niko_SA.augments.threat.DefabricationSwarm,0,0,0,graphics/augments/SA_defabSwarms.png,3,threat_processing_unit,niko_stationAugments

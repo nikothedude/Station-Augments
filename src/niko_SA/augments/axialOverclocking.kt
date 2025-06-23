@@ -1,8 +1,8 @@
 package niko_SA.augments
 
-import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.combat.ShipAPI
 import com.fs.starfarer.api.impl.campaign.ids.Industries
+import com.fs.starfarer.api.ui.CustomPanelAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import com.fs.starfarer.campaign.CircularOrbitWithSpin
@@ -46,8 +46,8 @@ class axialOverclocking : stationAttachment() {
         }
     }
 
-    override fun getBasicDescription(tooltip: TooltipMakerAPI, expanded: Boolean) {
-        super.getBasicDescription(tooltip, expanded)
+    override fun getBasicDescription(tooltip: TooltipMakerAPI, expanded: Boolean, panel: CustomPanelAPI?) {
+        super.getBasicDescription(tooltip, expanded, panel)
 
         tooltip.addPara(
             "The axial actuators on most stations are actually often operated well below maximum thresholds, making it trivial to increase the spin rate.",

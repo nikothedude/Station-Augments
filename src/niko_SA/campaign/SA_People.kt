@@ -10,6 +10,7 @@ import data.utilities.niko_MPC_ids
 object SA_People {
 
     const val DIKTAT_AGENT = "SA_diktatMoteAgent"
+    const val REACTIONARY_PATHER = "SA_reactionaryPather"
 
     fun getImportantPeople(): HashMap<String, PersonAPI> {
         if (Global.getSector().memoryWithoutUpdate["\$SA_importantPeople"] == null) {
@@ -31,6 +32,16 @@ object SA_People {
             agent.postId = Ranks.POST_SPECIAL_AGENT
 
             SA_importantPeople[DIKTAT_AGENT] = agent
+            importantPeople.addPerson(agent)
+        }
+        if (SA_importantPeople[REACTIONARY_PATHER] == null) {
+            val agent = Global.getSector().getFaction(Factions.LUDDIC_PATH).createRandomPerson(FullName.Gender.MALE)
+
+            agent.id = REACTIONARY_PATHER
+            agent.rankId = Ranks.CITIZEN
+            agent.postId = Ranks.POST_CITIZEN
+
+            SA_importantPeople[REACTIONARY_PATHER] = agent
             importantPeople.addPerson(agent)
         }
     }

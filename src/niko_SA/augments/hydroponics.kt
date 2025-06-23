@@ -1,9 +1,9 @@
 package niko_SA.augments
 
 import com.fs.starfarer.api.campaign.econ.Industry
-import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.combat.ShipAPI
 import com.fs.starfarer.api.impl.campaign.ids.Commodities
+import com.fs.starfarer.api.ui.CustomPanelAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import niko_SA.MarketUtils.applyDeficitToProductionStatic
@@ -52,8 +52,8 @@ class hydroponics() : stationAttachment() {
         industry.getSupply(Commodities.ORGANICS).quantity.unmodify(id)
     }
 
-    override fun getBasicDescription(tooltip: TooltipMakerAPI, expanded: Boolean) {
-        super.getBasicDescription(tooltip, expanded)
+    override fun getBasicDescription(tooltip: TooltipMakerAPI, expanded: Boolean, panel: CustomPanelAPI?) {
+        super.getBasicDescription(tooltip, expanded, panel)
 
         tooltip.addPara(
             "Modular hydroponics basins are a surprising challenge to set-up without pre-collapse material and soil nanites. But it can be done.",

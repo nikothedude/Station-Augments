@@ -9,6 +9,7 @@ import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.impl.combat.dweller.DwellerShroud
 import com.fs.starfarer.api.impl.combat.dweller.TenebrousExpulsionSystemScript
 import com.fs.starfarer.api.input.InputEventAPI
+import com.fs.starfarer.api.ui.CustomPanelAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.IntervalUtil
 import com.fs.starfarer.api.util.Misc
@@ -20,7 +21,6 @@ import org.lazywizard.lazylib.MathUtils
 import org.lazywizard.lazylib.VectorUtils
 import org.lazywizard.lazylib.combat.CombatUtils.applyForce
 import org.lwjgl.util.vector.Vector2f
-import kotlin.math.roundToInt
 
 class shroudedMantle: ShroudedAugment() {
     override fun applyInCombat(station: ShipAPI) {
@@ -31,8 +31,8 @@ class shroudedMantle: ShroudedAugment() {
         return
     }
 
-    override fun getBasicDescription(tooltip: TooltipMakerAPI, expanded: Boolean) {
-        super.getBasicDescription(tooltip, expanded)
+    override fun getBasicDescription(tooltip: TooltipMakerAPI, expanded: Boolean, panel: CustomPanelAPI?) {
+        super.getBasicDescription(tooltip, expanded, panel)
 
         tooltip.addPara(
             "Upon losing a module, the station will release a large pulse of \"demonic\" energy that pushes back - as well as partially flaming out - nearby ships. " +
@@ -70,7 +70,7 @@ class shroudedMantle: ShroudedAugment() {
         override fun advance(amount: Float, events: List<InputEventAPI?>?) {
             super.advance(amount, events)
 
-            val adjustedAmount = amount * Global.getCombatEngine().timeMult.modified
+            //val adjustedAmount = amount * Global.getCombatEngine().timeMult.modified
 
             if (Global.getCombatEngine().isPaused) return
 
@@ -80,6 +80,12 @@ class shroudedMantle: ShroudedAugment() {
             }
 
             if (cooldownLeft > 0f) {
+                for (module in originalChildList.toMutableSet()) {
+                    if (!module.isAlive) {
+                        originalChildList -= module
+                    }
+                }
+
                 cooldownLeft -= amount
                 cooldownLeft = cooldownLeft.coerceAtLeast(0f)
             }
@@ -110,15 +116,16 @@ class shroudedMantle: ShroudedAugment() {
             for (module in station.childModulesCopy + station) {
                 val shroud = DwellerShroud.getShroudFor(module) ?: continue
                 //shroud?.params?.removeMembersAboveMaintainLevel = true
-                shroud.params.flashFrequency = 1f
-                shroud.params.flashProbability = 1f
-                shroud.params.numToFlash = 1
-                shroud.params.flashRadius = 125f
-                shroud.params.flashRateMult = 1f
+                shroud.params.flashFrequency /= 2f
+                shroud.params.numToFlash /= 20
+                shroud.params.flashRadius /= 4
+                shroud.params.flashRateMult = 0.25f
             }
 
             pulsePrepLeft = 0f // sanity
             currentPulseTarget = null
+
+            Global.getCombatEngine().customData.remove("\$SA_shroudedMantleCharging_${station.id}")
         }
 
         private fun doPrepLightning() {
@@ -160,7 +167,7 @@ class shroudedMantle: ShroudedAugment() {
             val module = target.first
             val type = target.second
 
-            val sound = Global.getSoundPlayer().playSound(type.sound, 1f, 3f, station.location, Misc.ZERO)
+            val sound = Global.getSoundPlayer().playSound(type.sound, 1f, 6f, station.location, Misc.ZERO)
             pulsePrepLeft = type.pulsePrepSeconds
             cooldownLeft = type.cooldownSecs
 
@@ -170,13 +177,14 @@ class shroudedMantle: ShroudedAugment() {
                 val shroud = DwellerShroud.getShroudFor(module) ?: continue
                 //shroud.params.removeMembersAboveMaintainLevel = false
                 //shroud.addMembers((shroud.members.size * 0.35f).toInt())
-                shroud.params.flashFrequency = 20f
-                shroud.params.flashProbability = 1f
-                shroud.params.numToFlash = 20
-                shroud.params.flashRadius = 300f
-                shroud.params.renderFlashOnSameLayer = true
-                shroud.params.flashRateMult = 0.25f
+                shroud.params.flashFrequency *= 2f
+                //shroud.params.flashProbability = 1f
+                shroud.params.numToFlash *= 20
+                shroud.params.flashRadius *= 4f
+                shroud.params.flashRateMult = 2f
             }
+
+            Global.getCombatEngine().customData["\$SA_shroudedMantleCharging_${station.id}"] = true
         }
 
         private fun getBestModuleDestroyed(withClear: Boolean = true): Pair<ShipAPI, ModuleType>? {
@@ -204,7 +212,7 @@ class shroudedMantle: ShroudedAugment() {
                 val tip = (max.first.collisionRadius / 2) + max.second
                 pushAwayEntities(
                     station,
-                    3500f,
+                    2150f,
                     tip + 1250f,
                     tip + 5000f,
                     flameout = true
@@ -218,7 +226,7 @@ class shroudedMantle: ShroudedAugment() {
                 val tip = (max.first.collisionRadius / 2) + max.second
                 pushAwayEntities(
                     station,
-                    8000f,
+                    4400f,
                     tip + 1800f,
                     tip + 6250f,
                     flameout = true
@@ -277,10 +285,13 @@ class shroudedMantle: ShroudedAugment() {
 
                     Vector2f.add(pushDir, entity.velocity, entity.velocity)*/
 
+                    val oldMass = entity.mass
+                    entity.mass = oldMass.coerceAtMost(1250f) // we want to shove capitals away
                     applyForce(entity, VectorUtils.getDirectionalVector(focus.location, iter.location), (force * effectMult))
+                    entity.mass = oldMass
                     if (flameout && entity is ShipAPI && entity.owner != focus.owner) {
                         val engines = entity.engineController
-                        val percentOfEnginesToFlameOut = (0.2f * effectMult)
+                        val percentOfEnginesToFlameOut = (0.3f * effectMult)
                         if (percentOfEnginesToFlameOut <= 0.05f) continue
                         val totalEngines = engines.shipEngines.size
                         for (engine in engines.shipEngines.shuffled()) {
@@ -307,15 +318,15 @@ class shroudedMantle: ShroudedAugment() {
                 }
 
                 for (projectile in engine.projectiles.filter { Misc.getDistance(focus.location, it.location) <= (minRange * 1.3f)}) {
-                    //if (!friendlyToo && projectile.owner == focus.owner) continue
+                    if (projectile.owner == focus.owner) continue
 
                     engine.removeEntity(projectile) // gone
                 }
 
                 if (SA_settings.graphicsLibEnabled) {
                     val ripple = RippleDistortion(focus.location, Misc.ZERO)
-                    ripple.intensity = 1000f
-                    ripple.size = maxRange * 0.7f
+                    ripple.intensity = 400f
+                    ripple.size = maxRange * 1f
                     ripple.fadeInSize(1.4f)
                     ripple.fadeOutIntensity(0.4f)
 
@@ -326,8 +337,7 @@ class shroudedMantle: ShroudedAugment() {
                 var moduleWithMaxDist: ShipAPI? = null
                 var maxDist = 0f
 
-                var coloredShield = false
-                for (module in station.childModulesCopy) {
+                for (module in station.childModulesCopy.filter { it.isAlive }) {
                     val dist = MathUtils.getDistance(station.location, module.location)
                     if (dist > maxDist) {
                         moduleWithMaxDist = module

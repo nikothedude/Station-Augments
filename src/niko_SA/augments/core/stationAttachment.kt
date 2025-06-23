@@ -18,14 +18,19 @@ import com.fs.starfarer.api.impl.campaign.ids.Industries
 import com.fs.starfarer.api.impl.campaign.ids.MemFlags
 import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.ui.Alignment
+import com.fs.starfarer.api.ui.CustomPanelAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
+import niko_SA.MarketUtils.getAugmentBudget
 import niko_SA.MarketUtils.getRemainingAugmentBudget
 import niko_SA.MarketUtils.getStationAugments
+import niko_SA.MarketUtils.getUsedAugmentBudget
 import niko_SA.MarketUtils.removeStationAugment
 import niko_SA.SA_mathUtils.trimHangingZero
+import niko_SA.SA_settings.ALLOW_MODIFY_OF_ALL_STATIONS
 import niko_SA.codex.CodexData.getAugmentEntryId
 import org.magiclib.kotlin.getStorageCargo
+import kotlin.math.abs
 
 /** Industries of this type attempt to modify an existing station in combat, and potentially, in campaign.*/
 abstract class stationAttachment() : BaseCampaignEventListener(false), CoreAutoresolveListener {
@@ -159,11 +164,11 @@ abstract class stationAttachment() : BaseCampaignEventListener(false), CoreAutor
 
     /** Called once when the augment is added to the market. */
     open fun onAdded() {
-        apply()
         market?.getStationAugments() += this
+        apply()
 
         val reqId = getRequiredItemId()
-        if (applied && considerReqItem && reqId != null) {
+        if (applied && considerReqItem && (ALLOW_MODIFY_OF_ALL_STATIONS || market?.isPlayerOwned == true) && reqId != null) {
             var dockedAtMarket = if (market != null && Global.getSector().playerFleet?.interactionTarget == market) market else null
 
             removeRequiredItem(reqId, dockedAtMarket)
@@ -180,11 +185,11 @@ abstract class stationAttachment() : BaseCampaignEventListener(false), CoreAutor
 
     /** Called once when the augment is removed from the market. */
     open fun onRemoved() {
-        unapply()
         market?.getStationAugments() -= this
+        unapply()
 
         val reqId = getRequiredItemId()
-        if (considerReqItem && reqId != null) {
+        if (considerReqItem && reqId != null && (ALLOW_MODIFY_OF_ALL_STATIONS || market?.isPlayerOwned == true)) {
             var dockedAtMarket = if (market != null && Global.getSector().playerFleet?.interactionTarget == market) market else null
 
             addRequiredItem(reqId, dockedAtMarket)
@@ -200,9 +205,12 @@ abstract class stationAttachment() : BaseCampaignEventListener(false), CoreAutor
     fun doEnabledCheck() {
         considerAP = false
         considerEngagement = false
+        considerReqItem = false
         if (!canBeModifiedOrBuilt()) {
+            considerReqItem = true
             market?.removeStationAugment(this)
         }
+        considerReqItem = true
         considerAP = true
         considerEngagement = true
     }
@@ -226,7 +234,7 @@ abstract class stationAttachment() : BaseCampaignEventListener(false), CoreAutor
                 val spec = Global.getSettings().getSpecialItemSpec(getRequiredItemId())
                 val name = spec.name
                 val aOrAnd = Misc.getAOrAnFor(name)
-                return "No $aOrAnd $name"
+                return "No $name"
             }
         }
         if (stationTypeWhitelist.isNotEmpty() && !stationTypeWhitelist.contains(station.spec.id)) {
@@ -277,16 +285,19 @@ abstract class stationAttachment() : BaseCampaignEventListener(false), CoreAutor
         return getStationIndustry()?.stationEntity
     }
 
-    open fun getBasicDescription(tooltip: TooltipMakerAPI, expanded: Boolean) {
+    open fun getBasicDescription(tooltip: TooltipMakerAPI, expanded: Boolean, panel: CustomPanelAPI?) {
         val orbitalStation = getStationIndustry()
+        val augmentCost = getAugmentCost()
+        val augmentCostAbs = abs(getAugmentCost())
         if (orbitalStation != null) {
+            val initialString = if (augmentCost >= 0f) "This augment costs %s AP to install" else "This augment increases the AP budget by %s"
             val remainingAugmentBudget = orbitalStation.getRemainingAugmentBudget()
             val para = tooltip.addPara(
-                "This augment costs %s AP to install. The ${orbitalStation.currentName} currently has %s AP remaining. " +
+                "$initialString. The ${orbitalStation.currentName} currently has %s AP remaining. " +
                         "AP can be increased by upgrading the station, or by improving it with story points (%s).",
                 5f,
                 Misc.getHighlightColor(),
-                "${getAugmentCost().trimHangingZero()}",
+                "${augmentCostAbs.trimHangingZero()}",
                 "${remainingAugmentBudget.trimHangingZero()}",
                 "${STATION_IMPROVED_AP_BONUS.trimHangingZero()} AP"
             )
@@ -311,7 +322,9 @@ abstract class stationAttachment() : BaseCampaignEventListener(false), CoreAutor
         }
 
         if (market == null) {
-            tooltip.addPara("This augment nominally costs %s to install.", 10f, Misc.getHighlightColor(), "${getAugmentCost().trimHangingZero()} AP")
+            val initialString = if (augmentCost >= 0f) "This augment nominally costs %s to install." else "This augment nominally increases AP by %s."
+
+            tooltip.addPara(initialString, 10f, Misc.getHighlightColor(), "${augmentCostAbs.trimHangingZero()} AP")
         }
 
         if (getRequiredItemId() != null) {
@@ -436,6 +449,22 @@ abstract class stationAttachment() : BaseCampaignEventListener(false), CoreAutor
 
     fun getRequiredItemId(): String? = getSpec().requiredItemId
 
+    fun getAPChangeInapplicableReason(newAp: Float): String? {
+        if (getStationIndustry() == null) return null
+        val apTotal = getStationIndustry()!!.getUsedAugmentBudget() - getAugmentCost()
+        if ((apTotal + newAp) > getStationIndustry()!!.getAugmentBudget()) {
+            return "Exceeds maximum AP cost"
+        }
+        return null
+    }
+
+    open fun modifyAugmentMenu(tooltip: TooltipMakerAPI, panel: CustomPanelAPI?, buttonPanel: CustomPanelAPI?, delegate: AugmentMenuDialogueDelegate) {
+
+    }
+
+    open fun getIdealButtonWidth(panel: CustomPanelAPI?): Float = 595.0f
+    open fun getIdealButtonHeight(panel: CustomPanelAPI?): Float = 86.0f
+
     class ConstantStationCheckingScript(val augment: stationAttachment): EveryFrameScript {
         var done = false
         override fun isDone(): Boolean = done
@@ -443,7 +472,8 @@ abstract class stationAttachment() : BaseCampaignEventListener(false), CoreAutor
         override fun runWhilePaused(): Boolean = true
 
         override fun advance(amount: Float) {
-            if (!Global.getSector().campaignUI.isShowingDialog) {
+            val market = augment.market
+            if (!Global.getSector().campaignUI.isShowingDialog || (market != null && !market.getStationAugments().contains(augment))) {
                 done = true
                 return
             }

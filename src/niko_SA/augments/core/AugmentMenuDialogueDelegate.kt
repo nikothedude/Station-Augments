@@ -6,7 +6,6 @@ import com.fs.starfarer.api.campaign.BaseCustomUIPanelPlugin
 import com.fs.starfarer.api.campaign.CustomDialogDelegate.CustomDialogCallback
 import com.fs.starfarer.api.campaign.econ.Industry
 import com.fs.starfarer.api.campaign.econ.MarketAPI
-import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.impl.campaign.intel.events.BaseFactorTooltip
 import com.fs.starfarer.api.ui.Alignment
 import com.fs.starfarer.api.ui.ButtonAPI
@@ -24,6 +23,7 @@ import niko_SA.augments.core.stationAugmentStore.allAugments
 import niko_SA.augments.core.stationAugmentStore.getPlayerKnownAugments
 import niko_SA.codex.CodexData
 import java.awt.Color
+import kotlin.math.abs
 
 // all this has to do is show the existing augments, not elegant but it works
 class AugmentMenuDialogueDelegate(val station: Industry): BaseCustomDialogDelegate() {
@@ -59,7 +59,9 @@ class AugmentMenuDialogueDelegate(val station: Industry): BaseCustomDialogDelega
         if (panel == null || callback == null) return
         basePanel = panel
         regenerateDialog(callback)
+        this.callback = callback
     }
+    var callback: CustomDialogCallback? = null
 
     fun regenerateDialog(callback: CustomDialogCallback) {
         val oldPanel = panel
@@ -124,8 +126,8 @@ class AugmentMenuDialogueDelegate(val station: Industry): BaseCustomDialogDelega
                 }
 
                 val augmentButtonPanel = panel!!.createCustomPanel(
-                    595.0f,
-                    86.0f,
+                    augmentInstance.getIdealButtonWidth(panel),
+                    augmentInstance.getIdealButtonHeight(panel),
                     ButtonReportingCustomPanel(this, callback)
                 )
                 val spriteName: String = augmentInstance.getImageName(market)
@@ -134,7 +136,7 @@ class AugmentMenuDialogueDelegate(val station: Industry): BaseCustomDialogDelega
                 val aspectRatio = sprite.width / sprite.height
                 val adjustedWidth = (80.0f * aspectRatio).coerceAtMost(sprite.width)
                 val defaultPadding = 2.0f
-                val textPanel: TooltipMakerAPI = augmentButtonPanel.createUIElement(595.0f - adjustedWidth - opad - defaultPadding, 80.0f, false)
+                val textPanel: TooltipMakerAPI = augmentButtonPanel.createUIElement(augmentInstance.getIdealButtonWidth(panel) - adjustedWidth - opad - defaultPadding, augmentInstance.getIdealButtonHeight(panel), false)
 
                 if (mode == Mode.MODIFYING && (canBuild && canAfford)) {
                     textPanel.addSectionHeading(" " + augmentInstance.getName(), Alignment.LMID, 0.0f)
@@ -150,31 +152,35 @@ class AugmentMenuDialogueDelegate(val station: Industry): BaseCustomDialogDelega
 
                 val anonymousTooltip = object : BaseFactorTooltip() {
                     override fun createTooltip(tooltip: TooltipMakerAPI, expanded: Boolean, tooltipParam: Any) {
-
-                        augmentInstance.getBasicDescription(tooltip, expanded)
+                        if (panel != null) {
+                            augmentInstance.getBasicDescription(tooltip, expanded, panel)
+                        }
                     }
                 }
                 textPanel.addTooltipTo(anonymousTooltip, textPanel, TooltipMakerAPI.TooltipLocation.LEFT)
                 //textPanel.addTooltipToPrevious(anonymousTooltip, TooltipMakerAPI.TooltipLocation.LEFT, false)
                 // augmentInstance.getBasicDescription(textPanel, false)
                 val cost = augmentInstance.getAugmentCost()
-                var APColor =
-                    if (augmentInstance.applied || cost <= market.getRemainingAugmentBudget()) Misc.getHighlightColor() else Misc.getNegativeHighlightColor()
+                var APColor = if (augmentInstance.applied || cost <= market.getRemainingAugmentBudget()) Misc.getHighlightColor() else Misc.getNegativeHighlightColor()
+                if (cost < 0f) APColor = Misc.getPositiveHighlightColor()
                 val builtInColor = augmentInstance.builtInMode.getAPColor()
                 if (builtInColor != null) {
                     APColor = builtInColor
                 }
+                val plusOrNot = if (cost >= 0f) "" else "+"
                 textPanel.addPara(
                     "%s AP",
                     5f,
                     APColor,
-                    "${cost.trimHangingZero()}"
+                    "$plusOrNot${abs(cost).trimHangingZero()}"
                 )
                 if (!augmentInstance.applied) {
                     val unavailableReason = augmentInstance.getUnavailableReason()
                     if (unavailableReason != null) {
                         textPanel.addPara(unavailableReason, opad, Misc.getNegativeHighlightColor(), unavailableReason)
                     }
+                } else {
+                    augmentInstance.modifyAugmentMenu(textPanel, panel, augmentButtonPanel, this)
                 }
                 /*textPanel.addPara(augmentInstance.getDescription().getText2(), opad)
             if (!canBuild) {

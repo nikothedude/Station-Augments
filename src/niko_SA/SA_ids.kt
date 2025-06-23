@@ -16,4 +16,6 @@ object SA_ids {
     const val SA_augmentDefCsvPath = "data/campaign/SA_station_augments.csv"
 
     const val CODEX_KNOWN_AUGMENTS = "\$SA_codexKnownAugments"
+
+    const val SA_didPathReactionToShroudedAugment = "\$SA_didPathReactionToShroudedAug"
 }

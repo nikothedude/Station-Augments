@@ -1,7 +1,7 @@
 package niko_SA.augments
 
-import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.combat.ShipAPI
+import com.fs.starfarer.api.ui.CustomPanelAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import niko_SA.augments.core.stationAttachment
@@ -23,8 +23,8 @@ class heavyArmor() : stationAttachment() {
         station.mutableStats.turnAcceleration.modifyMult(id, TURN_RATE_MULT)
     }
 
-    override fun getBasicDescription(tooltip: TooltipMakerAPI, expanded: Boolean) {
-        super.getBasicDescription(tooltip, expanded)
+    override fun getBasicDescription(tooltip: TooltipMakerAPI, expanded: Boolean, panel: CustomPanelAPI?) {
+        super.getBasicDescription(tooltip, expanded, panel)
 
         val test = tooltip.addPara(
             "Increases %s of all modules by %s, but decreases %s by %s.",

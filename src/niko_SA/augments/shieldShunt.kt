@@ -1,17 +1,15 @@
 package niko_SA.augments
 
 import com.fs.starfarer.api.Global
-import com.fs.starfarer.api.combat.BattleObjectiveAPI
 import com.fs.starfarer.api.combat.ShieldAPI
 import com.fs.starfarer.api.combat.ShipAPI
 import com.fs.starfarer.api.impl.campaign.ids.Tags
+import com.fs.starfarer.api.ui.CustomPanelAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
-import com.fs.starfarer.combat.CombatEngine
 import com.fs.starfarer.combat.ai.BasicShipAI
 import com.fs.starfarer.combat.ai.attack.AttackAIModule
 import com.fs.starfarer.combat.ai.ooOO
-import com.fs.starfarer.combat.entities.BattleObjective
 import com.fs.starfarer.combat.entities.Ship
 import niko_SA.ReflectionUtils.get
 import niko_SA.ReflectionUtils.set
@@ -118,8 +116,8 @@ class shieldShunt() : stationAttachment() {
         return !(this.mutableStats.getHullDamageTakenMult().getModifiedValue() <= 0.0f)
     }
 
-    override fun getBasicDescription(tooltip: TooltipMakerAPI, expanded: Boolean) {
-        super.getBasicDescription(tooltip, expanded)
+    override fun getBasicDescription(tooltip: TooltipMakerAPI, expanded: Boolean, panel: CustomPanelAPI?) {
+        super.getBasicDescription(tooltip, expanded, panel)
 
         tooltip.addPara(
             "The removal of a shield grid leaves tremendous space for improvement, especially on something as large as a space station.",

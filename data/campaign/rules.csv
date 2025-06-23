@@ -218,4 +218,68 @@ You sigh, double-and-triple checking the file system for any more context, but n
 SA_MSBreadcrumbReturn,DialogOptionSelected,"$option == SA_MSBreadcrumbReturn","BarCMD showOptions","Pocketing the chit yet again, you sigh and instruct your guards to cease the futile search for your ""benefactor"", opting instead to resume your duties of searching the bar for leads. This is all terribly interesting, yes, but you can investigate *after* you're done here.",,
 "#END Breadcrumbs",,,,,,
 "#END Black site",,,,,,
+,,,,,,
+# Dweller hullmods,,,,,,
+SA_ShroudedHullmodMantleHijack,DialogOptionSelected,"$option == ShroudedHMM_talk6
+!$SA_hijacked_mantle score:10","$SA_hijacked_mantle = true 0
+SA_shroudedCMD unlockAugment SA_shroudedMantle
+
+$option = ShroudedHMM_talk6
+FireBest DialogOptionSelected",,,
+SA_ShroudedHullmodLensHijack,DialogOptionSelected,"$option == ShroudedHML_talk5
+!$SA_hijacked_lens score:10","$SA_hijacked_lens = true 0
+SA_shroudedCMD unlockAugment SA_shroudedLens
+
+$option = ShroudedHML_talk5
+FireBest DialogOptionSelected",,,
+SA_ShroudedHullmodThunderHijack,DialogOptionSelected,"$option == ShroudedHMTH_talk4
+!$SA_hijacked_thunderhead score:10","$SA_hijacked_thunderhead = true 0
+SA_shroudedCMD unlockAugment SA_shroudedThunderhead
+
+$option = ShroudedHMTH_talk4
+FireBest DialogOptionSelected",,,
+,,,,,,
+# Church reaction to the augment,,,,,,
+SA_shroudedAugmentBarEventInit,DialogOptionSelected,"$option == marketVisitBar
+$global.SA_waitingToDoPathReactionToShroudedAug
+SA_shroudedCMD hasShroudedAugment
+$faction.id == player","BarCMD playAmbience
+ShowImageVisual space_bar
+$global.SA_didPathReactionToShroudedAug = true
+$global.SA_waitingToDoPathReactionToShroudedAug = false
+FireBest SA_shroudedAugmentBarEventInitTwo",,,
+SA_shroudedAugmentBarEventInitTwo,SA_shroudedAugmentBarEventInitTwo,,,"You take a shuttle down to the main concourse with intent to find a social area to snoop around in. You quickly locate a likely-looking establishment, but it seems to be the centerpiece of some commotion - spacers, half worried and half irritated, crowd outside, being ushered away by local MuniSec to the best of their ability. You can't quite see inside, but you think you can hear shouting...","SA_shroudedAugmentBarEventTwo:Approach the crowd
+SA_shroudedAugmentBarEventNah:Find somewhere else to spend your time",
+SA_shroudedAugmentBarEventTwo,DialogOptionSelected,"$option == SA_shroudedAugmentBarEventTwo",,"You muscle your way through the crowd, ignoring death-glares and frightened yelps from the spacers around you. Soon enough, you're met by the rigid gaze and blockade of a young-looking MuniSec officer, clearly inexperienced with gatherings such as this.
+
+""$PlayerSirOrMadam, please stay back, we-have a, situation here... I promise, the bar will open soon! We just need to resolve this first!"" the officer seems not to notice your status, treating you as he would any other rabble.","SA_shroudedAugmentBarEventThree:""And this situation is?""",
+SA_shroudedAugmentBarEventThree,DialogOptionSelected,"$option == SA_shroudedAugmentBarEventThree",,"The officer sputters, turning a slight shade of red. ""That's-none of your concern, $PlayerSirOrMadam!"" he stiffens, arching his back in an attempt to seem imposing. ""Please, step back!""","SA_shroudedAugmentBarEventFour:""My name is $PlayerName. I demand to be let through.""",
+SA_shroudedAugmentBarEventFour,DialogOptionSelected,"$option == SA_shroudedAugmentBarEventFour",,"The redness spreads to the officer's lips, eyes, and neck, his eyes shooting up and down from his PDA as he has difficulty processing your identity. As he stammers to muster a response, you simply walk forward and past the now disarmed MuniSec, desperately trying to find some sort of regulation he can use to keep the peace, and keep you away.
+
+He won't find any. You've made sure of this.","SA_shroudedAugmentBarEventFive:Approach the entrance",
+SA_shroudedAugmentBarEventFive,DialogOptionSelected,"$option == SA_shroudedAugmentBarEventFive","SA_shroudedCMD stopBarAmbience","Now away from the roaring murmur of the crowds, you can hear it a little more closely. A single voice rings out from the interior of the boxy building, masculine in nature and filled with rage. Approaching the front door, you notice tables overturned, a terrified-looking bartender...
+
+And a dressed-up luddic pather, LMP in their left hand, and a bomb in the other. Both are pointed at you.
+
+But before you can respond, or even move your legs to run, you hear a shout, see a flash, and soon enough find yourself on the floor, head throbbing, the edges of your vision nothing but a bloody red.","SA_shroudedAugmentBarEventSix:Groan, and sit up",
+SA_shroudedAugmentBarEventSix,DialogOptionSelected,"$option == SA_shroudedAugmentBarEventSix",,"The process of sitting up is excruciating. Everything seems far too bright, and the slightest rotation of your head sends you spinning. Still, you quickly - with assistance - find yourself on your knees, looking into the scene before you.
+
+The pather has been restrained, tough-looking MuniSec members armed to the teeth surrounding them. A particularly armored goon deposits the bomb in a small black box, which is quickly whisked away though the now gaping back entrance by a quadruped EOD-drone. The pather himself is growling, barking out curses and rolling over, resisting in futility against the robust military-grade exoframes the officers use to bear down on him.","SA_shroudedAugmentBarEventSeven:Continue",
+SA_shroudedAugmentBarEventSeven,DialogOptionSelected,"$option == SA_shroudedAugmentBarEventSeven",,"The pather, lifted to his feed, notices you once again. ""YOU! This Mammonian structure - TAINTED by the blood of DEMONS -"" he hisses, his neck suddenly clenched by a officer behind him. ""-your clemency will be locked behind gate and key. The eyes of all walkers are on this platform, and we see your consortment with the *devil*."" He snarls, before being whisked away, past the gawking crowd, and away into a nearby MuniSec outpost.
+
+You reflexively turn to defend yourself against a set of incoming footsteps, but are relieved to see it's just the young officer from before, panting and looking as red as a beet.","SA_shroudedAugmentBarEventEight:""What happened? Who was that guy?""",
+SA_shroudedAugmentBarEventEight,DialogOptionSelected,"$option == SA_shroudedAugmentBarEventEight","SetTextHighlights ""shroud""
+AdjustRep luddic_church HOSTILE -10
+AdjustRep luddic_path HOSTILE -30","""H-he... he was some sort of extremist, $playerSirOrMadam."" he nods. ""He showed up during peak hours, shot a few rounds into the ceiling, produced the bomb... started shouting about the 'shroud'. Something about the... red mantle we have around the hull of the station?""
+
+You realize what this means. This pather must have noticed the 'demonic' technologies in use by this station and decided to take action. You knew this would happen - you just didn't know when.","SA_shroudedAugmentBarEventNine:Continue",
+SA_shroudedAugmentBarEventNine,DialogOptionSelected,"$option == SA_shroudedAugmentBarEventNine",,"The officer follows behind you as you walk. ""We are so, so sorry about this - incidents a-are usually, isolated, and nipped on the bud - we promise this won't happen again. We-"" the officer stiffens as you turn to face them and wave them off. With a nod and a salute, the officer turns back to corral the crowd away from the bar - it's windows now shuttered with plasteel and the door locked. Seems business is over.
+
+You rub your head and groan, and decide to find somewhere a little quieter while your migraine settles.","SA_shroudedAugmentBarEventEnd:Find somewhere to go",
+SA_shroudedAugmentBarEventEnd,DialogOptionSelected,"$option == SA_shroudedAugmentBarEventEnd","BarCMD playAmbience
+BarCMD showOptions",,,
+SA_shroudedAugmentBarEventNah,DialogOptionSelected,"$option == SA_shroudedAugmentBarEventNah","AdjustRep luddic_church HOSTILE -10
+AdjustRep luddic_path HOSTILE -30","You opt to simply find somewhere else to stay - these incidents are resolved by MuniSec without your interference. And, indeed, merely a minute later you look back to see a dazed pather being hauled out, howling nonsense and curses.","SA_shroudedAugmentBarEventEnd:Find somewhere to go",
+"#END Church reaction to the augment",,,,,,
+"#END Dweller hullmods",,,,,,
 
