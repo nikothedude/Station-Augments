@@ -41,7 +41,7 @@ SA_fighterTimeflow,Fighter Temporal Cores,"tritachyon, rare_bp, merc, tahlan_leg
 SA_bubbleShield,Bubble Shield,"rare_bp, merc, tritachyon, tahlan_legioinfernalis, scavengers",combatgood22,,Fabrique Orbitale,niko_SA.augments.bubbleShield,12,30,90,graphics/hullmods/omni_shield_emitter.png,25,,niko_stationAugments
 SA_jumpEngine,Jump Engine,"rare_bp, merc",logistics20,codex_unlockable,Domain Restricted,niko_SA.augments.jumpPoint.jumpPointCreator,10,30,90,graphics/hullmods/augmented_drive_field.png,20,,niko_stationAugments
 SA_aiFighterUplink,AI Fighter Uplink,"tritachyon, rare_bp, merc, tahlan_legioinfernalis, scavengers",combatgood15,,Tri-Tachyon,niko_SA.augments.aiFighterUplink,20,30,90,graphics/hullmods/automated.png,8,,niko_stationAugments
-SA_extremeModifications,Extreme Modifications,"pirate, luddic_path, independent, sindrian_diktat, scavengers, merc","combatgood2, combatbad2",,Common,niko_SA.augments.ExtremeModifications,20,30,90,graphics/hullmods/illadvised.png,-10,,niko_stationAugments
+SA_extremeModifications,Extreme Modifications,"pirate, luddic_path, independent, sindrian_diktat, scavengers, merc","combatgood2, combatbad2, skipautofitchance60",,Common,niko_SA.augments.ExtremeModifications,20,30,90,graphics/hullmods/illadvised.png,-10,,niko_stationAugments
 ,,,,,,,,,,,,,
 #Unique augments below,,,,,,,,,,,,,
 SA_moteSink,High Volition Attractor,special,combatgood70,hide_in_codex,Unknown,niko_SA.augments.moteSink,0,0,0,graphics/hullmods/high_volition_attractor.png,40,,niko_stationAugments

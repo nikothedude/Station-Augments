@@ -13,6 +13,7 @@ import niko_SA.MarketUtils.getStationIndustry
 import niko_SA.SA_delayedExecution
 import niko_SA.SA_ids
 import niko_SA.SA_ids.SA_lastAPValueMemid
+import niko_SA.SA_mathUtils.prob
 import niko_SA.SA_settings
 import niko_SA.augments.core.stationAugmentSpec
 import niko_SA.augments.core.stationAugmentStore
@@ -103,7 +104,7 @@ class SA_augmentAutofitter: BaseCampaignEventListener(false) {
                     val brokenUp = regex.findAll(usageTag).map { it.groupValues.first() }.toList()
 
                     val base = brokenUp[0]
-                    val rating = brokenUp[1].toFloat()
+                    val rating = if (brokenUp.size > 1) brokenUp[1].toFloat() else 0f
 
                     when (base) {
                         "combatgood" -> {
@@ -115,9 +116,17 @@ class SA_augmentAutofitter: BaseCampaignEventListener(false) {
                         "logisticsWeight" -> {
                             weight += rating * logisticWeight
                         }
+                        "skipautofitchance" -> {
+                            if (prob(rating)) {
+                                weight = 0f
+                                break
+                            }
+                        }
                     }
                 }
-                picker.add(spec, weight)
+                if (weight >= 0f) {
+                    picker.add(spec, weight)
+                }
             }
             while (!picker.isEmpty) {
                 val picked = picker.pickAndRemove()

@@ -1,3 +1,8 @@
+2.2.1
+SAVE COMPATIBLE
+
+Extreme modifications now has a high chance to be skipped during autofit
+
 2.2.0
 SAVE COMPATIBLE
 
