@@ -1,14 +1,17 @@
 package niko_SA
 
+import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.campaign.econ.Industry
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.impl.campaign.econ.impl.BaseIndustry
 import com.fs.starfarer.api.impl.campaign.econ.impl.OrbitalStation
+import com.fs.starfarer.api.impl.campaign.ids.Skills
 import com.fs.starfarer.api.util.Misc
 import com.fs.starfarer.api.util.Pair
 import niko_SA.SA_settings.BASE_STATION_AUGMENT_BUDGET
 import niko_SA.augments.core.BuiltInMode
 import niko_SA.augments.core.stationAttachment
+import niko_SA.augments.core.stationAttachment.Companion.BEST_OF_THE_BEST_AP_BONUS
 import niko_SA.augments.core.stationAttachment.Companion.STATION_IMPROVED_AP_BONUS
 import niko_SA.augments.core.stationAugmentStore
 
@@ -27,6 +30,14 @@ object MarketUtils {
         }
         val marketBonus = market?.memoryWithoutUpdate?.getFloat(SA_ids.MARKET_BONUS_BUDGET_MEMID) ?: 0f
         points += marketBonus
+
+        if (market.isPlayerOwned) {
+            val playerPerson = Global.getSector().playerPerson
+            if (playerPerson.stats.hasSkill(Skills.BEST_OF_THE_BEST)) {
+                points += BEST_OF_THE_BEST_AP_BONUS
+            }
+        }
+
         return points
     }
 

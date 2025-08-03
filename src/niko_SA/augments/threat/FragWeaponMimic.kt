@@ -45,6 +45,11 @@ abstract class FragWeaponMimic(
     )
 
     fun tryFiring(params: fireParams): Boolean {
+        if (delayLeft > 0f) return false
+        val swarm = RoilingSwarmEffect.getSwarmFor(ship) ?: return false
+        if (swarm.members.size < fragmentsNeeded) return false
+        if (bonusCanFireCheck?.invoke(ship, swarm) == false) return false
+
         val target = getFireTarget(params)
         if (!params.needTarget || target != null) {
             fire(target, params)
@@ -54,10 +59,7 @@ abstract class FragWeaponMimic(
     }
 
     open fun getFireTarget(params: fireParams): ShipAPI? {
-        if (delayLeft > 0f) return null
         val swarm = RoilingSwarmEffect.getSwarmFor(ship) ?: return null
-        if (swarm.members.size < fragmentsNeeded) return null
-        if (bonusCanFireCheck?.invoke(ship, swarm) == false) return null
 
         val engine = Global.getCombatEngine()
 

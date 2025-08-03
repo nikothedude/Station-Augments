@@ -6,6 +6,7 @@ import com.fs.starfarer.api.impl.campaign.ids.Items
 import niko_SA.SA_debugUtils
 import niko_SA.SA_ids
 import niko_SA.SA_ids.SA_augmentDefCsvPath
+import niko_SA.SA_settings
 import niko_SA.codex.CodexData
 import niko_SA.niko_SA_modPlugin
 import org.lazywizard.lazylib.ext.json.iterator
@@ -48,6 +49,10 @@ object stationAugmentStore {
         return Global.getSector().playerFaction.getKnownAugments()
     }
 
+    /// Only use if you're calling from java.
+    @JvmStatic
+    fun getKnownAugmentsOfFac(faction: FactionAPI) = faction.getKnownAugments()
+
     @JvmStatic
     fun FactionAPI.getKnownAugments(): MutableSet<String> {
         var knownAugments = memoryWithoutUpdate[SA_ids.SA_knownAugmentsMemFlag] as? HashSet<String>
@@ -62,7 +67,12 @@ object stationAugmentStore {
 
     @JvmStatic
     fun FactionAPI.teachAugment(id: String, withCodexUpdate: Boolean = this.isPlayerFaction) {
-        getKnownAugments() += id
+        teachAugmentExternal(this, id, withCodexUpdate)
+    }
+
+    @JvmStatic
+    fun teachAugmentExternal(faction: FactionAPI, id: String, withCodexUpdate: Boolean = faction.isPlayerFaction) {
+        faction.getKnownAugments() += id
         if (withCodexUpdate) {
             CodexData.unlockAugment(id)
         }
@@ -141,6 +151,16 @@ object stationAugmentStore {
                 modId
             )
             allAugments[id] = spec
+        }
+
+        postAugmentsLoaded()
+    }
+
+    private fun postAugmentsLoaded() {
+        if (SA_settings.AOTDVaultsEnabled && SA_settings.AOTDVaultsVersion >= "3.5.0") {
+            allAugments["SA_shroudedMantle"]?.requiredItemId = "aotd_tenebrium"
+            allAugments["SA_shroudedLens"]?.requiredItemId = "aotd_tenebrium"
+            allAugments["SA_shroudedThunderhead"]?.requiredItemId = "aotd_tenebrium"
         }
     }
 }

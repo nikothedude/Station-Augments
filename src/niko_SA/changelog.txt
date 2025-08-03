@@ -2,6 +2,20 @@
 SAVE COMPATIBLE
 
 Extreme modifications now has a high chance to be skipped during autofit
+Fixes a bug where attack swarms would infinitely spawn
+Drone-specific augments now check for drones instead of using a whitelist
+Best of the best now gives +10 AP
+
+Some AOTD update prep
+
+Two new augments
+    Macro Thrusters
+        Lets the station move around during combat, albiet slowly
+        7 AP
+    Drone Weapon Overdrive
+        Adds a subsystem to any drones launched from the station that doubles their firerate for a few seconds
+        7 AP
+        Known to many factions
 
 2.2.0
 SAVE COMPATIBLE

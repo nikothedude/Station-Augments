@@ -80,6 +80,7 @@ abstract class stationAttachment() : BaseCampaignEventListener(false), CoreAutor
     companion object {
         const val BASE_AP_TO_MEMBER_STRENGH_MULT = 1.2f // arbitrary
         const val STATION_IMPROVED_AP_BONUS = 10f // arbitrary
+        const val BEST_OF_THE_BEST_AP_BONUS = 10f // also arbitrary
 
         /** Additive atop BASE_STATION_AUGMENT_BUDGET. */
         @JvmStatic
@@ -309,6 +310,12 @@ abstract class stationAttachment() : BaseCampaignEventListener(false), CoreAutor
                     "${STATION_IMPROVED_AP_BONUS.trimHangingZero()}"
                 )
             }
+            tooltip.addPara(
+                "Additionally, the skill %s can increase AP by %s.",
+                5f,
+                Misc.getHighlightColor(),
+                "best of the best", "${BEST_OF_THE_BEST_AP_BONUS.trimHangingZero()}"
+            )
             val augmentBudgetColor =
                 if (remainingAugmentBudget < getAugmentCost()) Misc.getNegativeHighlightColor() else Misc.getHighlightColor()
             para.setHighlightColors(Misc.getHighlightColor(), augmentBudgetColor, Misc.getStoryOptionColor())
@@ -456,6 +463,16 @@ abstract class stationAttachment() : BaseCampaignEventListener(false), CoreAutor
             return "Exceeds maximum AP cost"
         }
         return null
+    }
+
+    fun stationHasDrones(): Boolean {
+        val fleet = getStationFleet() ?: return false
+        val flagship = fleet.fleetData.membersListCopy.firstOrNull() ?: return false
+        val sysId = flagship.hullSpec.shipSystemId ?: return false
+        val system = Global.getSettings().getShipSystemSpec(sysId) ?: return false
+        if (system.maxDrones > 0f) return true
+
+        return false
     }
 
     open fun modifyAugmentMenu(tooltip: TooltipMakerAPI, panel: CustomPanelAPI?, buttonPanel: CustomPanelAPI?, delegate: AugmentMenuDialogueDelegate) {

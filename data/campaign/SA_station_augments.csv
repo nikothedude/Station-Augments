@@ -30,6 +30,7 @@ SA_regenerativeDrones,Reserve drone bay,"standard, merc",combatgood13,,Ko Combin
 SA_stationRepairUnit,Station Repair Unit,"merc, hegemony","logistics18, combatgood3",,Common,niko_SA.augments.stationRepairUnit,100,100,90,graphics/augments/SA_stationRepairUnit.png,21,,niko_stationAugments
 SA_tacticalLink,Tactical Link,"hegemony, merc, tahlan_legioinfernalis",combatgood18,,Common,niko_SA.augments.supportPackage,100,100,90,graphics/hullmods/escort_package.png,15,,niko_stationAugments
 SA_efficiencyOverhaul,Efficiency Overhaul,"standard, merc, scavenger",logistics15,,Common,niko_SA.augments.efficiencyOverhaul,100,100,90,graphics/hullmods/efficiency.png,10,,niko_stationAugments
+SA_droneAAF,Drone Weaponry Overdrive,"merc, scavenger, hegemony, persean, sindrian_diktat, tahlan_legioinfernalis",combatgood10,,Common,niko_SA.augments.droneAAF,100,100,90,graphics/hullmods/missile_autoloader.png,7,,niko_stationAugments
 ,,,,,,,,,,,,,
 #Rare augments below,,,,,,,,,,,,,
 SA_logisticsDrones,Logistics Drones,"rare_bp, tahlan_legioinfernalis, scavengers","combatgood14, logistics12",,Common,niko_SA.augments.logisticsDrones,30,30,70,graphics/hullmods/detach_always.png,16,,niko_stationAugments
@@ -42,6 +43,7 @@ SA_bubbleShield,Bubble Shield,"rare_bp, merc, tritachyon, tahlan_legioinfernalis
 SA_jumpEngine,Jump Engine,"rare_bp, merc",logistics20,codex_unlockable,Domain Restricted,niko_SA.augments.jumpPoint.jumpPointCreator,10,30,90,graphics/hullmods/augmented_drive_field.png,20,,niko_stationAugments
 SA_aiFighterUplink,AI Fighter Uplink,"tritachyon, rare_bp, merc, tahlan_legioinfernalis, scavengers",combatgood15,,Tri-Tachyon,niko_SA.augments.aiFighterUplink,20,30,90,graphics/hullmods/automated.png,8,,niko_stationAugments
 SA_extremeModifications,Extreme Modifications,"pirate, luddic_path, independent, sindrian_diktat, scavengers, merc","combatgood2, combatbad2, skipautofitchance60",,Common,niko_SA.augments.ExtremeModifications,20,30,90,graphics/hullmods/illadvised.png,-10,,niko_stationAugments
+SA_movableStation,Macro Thrusters,"merc, scavenger, pirate",combatgood2,,Common,niko_SA.augments.movableStation,40,30,30,graphics/hullmods/auxilliary_thrusters.png,7,,niko_stationAugments
 ,,,,,,,,,,,,,
 #Unique augments below,,,,,,,,,,,,,
 SA_moteSink,High Volition Attractor,special,combatgood70,hide_in_codex,Unknown,niko_SA.augments.moteSink,0,0,0,graphics/hullmods/high_volition_attractor.png,40,,niko_stationAugments

@@ -103,7 +103,7 @@ class jumpPointCreator: stationAttachment() {
         if (market == null) {
             return "This augment has no market"
         }
-        if (market!!.containingLocation?.hasTag(Tags.SYSTEM_CUT_OFF_FROM_HYPER) == true) {
+        if (market!!.containingLocation?.hasTag(Tags.SYSTEM_CUT_OFF_FROM_HYPER) == true || market!!.containingLocation?.jumpPoints?.isEmpty() == true) {
             return "Jump point impossible to create"
         }
         if (getStationIndustry()?.isFunctional != true) {

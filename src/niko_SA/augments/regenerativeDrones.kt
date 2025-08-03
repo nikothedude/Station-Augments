@@ -18,12 +18,7 @@ class regenerativeDrones() : stationAttachment() {
     companion object {
         const val AMMO_PER_SECOND_INCREMENT = 0.05f // 20 secs
     }
-    // i cant be sure other star forts will have drones
-    override val stationTypeWhitelist: HashSet<String> = hashSetOf(
-        Industries.STARFORTRESS,
-        Industries.STARFORTRESS_MID,
-        Industries.STARFORTRESS_HIGH
-    )
+    override val stationTypeWhitelist: HashSet<String> = HashSet()
 
     override fun applyInCombat(station: ShipAPI) {
         val system = station.system ?: return
@@ -42,10 +37,6 @@ class regenerativeDrones() : stationAttachment() {
             super.advance(amount, events)
             station?.blockCommandForOneFrame(ShipCommand.USE_SYSTEM)
         }
-    }
-
-    override fun getNeededStationTypeText(): String {
-        return "a vanilla star fortress"
     }
 
     override fun getBasicDescription(tooltip: TooltipMakerAPI, expanded: Boolean, panel: CustomPanelAPI?) {

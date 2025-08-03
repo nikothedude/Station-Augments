@@ -45,6 +45,10 @@ class niko_SA_modPlugin: BaseModPlugin() {
 
         SA_settings.MCTE_enabled = Global.getSettings().modManager.isModEnabled("niko_moreCombatTerrainEffects")
         SA_settings.AITweaksEnabled = Global.getSettings().modManager.isModEnabled("aitweaks")
+        SA_settings.AOTDVaultsEnabled = Global.getSettings().modManager.isModEnabled("aotd_vok")
+        if (SA_settings.AOTDVaultsEnabled) {
+            SA_settings.AOTDVaultsVersion = Global.getSettings().modManager.getModSpec("aotd_vok").version
+        }
         SA_settings.graphicsLibEnabled = Global.getSettings().modManager.isModEnabled("shaderLib")
         Global.getSector().addTransientListener(SA_stationAugmentDropper())
         Global.getSector().addTransientListener(SA_threatLootListener())

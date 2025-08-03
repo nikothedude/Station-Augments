@@ -20,6 +20,10 @@ object SA_settings {
     var MCTE_enabled = false
     @JvmStatic
     var AITweaksEnabled = false
+    @JvmStatic
+    var AOTDVaultsEnabled = false
+    @JvmStatic
+    var AOTDVaultsVersion = ""
 
     @JvmStatic
     var graphicsLibEnabled = false

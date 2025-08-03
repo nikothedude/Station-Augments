@@ -162,16 +162,16 @@ class AttackSwarms: ThreatAugment() {
             val engine = Global.getCombatEngine()
             if (engine.isPaused) return
 
-            if (!voltaic) return
             val plugin = fakeWeapon.effectPlugin
             plugin.advance(amount, engine, fakeWeapon)
+            if (!voltaic) return
             val wing = fakeWeapon.custom as? FighterWingAPI ?: return
             for (member in wing.wingMembers) {
                 val swarm = RoilingSwarmEffect.getSwarmFor(member) ?: continue
                 if (!ThreatSwarmAI.isAttackSwarm(member)) continue
                 if (VoltaicDischargeOnFireEffect.SWARM_TAG_PHASE_MODE in swarm.params.tags) continue
                 AttackSwarmPhaseModeScript(member, Float.MAX_VALUE)
-                member.mutableStats.hullBonus.modifyMult("SA_volaticAttackSwarmsHull", 1.5f)
+                member.mutableStats.hullBonus.modifyMult("SA_volaticAttackSwarmsHull", 2.5f)
             }
         }
     }
