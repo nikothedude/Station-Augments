@@ -6,75 +6,162 @@ import java.lang.invoke.MethodType
 import java.net.URL
 import java.net.URLClassLoader
 
-/*
-Made by Lukas04, improved with help from Starficz. (thanks lukas)
-Concepts have been learned from lyravega, float, andylizi and their mods.
-**/
-internal object ReflectionUtils {
+
+object ReflectionUtils { // yoinked from exotica which yoinked it from rat i love starsector dev
 
     private val fieldClass = Class.forName("java.lang.reflect.Field", false, Class::class.java.classLoader)
-    private val setFieldHandle = MethodHandles.lookup().findVirtual(fieldClass, "set", MethodType.methodType(Void.TYPE, Any::class.java, Any::class.java))
-    private val getFieldHandle = MethodHandles.lookup().findVirtual(fieldClass, "get", MethodType.methodType(Any::class.java, Any::class.java))
-    private val getFieldTypeHandle = MethodHandles.lookup().findVirtual(fieldClass, "getType", MethodType.methodType(Class::class.java))
-    private val getFieldNameHandle = MethodHandles.lookup().findVirtual(fieldClass, "getName", MethodType.methodType(String::class.java))
-    private val setFieldAccessibleHandle = MethodHandles.lookup().findVirtual(fieldClass,"setAccessible", MethodType.methodType(Void.TYPE, Boolean::class.javaPrimitiveType))
+    val setFieldHandle = MethodHandles.lookup()
+        .findVirtual(fieldClass, "set", MethodType.methodType(Void.TYPE, Any::class.java, Any::class.java))
+    private val getFieldHandle =
+        MethodHandles.lookup().findVirtual(fieldClass, "get", MethodType.methodType(Any::class.java, Any::class.java))
+    private val getFieldNameHandle =
+        MethodHandles.lookup().findVirtual(fieldClass, "getName", MethodType.methodType(String::class.java))
+    val setFieldAccessibleHandle: MethodHandle = MethodHandles.lookup()
+        .findVirtual(fieldClass, "setAccessible", MethodType.methodType(Void.TYPE, Boolean::class.javaPrimitiveType))
+    private val getFieldTypeHandle = MethodHandles.lookup()
+        .findVirtual(fieldClass, "getType", MethodType.methodType(Class::class.java))
 
     private val methodClass = Class.forName("java.lang.reflect.Method", false, Class::class.java.classLoader)
-    private val getMethodNameHandle = MethodHandles.lookup().findVirtual(methodClass, "getName", MethodType.methodType(String::class.java))
-    private val getMethodParametersHandle = MethodHandles.lookup().findVirtual(methodClass, "getParameterTypes", MethodType.methodType(arrayOf<Class<*>>().javaClass))
-    private val getMethodReturnTypeHandle = MethodHandles.lookup().findVirtual(methodClass, "getReturnType", MethodType.methodType(Class::class.java))
+    private val getMethodNameHandle =
+        MethodHandles.lookup().findVirtual(methodClass, "getName", MethodType.methodType(String::class.java))
+    private val invokeMethodHandle = MethodHandles.lookup().findVirtual(
+        methodClass,
+        "invoke",
+        MethodType.methodType(Any::class.java, Any::class.java, Array<Any>::class.java)
+    )
+    private val getMethodReturnHandle =
+        MethodHandles.lookup().findVirtual(methodClass, "getReturnType", MethodType.methodType(Class::class.java))
+    private val getMethodParametersHandle =
+        MethodHandles.lookup()
+            .findVirtual(methodClass, "getParameterTypes", MethodType.methodType(arrayOf<Class<*>>().javaClass))
 
-    private val invokeMethodHandle = MethodHandles.lookup().findVirtual(methodClass, "invoke", MethodType.methodType(Any::class.java, Any::class.java, Array<Any>::class.java))
+    fun getMethodOfReturnType(instance: Any, clazz: Class<*>): String? {
+        val instancesOfMethods: Array<out Any> = instance.javaClass.declaredMethods
 
+        return instancesOfMethods.firstOrNull { getMethodReturnHandle.invoke(it) == clazz }
+            ?.let { getMethodNameHandle.invoke(it) as String }
+    }
 
-    //Cache
-    private var fieldsCache = HashMap<ReflectedFieldKey, ReflectedField>()
-    private var fieldNameCache = HashMap<Class<*>, HashSet<String>>()
-    private var fieldTypesCache = HashMap<Class<*>, HashSet<Class<*>>>()
+    fun findFieldWithMethodName(instance: Any, methodName: String): ReflectedField? {
+        val instancesOfFields: Array<out Any> = instance.javaClass.declaredFields
 
-    private var methodsCache = HashMap<ReflectedMethodKey, ReflectedMethod>()
-    private var methodNameCache = HashMap<Class<*>, HashSet<String>>()
+        return instancesOfFields
+            .map { fieldObj -> fieldObj to getFieldTypeHandle.invoke(fieldObj) }
+            .firstOrNull { (fieldObj, fieldClass) ->
+                hasMethodOfNameInClass(methodName, fieldClass as Class<Any>)
+            }
+            ?.let { (fieldObj, fieldClass) ->
+                return ReflectedField(fieldObj)
+            }
+    }
 
-    //Cached Results of Reflected Fields
-    private data class ReflectedFieldKey(
-        val clazz: Class<*>,
-        val fieldName: String?,
-        val fieldType: Class<*>?,
-        val withSuper: Boolean)
-    class ReflectedField(private val field: Any) {
-        fun get(instance: Any?): Any? {
-            return getFieldHandle.invoke(field, instance)
+    fun getMethodArguments(method: String, instance: Any): Array<Class<*>>? {
+        val instancesOfMethods: Array<out Any> = instance.javaClass.declaredMethods
+        instancesOfMethods.firstOrNull { getMethodNameHandle.invoke(it) == method }?.let {
+            return getMethodParametersHandle.invoke(it) as Array<Class<*>>
         }
-        fun set(instance: Any?, value: Any?) {
-            setFieldHandle.invoke(field, instance, value)
+        return null
+    }
+
+    fun findFieldWithMethodReturnType(instance: Any, clazz: Class<*>): ReflectedField? {
+        val instancesOfFields: Array<out Any> = instance.javaClass.declaredFields
+
+        return instancesOfFields
+            .map { fieldObj -> fieldObj to getFieldTypeHandle.invoke(fieldObj) }
+            .firstOrNull { (fieldObj, fieldClass) ->
+                ((fieldClass!! as Class<Any>).declaredMethods as Array<Any>)
+                    .any { methodObj -> getMethodReturnHandle.invoke(methodObj) == clazz }
+            }?.let { (fieldObj, fieldClass) ->
+                return ReflectedField(fieldObj)
+            }
+    }
+
+    fun findFieldsOfType(instance: Any, clazz: Class<*>): List<ReflectedField> {
+        val instancesOfFields: Array<out Any> = instance.javaClass.declaredFields
+
+        return instancesOfFields
+            .map { fieldObj -> fieldObj to getFieldTypeHandle.invoke(fieldObj) }
+            .filter { (fieldObj, fieldClass) ->
+                fieldClass == clazz
+            }
+            .map { (fieldObj, fieldClass) -> ReflectedField(fieldObj) }
+    }
+
+    fun set(fieldName: String, instanceToModify: Any, newValue: Any?, clazz: Class<*> = instanceToModify::class.java) {
+        var field: Any? = null
+        try {
+            field = clazz.getField(fieldName)
+        } catch (e: Throwable) {
+            try {
+                field = clazz.getDeclaredField(fieldName)
+            } catch (e: Throwable) {
+            }
+        }
+
+        setFieldAccessibleHandle.invoke(field, true)
+        setFieldHandle.invoke(field, instanceToModify, newValue)
+    }
+
+    inline fun <reified T: Any> setMultipleInstances(fieldName: String, instancesToModify: Collection<T>, newValue: Any?) {
+        var field: Any? = null
+        try {
+            field = T::class.java.getField(fieldName)
+        } catch (e: Throwable) {
+            try {
+                field = T::class.java.getDeclaredField(fieldName)
+            } catch (e: Throwable) {
+            }
+        }
+
+        setFieldAccessibleHandle.invoke(field, true)
+        for (entry in instancesToModify) {
+            setFieldHandle.invoke(field, entry, newValue)
         }
     }
 
-    //Cached Results of Reflected Fields
-    private data class ReflectedMethodKey(
-        val clazz: Class<*>,
-        val methodName: String?,
-        val numOfParams: Int?,
-        val returnType: Class<*>?,
-        val parameterTypes: List<Class<*>?>?) {
-    }
-    class ReflectedMethod(private val method: Any) {
-        fun invoke(instance: Any?, vararg arguments: Any?): Any? = invokeMethodHandle.invoke(method, instance, arguments)
+    fun get(fieldName: String, instanceToGetFrom: Any, classToGetFrom: Class<out Any> = instanceToGetFrom::class.java): Any? {
+        var field: Any? = null
+        try {
+            field = classToGetFrom.getField(fieldName)
+        } catch (e: Throwable) {
+            try {
+                field = classToGetFrom.getDeclaredField(fieldName)
+            } catch (e: Throwable) {
+                SA_debugUtils.log.error(e)
+            }
+        }
+
+        setFieldAccessibleHandle.invoke(field, true)
+        return getFieldHandle.invoke(field, instanceToGetFrom)
     }
 
-    @JvmStatic
-    fun set(fieldName: String? = null, instanceToModify: Any, newValue: Any?, fieldType: Class<*>? = null)
-    {
-        getField(fieldName, instanceToModify.javaClass, fieldType)!!.set(instanceToModify, newValue)
+    fun hasMethodOfNameInClass(name: String, instance: Class<Any>, contains: Boolean = false): Boolean {
+        val instancesOfMethods: Array<out Any> = instance.getDeclaredMethods()
+
+        if (!contains) {
+            return instancesOfMethods.any { getMethodNameHandle.invoke(it) == name }
+        } else {
+            return instancesOfMethods.any { (getMethodNameHandle.invoke(it) as String).contains(name) }
+        }
     }
 
-    @JvmStatic
-    fun get(fieldName: String? = null, instanceToGetFrom: Any, fieldType: Class<*>? = null): Any? {
-        return getField(fieldName, instanceToGetFrom.javaClass, fieldType)!!.get(instanceToGetFrom)
+    fun hasMethodOfName(name: String, instance: Any, contains: Boolean = false): Boolean {
+        val instancesOfMethods: Array<out Any> = instance.javaClass.getDeclaredMethods()
+
+        if (!contains) {
+            return instancesOfMethods.any { getMethodNameHandle.invoke(it) == name }
+        } else {
+            return instancesOfMethods.any { (getMethodNameHandle.invoke(it) as String).contains(name) }
+        }
     }
 
-    fun instantiate(clazz: Class<*>, vararg arguments: Any?) : Any?
-    {
+    fun hasVariableOfName(name: String, instance: Any): Boolean {
+
+        val instancesOfFields: Array<out Any> = instance.javaClass.getDeclaredFields()
+        return instancesOfFields.any { getFieldNameHandle.invoke(it) == name }
+    }
+
+    fun instantiate(clazz: Class<*>, vararg arguments: Any?): Any? {
         val args = arguments.map { it!!::class.javaPrimitiveType ?: it!!::class.java }
         val methodType = MethodType.methodType(Void.TYPE, args)
 
@@ -84,157 +171,81 @@ internal object ReflectionUtils {
         return instance
     }
 
-    @JvmStatic
-    fun invoke(methodName: String? = null, instance: Any, vararg arguments: Any?, returnType: Class<*>? = null, parameterCount: Int? = null) : Any?
-    {
+    fun invoke(methodName: String, instance: Any, vararg arguments: Any?, declared: Boolean = false) : Any? {
+        var method: Any? = "null"
+
         val clazz = instance.javaClass
         val args = arguments.map { it!!::class.javaPrimitiveType ?: it::class.java }
+        val methodType = MethodType.methodType(Void.TYPE, args)
 
-        var method = getMethod(methodName, instance.javaClass, returnType, parameterCount, args) ?: return null
-        return method.invoke(instance, *arguments)
+        if (!declared) {
+            method = clazz.getMethod(methodName, *methodType.parameterArray()) as Any?
+        }
+        else  {
+            method = clazz.getDeclaredMethod(methodName, *methodType.parameterArray()) as Any?
+        }
+
+        return invokeMethodHandle.invoke(method, instance, arguments)
     }
 
-    //Cache for field names to reduce reflection calls during UI Crawling
-    fun hasVariableOfName(name: String, instance: Any) : Boolean {
-        var clazz = instance.javaClass
-        return fieldNameCache.getOrPut(clazz) {
-            //Class has not been cached yet, save all method names to the cache
-            var set = HashSet<String>()
-            val instancesOfFields: Array<out Any> = instance.javaClass.declaredFields as Array<out Any>
-            for (field in instancesOfFields) {
-                set.add(getFieldNameHandle.invoke(field) as String)
+    fun getField(fieldName: String, instanceToGetFrom: Any): ReflectedField? {
+        var field: Any? = null
+        try {
+            field = instanceToGetFrom.javaClass.getField(fieldName)
+        } catch (e: Throwable) {
+            try {
+                field = instanceToGetFrom.javaClass.getDeclaredField(fieldName)
+            } catch (e: Throwable) {
             }
-            set //Returns the list
-        }.contains(name)
+        }
+
+        if (field == null) return null
+
+        return ReflectedField(field)
     }
 
-    //Cache for field types to reduce reflection calls during UI Crawling
-    fun hasVariableOfType(type: Class<*>, instance: Any) : Boolean {
-        var clazz = instance.javaClass
-        return fieldTypesCache.getOrPut(clazz) {
-            //Class has not been cached yet, save all method names to the cache
-            var set = HashSet<Class<*>>()
-            val instancesOfFields: Array<out Any> = instance.javaClass.declaredFields as Array<out Any>
-            for (field in instancesOfFields) {
-                set.add(getFieldTypeHandle.invoke(field) as Class<*>)
+    fun getMethod(methodName: String, instance: Any, vararg arguments: Any?): ReflectedMethod? {
+        var method: Any? = null
+
+        val clazz = instance.javaClass
+        val args = arguments.map { it!!::class.javaPrimitiveType ?: it::class.java }
+        val methodType = MethodType.methodType(Void.TYPE, args)
+
+        try {
+            method = clazz.getMethod(methodName, *methodType.parameterArray()) as Any?
+        } catch (e: Throwable) {
+            try {
+                method = clazz.getDeclaredMethod(methodName, *methodType.parameterArray())
+            } catch (e: Throwable) {
             }
-            set //Returns the list
-        }.contains(type)
+        }
+
+        if (method == null) return null
+        return ReflectedMethod(method)
     }
 
-    //Cache for method names to reduce reflection calls during UI Crawling
-    fun hasMethodOfName(name: String, instance: Any) : Boolean {
-        var clazz = instance.javaClass
-        return methodNameCache.getOrPut(clazz) {
-            //Class has not been cached yet, save all method names to the cache
-            var set = HashSet<String>()
-            val instancesOfMethods: Array<out Any> = instance.javaClass.getDeclaredMethods() as Array<out Any>
-            for (method in instancesOfMethods) {
-                set.add(getMethodNameHandle.invoke(method) as String)
-            }
-            set //Returns the list
-        }.contains(name)
+    fun createClassThroughCustomLoader(claz: Class<*>): MethodHandle {
+        var loader = this::class.java.classLoader
+        val urls: Array<URL> = (loader as URLClassLoader).urLs
+        val reflectionLoader: Class<*> = object : URLClassLoader(urls, ClassLoader.getSystemClassLoader()) {
+        }.loadClass(claz.name)
+        var handle = MethodHandles.lookup().findConstructor(reflectionLoader, MethodType.methodType(Void.TYPE))
+        return handle
     }
 
-    fun getField(fieldName: String? = null, fieldClazz: Class<*>, fieldType: Class<*>? = null, recursionLimit: Int? = null, superclazz: Class<*>? = null) : ReflectedField? {
+    class ReflectedField(val field: Any) {
+        fun get(instance: Any?): Any? {
+            setFieldAccessibleHandle.invoke(field, true)
+            return getFieldHandle.invoke(field, instance)
+        }
 
-        var clazz = fieldClazz
-        if (superclazz != null) clazz = superclazz
-
-        var withSuper = false
-        if (recursionLimit != null) withSuper = true
-
-        val key = ReflectedFieldKey(clazz, fieldName, fieldType, withSuper)
-        return fieldsCache.getOrPut(key) {
-            var targetField: Any? = null
-
-            var fields = (clazz.fields + clazz.declaredFields) as Array<out Any>
-
-            for (field in fields) {
-
-                if (fieldName != null) {
-                    var name = getFieldNameHandle.invoke(field)
-                    if (name != fieldName) continue
-                }
-
-                if (fieldType != null) {
-                    var type = getFieldTypeHandle.invoke(field)
-                    if (type != fieldType) continue
-                }
-
-                targetField = field
-            }
-
-            if (targetField == null && recursionLimit != null && recursionLimit > 0) {
-                var superc = clazz.superclass
-                if (superc != null) {
-                    targetField = getField(fieldName, clazz, fieldType, recursionLimit-1, superc)
-                }
-            }
-
-            //Should not crash just because it could not find it.
-            if (targetField == null) {
-                return null
-            }
-
-            setFieldAccessibleHandle.invoke(targetField, true)
-            ReflectedField(targetField)
+        fun set(instance: Any?, value: Any?) {
+            setFieldHandle.invoke(field, instance, value)
         }
     }
 
-    fun getMethod(methodName: String? = null, clazz: Class<*>, returnType: Class<*>?=null, parameterCount: Int?=null, parameters: List<Class<*>?>?) : ReflectedMethod? {
-        val key = ReflectedMethodKey(clazz, methodName, parameterCount, returnType, parameters)
-        return methodsCache.getOrPut(key) {
-            var targetMethod: Any? = null
-
-            var methods = ((clazz.methods + clazz.declaredMethods)).toSet() as Set<Any>
-            for (method in methods.toSet()) {
-
-                if (methodName != null) {
-                    var name = getMethodNameHandle.invoke(method)
-                    if (name != methodName) continue
-                }
-
-                if (parameters?.isNotEmpty() == true || parameterCount != null) {
-                    var methodParams = getMethodParametersHandle.invoke(method) as Array<Class<*>>
-
-                    //Skip if parameters do not match
-                    if (parameters?.isNotEmpty() == true) {
-                        if (methodParams.any { !parameters.contains(it) }) continue
-                    }
-
-                    //Skip if parameters count does not match
-                    if (parameterCount != null) {
-                        if (methodParams.size != parameterCount) continue
-                    }
-                }
-
-                if (returnType != null) {
-                    var type = getMethodReturnTypeHandle.invoke(method)
-                    if (type != returnType) continue
-                }
-
-
-                targetMethod = method
-                break
-            }
-
-            //Should not crash just because it could not find it.
-            if (targetMethod == null) {
-                return null
-            }
-
-            var method = ReflectedMethod(targetMethod)
-            //Returns the method
-            method
-        }
+    class ReflectedMethod(val method: Any) {
+        fun invoke(instance: Any?, vararg arguments: Any?): Any? =
+            invokeMethodHandle.invoke(method, instance, arguments)
     }
-
-    //Useful for some classes with just one field
-    fun getFirstDeclaredField(instanceToGetFrom: Any): Any? {
-        var field: Any? = instanceToGetFrom.javaClass.declaredFields[0]
-        setFieldAccessibleHandle.invoke(field, true)
-        return getFieldHandle.invoke(field, instanceToGetFrom)
-    }
-
 }
