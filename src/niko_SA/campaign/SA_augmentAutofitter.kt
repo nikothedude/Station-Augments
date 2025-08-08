@@ -22,6 +22,7 @@ import org.lazywizard.lazylib.MathUtils
 import kotlin.math.log
 
 class SA_augmentAutofitter: BaseCampaignEventListener(false) {
+
     override fun reportPlayerOpenedMarket(market: MarketAPI?) {
         super.reportPlayerOpenedMarket(market)
 
@@ -118,18 +119,26 @@ class SA_augmentAutofitter: BaseCampaignEventListener(false) {
                         }
                         "skipautofitchance" -> {
                             if (prob(rating)) {
-                                weight = 0f
+                                weight = -1f
                                 break
                             }
                         }
                     }
                 }
+                if (spec.autofitPlugin != null) {
+                    weight = spec.autofitPlugin!!.modifyAutofitWeight(weight, spec, market)
+                }
                 if (weight >= 0f) {
                     picker.add(spec, weight)
                 }
             }
-            while (!picker.isEmpty) {
-                val picked = picker.pickAndRemove()
+            val increasePicker = WeightedRandomPicker<stationAugmentSpec>()
+            for (entry in picker.items.filter { it.apCost <= 0f }) { // we sort so these go first
+                increasePicker.add(entry, picker.getWeight(entry))
+                picker.remove(entry)
+            }
+            while (!increasePicker.isEmpty || !picker.isEmpty) {
+                val picked = increasePicker.pickAndRemove() ?: picker.pickAndRemove()
 
                 val instance = picked.getNewPluginInstance(market)
                 instance.considerEngagement = false

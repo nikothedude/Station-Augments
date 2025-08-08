@@ -4,6 +4,9 @@ import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.ModSpecAPI
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.loading.WithSourceMod
+import niko_SA.augments.autofitPlugins.StationAugmentAutofitPlugin
+import niko_SA.campaign.SA_augmentAutofitter
+import java.awt.Color
 
 /** A store for constant data, and a instantiation method of the station augment. */
 class stationAugmentSpec(
@@ -22,8 +25,11 @@ class stationAugmentSpec(
     var spritePath: String,
     val apCost: Float,
     var requiredItemId: String?,
+    var autofitPlugin: StationAugmentAutofitPlugin?,
+    var nameColor: Color,
     val modId: String,
 ): WithSourceMod {
+
     fun getNewPluginInstance(market: MarketAPI?): stationAttachment {
         val new = Global.getSettings().scriptClassLoader.loadClass(pluginPath).newInstance() as stationAttachment
         new.market = market

@@ -31,6 +31,15 @@ class regenerativeDrones() : stationAttachment() {
         }
     }
 
+    override fun getUnavailableReason(): String? {
+        val superResult = super.getUnavailableReason()
+        if (superResult != null) return superResult
+
+        if (!stationHasDrones()) return "No drone system"
+
+        return null
+    }
+
     // otherwise the station recalls them constantly for some reason
     class PreventRecallScript(val station: ShipAPI?) : BaseEveryFrameCombatPlugin() {
         override fun advance(amount: Float, events: MutableList<InputEventAPI>?) {

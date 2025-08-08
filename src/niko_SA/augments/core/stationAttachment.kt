@@ -16,6 +16,7 @@ import com.fs.starfarer.api.impl.campaign.HullModItemManager
 import com.fs.starfarer.api.impl.campaign.econ.impl.OrbitalStation
 import com.fs.starfarer.api.impl.campaign.ids.Industries
 import com.fs.starfarer.api.impl.campaign.ids.MemFlags
+import com.fs.starfarer.api.impl.campaign.ids.Skills
 import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.ui.Alignment
 import com.fs.starfarer.api.ui.CustomPanelAPI
@@ -27,9 +28,11 @@ import niko_SA.MarketUtils.getStationAugments
 import niko_SA.MarketUtils.getUsedAugmentBudget
 import niko_SA.MarketUtils.removeStationAugment
 import niko_SA.SA_mathUtils.trimHangingZero
+import niko_SA.SA_settings
 import niko_SA.SA_settings.ALLOW_MODIFY_OF_ALL_STATIONS
 import niko_SA.codex.CodexData.getAugmentEntryId
 import org.magiclib.kotlin.getStorageCargo
+import java.awt.Color
 import kotlin.math.abs
 
 /** Industries of this type attempt to modify an existing station in combat, and potentially, in campaign.*/
@@ -61,7 +64,7 @@ abstract class stationAttachment() : BaseCampaignEventListener(false), CoreAutor
     var gettingDescFromBlueprint = false
 
     /** If an augment with this id in this set is present, the augment cannot be built. */
-    val incompatibleAugments: MutableSet<String> = HashSet()
+    open val incompatibleAugments: MutableSet<String> = HashSet()
 
     var builtInMode = BuiltInMode.NOT
         get() {
@@ -310,12 +313,24 @@ abstract class stationAttachment() : BaseCampaignEventListener(false), CoreAutor
                     "${STATION_IMPROVED_AP_BONUS.trimHangingZero()}"
                 )
             }
-            tooltip.addPara(
-                "Additionally, the skill %s can increase AP by %s.",
-                5f,
-                Misc.getHighlightColor(),
-                "best of the best", "${BEST_OF_THE_BEST_AP_BONUS.trimHangingZero()}"
-            )
+            if (market == null || market!!.isPlayerOwned) {
+                val hasBOTB = Global.getSector().playerPerson.stats.hasSkill(Skills.BEST_OF_THE_BEST)
+                if (hasBOTB) {
+                    tooltip.addPara(
+                        "You have %s, increasing AP by %s.",
+                        5f,
+                        Misc.getHighlightColor(),
+                        "best of the best", "${BEST_OF_THE_BEST_AP_BONUS.trimHangingZero()}"
+                    )
+                } else {
+                    tooltip.addPara(
+                        "Additionally, the skill %s can increase AP by %s.",
+                        5f,
+                        Misc.getHighlightColor(),
+                        "best of the best", "${BEST_OF_THE_BEST_AP_BONUS.trimHangingZero()}"
+                    )
+                }
+            }
             val augmentBudgetColor =
                 if (remainingAugmentBudget < getAugmentCost()) Misc.getNegativeHighlightColor() else Misc.getHighlightColor()
             para.setHighlightColors(Misc.getHighlightColor(), augmentBudgetColor, Misc.getStoryOptionColor())
@@ -442,6 +457,9 @@ abstract class stationAttachment() : BaseCampaignEventListener(false), CoreAutor
     open fun getName(): String {
         return getSpec().name
     }
+    open fun getNameColor(): Color {
+        return getSpec().nameColor
+    }
     open fun getAugmentCost(): Float {
         return getSpec().apCost
     }
@@ -466,6 +484,7 @@ abstract class stationAttachment() : BaseCampaignEventListener(false), CoreAutor
     }
 
     fun stationHasDrones(): Boolean {
+        if (Global.getSettings().isGeneratingNewGame) return true // station fleets dont exist til later
         val fleet = getStationFleet() ?: return false
         val flagship = fleet.fleetData.membersListCopy.firstOrNull() ?: return false
         val sysId = flagship.hullSpec.shipSystemId ?: return false
@@ -481,6 +500,10 @@ abstract class stationAttachment() : BaseCampaignEventListener(false), CoreAutor
 
     open fun getIdealButtonWidth(panel: CustomPanelAPI?): Float = 595.0f
     open fun getIdealButtonHeight(panel: CustomPanelAPI?): Float = 86.0f
+
+    open fun sortInUIAgainst(other: stationAttachment): Int {
+        return getName().compareTo(other.getName(), true)
+    }
 
     class ConstantStationCheckingScript(val augment: stationAttachment): EveryFrameScript {
         var done = false

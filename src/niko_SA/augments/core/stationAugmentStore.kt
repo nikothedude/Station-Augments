@@ -3,13 +3,16 @@ package niko_SA.augments.core
 import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.campaign.FactionAPI
 import com.fs.starfarer.api.impl.campaign.ids.Items
+import com.fs.starfarer.api.util.Misc
 import niko_SA.SA_debugUtils
 import niko_SA.SA_ids
 import niko_SA.SA_ids.SA_augmentDefCsvPath
 import niko_SA.SA_settings
+import niko_SA.augments.autofitPlugins.StationAugmentAutofitPlugin
 import niko_SA.codex.CodexData
 import niko_SA.niko_SA_modPlugin
 import org.lazywizard.lazylib.ext.json.iterator
+import java.awt.Color
 
 // This is transient, remember that
 object stationAugmentStore {
@@ -100,8 +103,7 @@ object stationAugmentStore {
         return factionsToTags[id]!!
     }
 
-    /** The global store of all augments in the game. Make sure to modify this if adding a new augment.
-     * If youre looking to add an augment as a third-party mod author, you can modify this on application load. */
+    /** The global store of all augments in the game. */
     /*@JvmStatic*/ // for some reason, this makse it near impossible for this to be accessed by mods, just use the getter
     val allAugments = HashMap<String, stationAugmentSpec>()
     @JvmStatic
@@ -133,6 +135,22 @@ object stationAugmentStore {
             if (Global.getSettings().modManager.getModSpec(modId) == null) modId = niko_SA_modPlugin.modId
             var reqItemId = row.optString("req_item_id")
             if (reqItemId.isEmpty()) reqItemId = null
+            var autofitPluginPath = row.optString("autofit_plugin_path")
+            var autofitPlugin: StationAugmentAutofitPlugin? = null
+            if (autofitPluginPath.isNotEmpty()) {
+                autofitPlugin = Global.getSettings().scriptClassLoader.loadClass(autofitPluginPath).newInstance() as StationAugmentAutofitPlugin
+            }
+            var nameColor: Color = Color.WHITE
+            var nameColorId = row.optString("name_color")
+            if (nameColorId.isEmpty()) {
+                nameColorId = null
+            } else {
+                for (faction in Global.getSettings().allFactionSpecs) {
+                    if (faction.id == nameColorId) {
+                        nameColor = faction.baseUIColor
+                    }
+                }
+            }
 
             val spec = stationAugmentSpec(
                 id,
@@ -148,6 +166,8 @@ object stationAugmentStore {
                 spritePath,
                 apCost,
                 reqItemId,
+                autofitPlugin,
+                nameColor,
                 modId
             )
             allAugments[id] = spec

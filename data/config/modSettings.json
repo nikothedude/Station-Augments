@@ -3,18 +3,22 @@
 		# this is merely a easy way to add augments to markets, you can do it manually too
 		"MarketsWithAugments": {
 			"chicomoztoc":[
-				"SA_heavyArmor",
+				"SA_ecmPackage",
+				"SA_tacticalLink",
 				"SA_commsCenter",
-				"SA_automatedRepairUnit"
+				"SA_armoredWeaponMounts",
 			],
-			"nachiketa": ["SA_bubbleShield"],
+			"nachiketa": [
+				"SA_extremeModifications",
+				"SA_bubbleShield",
+				"SA_backlineStation",
+				"SA_supportOutfit",
+				"SA_highResSensors",
+			],
 			"jangala": [
 				"SA_shieldShunt",
-				"SA_commsCenter",
+				"SA_armoredWeaponMounts",
 				"SA_heavyArmor",
-			],
-			"coatl": [
-				"SA_supportOutfit",
 			],
 			"eventide": [
 				"SA_heavyArmor",
@@ -29,30 +33,36 @@
 			],
 
 			"mairaath_abandoned_station2": ["SA_safetyOverrides"], # abandoned astropolis
-			"station_kapteyn": ["SA_highExplosive"],
+			"station_kapteyn": ["SA_highExplosive", "SA_movableStation"],
 			"kantas_den": ["SA_axialOverclocking", "SA_safetyOverrides"],
 
 			"kazeron": [
 				"SA_regenerativeDrones",
 				"SA_fluxShunt",
-				"SA_stabilizedShields"
+				"SA_stabilizedShields",
+				"SA_droneAAF",
 			],
 
 			"eochu_bres": [
 				"SA_bubbleShield",
-				"SA_aiFighterUplink"
+				"SA_aiFighterUplink",
+				"SA_heavyArmor"
 			],
 			"culann": [
 				"SA_solarShielding",
+				"SA_efficiencyOverhaul",
 			],
 			"tibicena": [
-				"SA_ECMPackage",
+				"SA_ecmPackage",
 				"SA_highResSensors",
+				"SA_navRelay"
 			],
 
 			"sindria": [
 				"SA_highExplosive", # THE LION DEMANDS SPECTACLE
 				"SA_solarShielding",
+				"SA_specialModifications",
+				"SA_ECCMPackage"
 			],
 
 			"gilead": [
@@ -60,17 +70,6 @@
 				"SA_automatedRepairUnit",
 				"SA_heavyArmor",
 				"SA_armoredWeaponMounts"
-			],
-			"tartessus": [
-				"SA_automatedRepairUnit",
-				"SA_resistantFluxConduits"
-			],
-			"hesperus":[
-				"SA_supportOutfit"
-			],
-
-			"new_maxios": [
-				"SA_commsCenter",
 			],
 		},
 	},

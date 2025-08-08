@@ -41,7 +41,10 @@ class SA_augmentBlueprintPlugin: BaseSpecialItemPlugin() {
             val id = entry.key
             val data = entry.value
 
-            val weight: Float = data.dropWeight
+            var weight: Float = data.dropWeight
+            if (Global.getSector().playerFaction.getKnownAugments().contains(id)) {
+                weight *= 0.5f
+            }
             if (weight > 0) {
                 picker.add(Pair(id, data), weight)
             }

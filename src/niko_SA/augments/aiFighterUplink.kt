@@ -40,7 +40,7 @@ class aiFighterUplink() : stationAttachment() {
 
         tooltip.addPara(
             "Originally created in the 1st AI war, this nefarious comms module allows an AI core to directly interface" +
-            " with fighters and drones launched from the station, giving them an %s of the %s as the installed AI core.",
+                    " with fighters and drones launched from the station, giving them an %s of the %s as the installed AI core.",
             5f,
             Misc.getHighlightColor(),
             "AI core officer", "same skill"
@@ -54,7 +54,19 @@ class aiFighterUplink() : stationAttachment() {
         tooltip.addPara(
             "Even if the AI core has no effect on the station, it will still create an officer for fighters and drones if able.",
             5f
-        ).setColor(Misc.getGrayColor())
+        ).color = Misc.getGrayColor()
+
+        val stationIndustry = getStationIndustry()
+        val aiCore = stationIndustry?.aiCoreId
+        if (aiCore != null) {
+            val coreItem = Global.getSettings().getCommoditySpec(aiCore)
+            tooltip.addPara(
+                "Current AI core: %s",
+                5f,
+                Misc.getPositiveHighlightColor(),
+                coreItem.name
+            )
+        }
     }
 
     override fun getBlueprintValue(): Int {

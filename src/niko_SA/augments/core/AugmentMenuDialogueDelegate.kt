@@ -6,6 +6,7 @@ import com.fs.starfarer.api.campaign.BaseCustomUIPanelPlugin
 import com.fs.starfarer.api.campaign.CustomDialogDelegate.CustomDialogCallback
 import com.fs.starfarer.api.campaign.econ.Industry
 import com.fs.starfarer.api.campaign.econ.MarketAPI
+import com.fs.starfarer.api.impl.campaign.econ.impl.OrbitalStation
 import com.fs.starfarer.api.impl.campaign.intel.events.BaseFactorTooltip
 import com.fs.starfarer.api.ui.Alignment
 import com.fs.starfarer.api.ui.ButtonAPI
@@ -14,8 +15,11 @@ import com.fs.starfarer.api.ui.ScrollPanelAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
 import niko_SA.DialogUtils.getChildrenCopy
+import niko_SA.MarketUtils.getAugmentBudget
 import niko_SA.MarketUtils.getRemainingAugmentBudget
 import niko_SA.MarketUtils.getStationAugments
+import niko_SA.MarketUtils.getStationIndustry
+import niko_SA.MarketUtils.getUsedAugmentBudget
 import niko_SA.MarketUtils.toggleStationAugment
 import niko_SA.SA_mathUtils.trimHangingZero
 import niko_SA.SA_settings.ALLOW_MODIFY_OF_ALL_STATIONS
@@ -28,7 +32,7 @@ import kotlin.math.abs
 // all this has to do is show the existing augments, not elegant but it works
 class AugmentMenuDialogueDelegate(val station: Industry): BaseCustomDialogDelegate() {
     companion object {
-        val HEIGHT = (Global.getSettings().screenHeight - 400.0f)
+        val HEIGHT = (Global.getSettings().screenHeight - 300.0f)
         const val WIDTH = 600f
 
         class ButtonReportingCustomPanel(var delegate: AugmentMenuDialogueDelegate, val callback: CustomDialogCallback) :
@@ -54,10 +58,23 @@ class AugmentMenuDialogueDelegate(val station: Industry): BaseCustomDialogDelega
     var panel: CustomPanelAPI? = null
     var scroller: ScrollPanelAPI? = null
 
+    val sideTooltip: TooltipMakerAPI? = null
+
+    val cachedAppliedStatus = HashMap<String, Boolean>()
+
     // mostly taken from indevo's ChangelingIndustryDialogueDelegate
     override fun createCustomDialog(panel: CustomPanelAPI?, callback: CustomDialogCallback?) {
         if (panel == null || callback == null) return
         basePanel = panel
+
+        val installedAugments = market.getStationAugments()
+        val augmentsToShow = getAugmentsToShow()
+        for (augment in augmentsToShow) {
+            val id = augment.key
+
+            cachedAppliedStatus[id] = (installedAugments.firstOrNull { it.id == id }?.applied) == true
+        }
+
         regenerateDialog(callback)
         this.callback = callback
     }
@@ -73,22 +90,23 @@ class AugmentMenuDialogueDelegate(val station: Industry): BaseCustomDialogDelega
         }
         // this panel code is taken from indevo's petmanagerdelegatecode, we want stuff to updaet when the button is pressed
         panel = Global.getSettings().createCustom(basePanel!!.position.width, basePanel!!.position.height, null)
+        /*val secondPanel = Global.getSettings().createCustom(basePanel!!.position.width * 0.8f, basePanel!!.position.height * 0.4f, null)
+        val contextTooltip = secondPanel.createUIElement(secondPanel!!.position.width, secondPanel.position.height, false)
+        contextTooltip.addPara(
+            "test", 5f
+        )
+        secondPanel.addUIElement(contextTooltip).aboveLeft(panel, 0f)*/
 
+        val APstring = "(AP remaining: ${market.getRemainingAugmentBudget().trimHangingZero()})"
         val panelTooltip = panel!!.createUIElement(WIDTH, HEIGHT, true)
-        val sectionHeading = if (mode == Mode.MODIFYING) "Known/Installed augments" else "Currently installed augments"
+        val sectionHeading = if (mode == Mode.MODIFYING) "Known/Installed augments $APstring" else "Currently installed augments $APstring"
         panelTooltip.addSectionHeading(sectionHeading, Alignment.MID, 0.0f)
 
         buttons.clear()
         val opad = 10.0f
-        val spad = 2.0f
 
         val installedAugments = market.getStationAugments()
-        val augmentsToShow = HashMap<String, stationAugmentSpec>()
-        installedAugments.forEach { augmentsToShow[it.id] = allAugments[it.id]!! }
-        installedAugments.forEach { CodexData.unlockAugment(it.id) }
-        if (mode == Mode.MODIFYING) {
-            getPlayerKnownAugments().forEach { augmentsToShow[it] = allAugments[it]!! }
-        }
+        val augmentsToShow = getAugmentsToShow()
 
         if (augmentsToShow.isEmpty()) {
             var nothingString = if (mode == Mode.MODIFYING) "No augments known or installed" else "No augments installed"
@@ -97,11 +115,32 @@ class AugmentMenuDialogueDelegate(val station: Industry): BaseCustomDialogDelega
                 nothingString, 30f
             )
             para.setAlignment(Alignment.MID)
-            para.setColor(Misc.getButtonTextColor())
+            para.color = Misc.getButtonTextColor()
             panelTooltip.setParaFontDefault()
         } else {
 
-            for (augmentEntry in augmentsToShow.toSortedMap()) {
+            class AugmentSortingComparator(): Comparator<String> {
+                override fun compare(augmentIdOne: String, augmentIdTwo: String): Int {
+                    val augmentSpecOne = augmentsToShow[augmentIdOne]!!
+                    val augmentSpecTwo = augmentsToShow[augmentIdTwo]!!
+
+                    val augmentInstanceOne = (installedAugments.firstOrNull { it.id == augmentIdOne }) ?: augmentSpecOne.getNewPluginInstance(market)
+                    val augmentInstanceTwo = (installedAugments.firstOrNull { it.id == augmentIdTwo }) ?: augmentSpecTwo.getNewPluginInstance(market)
+
+                    // cache applied status once the ui opens and dont move it
+                    // job for a hashmap?
+                    val appliedOne = cachedAppliedStatus[augmentIdOne] == true
+                    val appliedTwo = cachedAppliedStatus[augmentIdTwo] == true
+
+                    if (appliedOne && !appliedTwo) return -1
+                    if (!appliedOne && appliedTwo) return 1
+                    //if (augmentInstanceOne?.applied == augmentInstanceTwo?.applied) return 0 // in the case its the same, we sort alphabetically
+
+                    return augmentInstanceOne.sortInUIAgainst(augmentInstanceTwo)
+                }
+            }
+
+            for (augmentEntry in augmentsToShow.toSortedMap(AugmentSortingComparator())) {
                 val augmentData = augmentEntry.value
                 val augmentId = augmentEntry.key
 
@@ -139,11 +178,11 @@ class AugmentMenuDialogueDelegate(val station: Industry): BaseCustomDialogDelega
                 val textPanel: TooltipMakerAPI = augmentButtonPanel.createUIElement(augmentInstance.getIdealButtonWidth(panel) - adjustedWidth - opad - defaultPadding, augmentInstance.getIdealButtonHeight(panel), false)
 
                 if (mode == Mode.MODIFYING && (canBuild && canAfford)) {
-                    textPanel.addSectionHeading(" " + augmentInstance.getName(), Alignment.LMID, 0.0f)
+                    textPanel.addSectionHeading(" " + augmentInstance.getName(), augmentInstance.getNameColor(), Global.getSector().playerFaction.darkUIColor, Alignment.LMID, 0.0f)
                 } else {
                     textPanel.addSectionHeading(
                         " " + augmentInstance.getName(),
-                        Color.WHITE,
+                        augmentInstance.getNameColor(),
                         Misc.getGrayColor(),
                         Alignment.LMID,
                         0.0f
@@ -246,6 +285,17 @@ class AugmentMenuDialogueDelegate(val station: Industry): BaseCustomDialogDelega
 
         panelTooltip.externalScroller?.xOffset = oldXOffset
         panelTooltip.externalScroller?.yOffset = oldYOffset
+    }
+
+    private fun getAugmentsToShow(): HashMap<String, stationAugmentSpec> {
+        val installedAugments = market.getStationAugments()
+        val augmentsToShow = HashMap<String, stationAugmentSpec>()
+        installedAugments.forEach { augmentsToShow[it.id] = allAugments[it.id]!! }
+        installedAugments.forEach { CodexData.unlockAugment(it.id) }
+        if (mode == Mode.MODIFYING) {
+            getPlayerKnownAugments().forEach { augmentsToShow[it] = allAugments[it]!! }
+        }
+        return augmentsToShow
     }
 
     fun reportButtonPressed(buttonId: Any) {

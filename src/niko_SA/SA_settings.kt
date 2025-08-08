@@ -10,6 +10,8 @@ import java.lang.RuntimeException
 
 object SA_settings {
 
+    var IS_APPLYING_PREDEFINED_AUGMENTS = false
+
     @JvmStatic
     var isWindows = System.getProperty("os.name").contains("Windows")
 
@@ -43,6 +45,7 @@ object SA_settings {
     }
 
     fun applyPredefinedAugments() {
+        IS_APPLYING_PREDEFINED_AUGMENTS = true
         //val marketsWithAugments = MagicSettings.getStringMap(modId, "MarketsWithAugments")
         MagicSettings.loadModSettings()
         val settings = MagicSettings.modSettings.getJSONObject(modId)
@@ -71,5 +74,6 @@ object SA_settings {
                 market.memoryWithoutUpdate[SA_ids.SA_noAugmentAutofit] = true
             }
         }
+        IS_APPLYING_PREDEFINED_AUGMENTS = false
     }
 }

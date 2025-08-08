@@ -14,7 +14,8 @@ class supportOutfit() : stationAttachment() {
         const val WEAPON_RANGE_PERCENT = 800f
         const val VISION_INCREMENT = 4000f
 
-        const val WEAPON_ROF_PERCENT = -30f
+        const val WEAPON_ROF_PERCENT = -20f
+        const val MISSILE_ROF_PERCENT = -50f
     }
 
     override fun applyInCombat(station: ShipAPI) {
@@ -22,6 +23,7 @@ class supportOutfit() : stationAttachment() {
             module.mutableStats.fighterWingRange.modifyPercent(id, FIGHTER_RANGE_PERCENT)
             module.mutableStats.energyWeaponRangeBonus.modifyPercent(id, WEAPON_RANGE_PERCENT)
             module.mutableStats.ballisticWeaponRangeBonus.modifyPercent(id, WEAPON_RANGE_PERCENT)
+            module.mutableStats.missileWeaponRangeBonus.modifyPercent(id, WEAPON_RANGE_PERCENT)
 
             module.mutableStats.beamPDWeaponRangeBonus.modifyPercent(id, -WEAPON_RANGE_PERCENT)
             module.mutableStats.nonBeamPDWeaponRangeBonus.modifyPercent(id, -WEAPON_RANGE_PERCENT)
@@ -30,6 +32,7 @@ class supportOutfit() : stationAttachment() {
 
             module.mutableStats.ballisticRoFMult.modifyPercent(id, WEAPON_ROF_PERCENT)
             module.mutableStats.energyRoFMult.modifyPercent(id, WEAPON_ROF_PERCENT)
+            module.mutableStats.missileRoFMult.modifyPercent(id, MISSILE_ROF_PERCENT)
         }
     }
 
@@ -37,10 +40,10 @@ class supportOutfit() : stationAttachment() {
         super.getBasicDescription(tooltip, expanded, panel)
 
         val para = tooltip.addPara(
-            "Increases fighter engagement range by %s. Increases non-missile non-PD weapon range by %s, and decreases non-missile non-PD firerate by %s.",
+            "Increases fighter engagement range by %s. Increases non-PD weapon range by %s, and decreases non-PD firerate by %s. Missiles receive a %s reduction in ROF.",
             5f,
             Misc.getHighlightColor(),
-            "${FIGHTER_RANGE_PERCENT.trimHangingZero()}%", "${WEAPON_RANGE_PERCENT.trimHangingZero()}%", "${(-WEAPON_ROF_PERCENT).trimHangingZero()}%"
+            "${FIGHTER_RANGE_PERCENT.trimHangingZero()}%", "${WEAPON_RANGE_PERCENT.trimHangingZero()}%", "${(-WEAPON_ROF_PERCENT).trimHangingZero()}%", "${(-MISSILE_ROF_PERCENT).trimHangingZero()}%"
         )
         para.setHighlightColors(Misc.getHighlightColor(), Misc.getHighlightColor(), Misc.getNegativeHighlightColor())
     }

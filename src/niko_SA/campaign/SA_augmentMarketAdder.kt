@@ -20,7 +20,7 @@ import niko_SA.augments.core.stationAugmentStore.getKnownAugments
 class SA_augmentMarketAdder: BaseCampaignEventListener(false) {
 
     companion object {
-        const val TIMES_TO_PICK_PER_ROLL = 6f
+        const val TIMES_TO_PICK_PER_ROLL = 3f
     }
 
     override fun reportPlayerOpenedMarketAndCargoUpdated(market: MarketAPI?) {
@@ -60,9 +60,12 @@ class SA_augmentMarketAdder: BaseCampaignEventListener(false) {
             picker.add(entry, data.sellWeight)
             totalWeight += data.sellWeight
         }
-        picker.add("nothing", totalWeight * 6f)
+        picker.add("nothing", totalWeight * 4f)
 
-        var picksLeft = TIMES_TO_PICK_PER_ROLL
+        var picksLeft = TIMES_TO_PICK_PER_ROLL + market.size
+        if (submarket.specId == "exerelin_prismMarket") {
+            picksLeft *= 4f
+        }
         while (picksLeft-- > 0f) {
             val picked = picker.pick()
             if (picked == "nothing") continue

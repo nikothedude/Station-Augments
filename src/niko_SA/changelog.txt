@@ -1,3 +1,43 @@
+2.3.0
+PARTIALLY SAVE COMPATIBLE = PREGENERATED AUGMENTS WILL NOT UPDATE
+
+Fixes a rare crash with drone AAF
+
+AI Fighter uplink now tells you exactly what AI core is installed
+
+New augments
+    Backline Deployment
+        Deploys the station near the defender's side of the battlefield
+        Works really well with support outfit!
+    Special modifications
+        Diktat exclusive
+        +4 AP
+        High chance to spawn on diktat markets
+        Reduces combat stats, but reduces hazard and increases AP by 4
+    IDPAI
+        Just IDPAI
+
+Support outfit now applies to missiles
+    A few other changes and buffs
+
+AP is now displayed in the augment menu's header
+The augment menu now sorts from applied, to unapplied
+Clarified that you can use best of the best to increase AP
+
+Reduced AP cost for many augments
+
+Core world augments reworked to make use of new augments and augment values
+
+Augments that increase AP are now applied before others so autofit works properly
+
+Regenerative drone now doesnt apply to stations without drones
+
+Increased the droprate of augments to compensate for the increased number of augments
+Num of augments available in a submarket is now tied to the market's size; +1 roll per market size
+You are now less likely to get augments from loot that you already know
+
+New columns in the CSV - one for name color, one for an autofit plugin
+
 2.2.1a
 SAVE COMPATIBLE
 

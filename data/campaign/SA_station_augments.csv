@@ -1,68 +1,74 @@
-id,name,knowledge_tags,usage_tags,codex_tags,manufac,plugin,drop_weight,sell_weight,combat_drop_chance,sprite_path,ap_cost,req_item_id,modid
+id,name,knowledge_tags,name_color,usage_tags,codex_tags,manufac,plugin,drop_weight,sell_weight,combat_drop_chance,sprite_path,ap_cost,req_item_id,modid,autofit_plugin_path
 #EXAMPLE,,"if name = faction, goes to that fac.
 otherwise, defers to their faction.json knownHullmods tags field
 
 base_bp goes to all factions
-standard goes to all factions BUT player","format: type number
+standard goes to all factions BUT player","the color used by the augment name
+uses faction ids. ex. hegemony, player","format: type number
 combatgood, combatbad, logistics
 
 used in determining autofit, higher numbers = more likely (inverse for combatbad)
-military markets are far more likely to favor combat modification, non-military markets care less and can get logistics",hide_in_codex,,from your data folder,"if 0, never drops from loot","if 0, is never sold in markets","if 0, is never dropped in combat",,can be float,,should match your modid
-SA_shieldShunt,K-Type Shield Shunt,"hegemony, lowtech_bp, merc, tahlan_legioinfernalis",combatgood20,,Mbaye-Gogol,niko_SA.augments.shieldShunt,100,100,90,graphics/hullmods/shield_shunt.png,20,,niko_stationAugments
-SA_heavyArmor,Heavy Armor,"hegemony, lowtech_bp, merc, standard, tahlan_legioinfernalis",combatgood18,,Common,niko_SA.augments.heavyArmor,100,100,90,graphics/hullmods/heavy_armor.png,12,,niko_stationAugments
-SA_reinforcedBulkheads,Reinforced Bulkheads,base_bp,combatgood12,,Common,niko_SA.augments.reinforcedBulkheads,40,40,90,graphics/hullmods/reinforced_bulkheads.png,9,,niko_stationAugments
-#SA_blastDoors,Blast Doors,base_bp,"combatgood10, logistics3",,Common,niko_SA.augments.blastDoors,40,40,90,graphics/hullmods/blast_doors.png,8,,niko_stationAugments
-SA_safetyOverrides,Safety Shunt,base_bp,combatgood4,,Common,niko_SA.augments.safetyOverrides,40,40,90,graphics/hullmods/safety_overrides.png,19,,niko_stationAugments
-SA_armoredWeaponMounts,Armored Weapon Mounts,base_bp,combatgood14,,Common,niko_SA.augments.armoredWeaponMounts,40,40,90,graphics/hullmods/armored_weapon_emplacements.png,9,,niko_stationAugments
-SA_automatedRepairUnit,Automated Repair Unit,"lowtech_bp, merc, tahlan_legioinfernalis, independent",combatgood11,,Common,niko_SA.augments.automatedRepairUnit,100,100,90,graphics/hullmods/automated_repair_unit.png,9,,niko_stationAugments
-SA_axialOverclocking,Axial Overclocking,base_bp,combatgood2,,Common,niko_SA.augments.axialOverclocking,40,40,90,graphics/hullmods/axial_rotation.png,12,,niko_stationAugments
-SA_commsCenter,Command Center,"hegemony, merc, tahlan_legioinfernalis","combatgood8, logistics11",,Common,niko_SA.augments.commsCenter,100,100,90,graphics/hullmods/operations_center.png,13,,niko_stationAugments
-SA_ecmPackage,ECM Package,"hegemony, persean, merc, tahlan_legioinfernalis, independent","combatgood8, logistics10",,Common,niko_SA.augments.ECMPackage,100,100,90,graphics/hullmods/ecm_package.png,9,,niko_stationAugments
-SA_navRelay,Nav Relay,"hegemony, persean, merc, tahlan_legioinfernalis, independent","combatgood8, logistics8",,Common,niko_SA.augments.navRelay,100,100,90,graphics/hullmods/nav_relay.png,9,,niko_stationAugments
-SA_ECCMPackage,ECCM Package,"persean, tritachyon, missile_bp, merc, scavengers, midline_bp, independent",combatgood13,,Common,niko_SA.augments.ECCMPackage,100,100,90,graphics/hullmods/eccm_package.png,13,,niko_stationAugments
-SA_highExplosive,Volatile Reactor Fuel,"sindrian_diktat, pirate, luddic_path, merc",combatgood11,,Luddic Path,niko_SA.augments.highExplosive,100,100,90,graphics/hullmods/erratic_injector.png,9,,niko_stationAugments
-SA_highResSensors,High Resolution Sensors,"tritachyon, scavengers, independent, merc","combatgood4, logistics8",,Common,niko_SA.augments.highResSensors,100,100,90,graphics/hullmods/high_res_sensors.png,7,,niko_stationAugments
-SA_stabilizedShields,Stabilized Shields,"standard, merc",combatgood9,,Common,niko_SA.augments.stabilizedShields,100,100,90,graphics/hullmods/stabilized_shields.png,8,,niko_stationAugments
-SA_hardenedShields,Hardened Shields,"standard, merc",combatgood12,,Common,niko_SA.augments.hardenedShields,100,100,90,graphics/hullmods/hardened_shields.png,13,,niko_stationAugments
-SA_supportOutfit,Support Outfit,"hegemony, merc, scavenger",combatgood11,,Hegemony,niko_SA.augments.supportOutfit,100,100,90,graphics/hullmods/integrated_targeting_unit.png,12,,niko_stationAugments
-SA_resistantFluxConduits,Resistant Flux Conduits,"standard, merc",combatgood12,,Common,niko_SA.augments.resistantFluxConduits,100,100,90,graphics/hullmods/resistant_flux_conduits.png,9,,niko_stationAugments
-SA_regenerativeDrones,Reserve drone bay,"standard, merc",combatgood13,,Ko Combine,niko_SA.augments.regenerativeDrones,80,80,90,graphics/hullmods/bdeck.png,14,,niko_stationAugments
-SA_stationRepairUnit,Station Repair Unit,"merc, hegemony","logistics18, combatgood3",,Common,niko_SA.augments.stationRepairUnit,100,100,90,graphics/augments/SA_stationRepairUnit.png,21,,niko_stationAugments
-SA_tacticalLink,Tactical Link,"hegemony, merc, tahlan_legioinfernalis",combatgood18,,Common,niko_SA.augments.supportPackage,100,100,90,graphics/hullmods/escort_package.png,15,,niko_stationAugments
-SA_efficiencyOverhaul,Efficiency Overhaul,"standard, merc, scavenger",logistics15,,Common,niko_SA.augments.efficiencyOverhaul,100,100,90,graphics/hullmods/efficiency.png,10,,niko_stationAugments
-SA_droneAAF,Drone Weaponry Overdrive,"merc, scavenger, hegemony, persean, sindrian_diktat, tahlan_legioinfernalis",combatgood10,,Common,niko_SA.augments.droneAAF,100,100,90,graphics/hullmods/missile_autoloader.png,7,,niko_stationAugments
-,,,,,,,,,,,,,
-#Rare augments below,,,,,,,,,,,,,
-SA_logisticsDrones,Logistics Drones,"rare_bp, tahlan_legioinfernalis, scavengers","combatgood14, logistics12",,Common,niko_SA.augments.logisticsDrones,30,30,70,graphics/hullmods/detach_always.png,16,,niko_stationAugments
-SA_economyConversion,Economy Conversion,"rare_bp, merc, scavengers","logistics20, combatbad9",,Common,niko_SA.augments.industryConversion,30,30,70,graphics/hullmods/converted_fighter_bay.png,30,,niko_stationAugments
-SA_hydroponics,Hydroponics Basins,"hegemony, luddic_church, rare_bp, merc, scavengers",logistics10,,Common,niko_SA.augments.hydroponics,20,30,70,graphics/icons/markets/exceptional_harvest.png,20,,niko_stationAugments
-SA_fluxShunt,Deep shield dissipators,"persean, merc, rare_bp",combatgood23,,Common,niko_SA.augments.fluxShunt,20,30,90,graphics/hullmods/flux_shunt.png,12,,niko_stationAugments
-SA_solarShielding,Stellar Shielding,"sindrian_diktat, merc","combatgood16, logistics9",,Lion's Guard,niko_SA.augments.solarShielding,10,70,90,graphics/hullmods/solar_shielding2.png,9,,niko_stationAugments
-SA_fighterTimeflow,Fighter Temporal Cores,"tritachyon, rare_bp, merc, tahlan_legioinfernalis",combatgood19,,Tri-Tachyon,niko_SA.augments.fighterTimeflow,20,30,90,graphics/hullmods/temporal_shell.png,20,,niko_stationAugments
-SA_bubbleShield,Bubble Shield,"rare_bp, merc, tritachyon, tahlan_legioinfernalis, scavengers",combatgood22,,Fabrique Orbitale,niko_SA.augments.bubbleShield,12,30,90,graphics/hullmods/omni_shield_emitter.png,25,,niko_stationAugments
-SA_jumpEngine,Jump Engine,"rare_bp, merc",logistics20,codex_unlockable,Domain Restricted,niko_SA.augments.jumpPoint.jumpPointCreator,10,30,90,graphics/hullmods/augmented_drive_field.png,20,,niko_stationAugments
-SA_aiFighterUplink,AI Fighter Uplink,"tritachyon, rare_bp, merc, tahlan_legioinfernalis, scavengers",combatgood15,,Tri-Tachyon,niko_SA.augments.aiFighterUplink,20,30,90,graphics/hullmods/automated.png,8,,niko_stationAugments
-SA_extremeModifications,Extreme Modifications,"pirate, luddic_path, independent, sindrian_diktat, scavengers, merc","combatgood2, combatbad2, skipautofitchance60",,Common,niko_SA.augments.ExtremeModifications,20,30,90,graphics/hullmods/illadvised.png,-10,,niko_stationAugments
-SA_movableStation,Macro Thrusters,"merc, scavenger, pirate",combatgood2,,Common,niko_SA.augments.movableStation,40,30,30,graphics/hullmods/auxilliary_thrusters.png,7,,niko_stationAugments
-,,,,,,,,,,,,,
-#Unique augments below,,,,,,,,,,,,,
-SA_moteSink,High Volition Attractor,special,combatgood70,hide_in_codex,Unknown,niko_SA.augments.moteSink,0,0,0,graphics/hullmods/high_volition_attractor.png,40,,niko_stationAugments
-SA_moteSinkLow,Mote Sink,special,combatgood40,codex_unlockable,Unknown,niko_SA.augments.moteSinkLow,0,0,0,graphics/hullmods/high_volition_attractor.png,15,,niko_stationAugments
-,,,,,,,,,,,,,
-#SA_phaseTeleporter,Phase Teleporter,special,combatgood40,codex_unlockable,Common,niko_SA.augments.PhaseTeleporter,0,0,0,graphics/hullmods/quantum_disruptor.png,30,,niko_stationAugments
-,,,,,,,,,,,,,
-##Shrouded,,,,,,,,,,,,,
-SA_shroudedMantle,Shrouded Mantle,"shrouded, dweller, special",combatgood12,codex_unlockable,Unknown,niko_SA.augments.shrouded.shroudedMantle,0,0,0,graphics/hullmods/shrouded_mantle.png,17,shrouded_mantle,niko_stationAugments
-SA_shroudedLens,Shrouded Lens,"shrouded, dweller, special",combatgood20,codex_unlockable,Unknown,niko_SA.augments.shrouded.ShroudedLens,0,0,0,graphics/hullmods/shrouded_lens.png,8,shrouded_lens,niko_stationAugments
-SA_shroudedThunderhead,Shrouded Thunderhead,"shrouded, dweller, special",combatgood12,codex_unlockable,Unknown,niko_SA.augments.shrouded.ShroudedThunderhead,0,0,0,graphics/hullmods/shrouded_thunderhead.png,9,shrouded_thunderhead,niko_stationAugments
-,,,,,,,,,,,,,
-##Threat,,,,,,,,,,,,,
-SA_fragmentSwarm,Fragment Swarm,"threat, special",combatgood1,codex_unlockable,Unknown,niko_SA.augments.threat.FragmentSwarm,0,0,0,graphics/hullmods/fragment_swarm.png,6,fragment_fabricator,niko_stationAugments
-SA_secondaryFabricator,Secondary Fabricator,"threat, special",combatgood1,codex_unlockable,Unknown,niko_SA.augments.threat.SecondaryFabricator,0,0,0,graphics/hullmods/secondary_fabricator.png,6,fragment_fabricator,niko_stationAugments
-SA_fragmentCoordinator,Fragment Coordinator,"threat, special",combatgood1,codex_unlockable,Unknown,niko_SA.augments.threat.FragmentCoordinator,0,0,0,graphics/hullmods/fragment_coordinator.png,6,threat_processing_unit,niko_stationAugments
-,,,,,,,,,,,,,
-SA_kineticFragments,Kinetic Fragments,"threat, special",combatgood1,codex_unlockable,Unknown,niko_SA.augments.threat.KineticFragments,0,0,0,graphics/augments/SA_kineticFrags.png,7,threat_processing_unit,niko_stationAugments
-SA_seekerFragments,Seeker Fragments,"threat, special",combatgood1,codex_unlockable,Unknown,niko_SA.augments.threat.SeekerFragments,0,0,0,graphics/augments/SA_seekerFrags.png,7,threat_processing_unit,niko_stationAugments
-SA_attackSwarms,Attack Fragments,"threat, special",combatgood1,codex_unlockable,Unknown,niko_SA.augments.threat.AttackSwarms,0,0,0,graphics/augments/SA_attackSwarms.png,5,threat_processing_unit,niko_stationAugments
-SA_constructionSwarms,Construction Swarms,"threat, special",combatgood1,codex_unlockable,Unknown,niko_SA.augments.threat.ConstructionSwarm,0,0,0,graphics/augments/SA_constructionFrags.png,9,threat_processing_unit,niko_stationAugments
-SA_defabSwarms,Defabrication Swarms,"threat, special",combatgood1,codex_unlockable,Unknown,niko_SA.augments.threat.DefabricationSwarm,0,0,0,graphics/augments/SA_defabSwarms.png,3,threat_processing_unit,niko_stationAugments
+military markets are far more likely to favor combat modification, non-military markets care less and can get logistics",hide_in_codex,,from your data folder,"if 0, never drops from loot","if 0, is never sold in markets","if 0, is never dropped in combat",,can be float,,should match your modid,see niko_SA.augments.autofitPlugins
+SA_shieldShunt,K-Type Shield Shunt,"hegemony, lowtech_bp, merc, tahlan_legioinfernalis",,combatgood20,,Mbaye-Gogol,niko_SA.augments.shieldShunt,100,100,90,graphics/hullmods/shield_shunt.png,20,,niko_stationAugments,
+SA_heavyArmor,Heavy Armor,"hegemony, lowtech_bp, merc, standard, tahlan_legioinfernalis",,combatgood18,,Common,niko_SA.augments.heavyArmor,100,100,90,graphics/hullmods/heavy_armor.png,12,,niko_stationAugments,
+SA_reinforcedBulkheads,Reinforced Bulkheads,base_bp,,combatgood12,,Common,niko_SA.augments.reinforcedBulkheads,40,40,90,graphics/hullmods/reinforced_bulkheads.png,7,,niko_stationAugments,
+#SA_blastDoors,Blast Doors,base_bp,,"combatgood10, logistics3",,Common,niko_SA.augments.blastDoors,40,40,90,graphics/hullmods/blast_doors.png,8,,niko_stationAugments,
+SA_safetyOverrides,Safety Shunt,base_bp,,combatgood4,,Common,niko_SA.augments.safetyOverrides,40,40,90,graphics/hullmods/safety_overrides.png,19,,niko_stationAugments,
+SA_armoredWeaponMounts,Armored Weapon Mounts,base_bp,,combatgood14,,Common,niko_SA.augments.armoredWeaponMounts,40,40,90,graphics/hullmods/armored_weapon_emplacements.png,7,,niko_stationAugments,
+SA_automatedRepairUnit,Automated Repair Unit,"standard, merc",,combatgood11,,Common,niko_SA.augments.automatedRepairUnit,100,100,90,graphics/hullmods/automated_repair_unit.png,7,,niko_stationAugments,
+SA_axialOverclocking,Axial Overclocking,base_bp,,combatgood2,,Common,niko_SA.augments.axialOverclocking,40,40,90,graphics/hullmods/axial_rotation.png,12,,niko_stationAugments,
+SA_commsCenter,Command Center,"hegemony, merc, tahlan_legioinfernalis",,"combatgood8, logistics11",,Common,niko_SA.augments.commsCenter,100,100,90,graphics/hullmods/operations_center.png,12,,niko_stationAugments,
+SA_ecmPackage,ECM Package,"hegemony, persean, merc, tahlan_legioinfernalis, independent",,"combatgood8, logistics10",,Common,niko_SA.augments.ECMPackage,100,100,90,graphics/hullmods/ecm_package.png,8,,niko_stationAugments,
+SA_navRelay,Nav Relay,"hegemony, persean, merc, tahlan_legioinfernalis, independent",,"combatgood8, logistics8",,Common,niko_SA.augments.navRelay,100,100,90,graphics/hullmods/nav_relay.png,8,,niko_stationAugments,
+SA_ECCMPackage,ECCM Package,"persean, tritachyon, missile_bp, merc, scavengers, midline_bp, independent",,combatgood13,,Common,niko_SA.augments.ECCMPackage,100,100,90,graphics/hullmods/eccm_package.png,11,,niko_stationAugments,
+SA_highExplosive,Volatile Reactor Fuel,"sindrian_diktat, pirate, luddic_path, merc",,combatgood11,,Luddic Path,niko_SA.augments.highExplosive,100,100,90,graphics/hullmods/erratic_injector.png,9,,niko_stationAugments,
+SA_highResSensors,High Resolution Sensors,"tritachyon, scavengers, independent, merc",,"combatgood4, logistics8",,Common,niko_SA.augments.highResSensors,100,100,90,graphics/hullmods/high_res_sensors.png,4,,niko_stationAugments,
+SA_stabilizedShields,Stabilized Shields,"standard, merc",,combatgood9,,Common,niko_SA.augments.stabilizedShields,100,100,90,graphics/hullmods/stabilized_shields.png,7,,niko_stationAugments,
+SA_hardenedShields,Hardened Shields,"standard, merc",,combatgood12,,Common,niko_SA.augments.hardenedShields,100,100,90,graphics/hullmods/hardened_shields.png,13,,niko_stationAugments,
+SA_supportOutfit,Support Outfit,"hegemony, merc, scavenger",,combatgood11,,Hegemony,niko_SA.augments.supportOutfit,100,100,90,graphics/hullmods/integrated_targeting_unit.png,11,,niko_stationAugments,
+SA_resistantFluxConduits,Resistant Flux Conduits,"standard, merc",,combatgood12,,Common,niko_SA.augments.resistantFluxConduits,100,100,90,graphics/hullmods/resistant_flux_conduits.png,9,,niko_stationAugments,
+SA_regenerativeDrones,Reserve drone bay,"standard, merc",,combatgood13,,Ko Combine,niko_SA.augments.regenerativeDrones,80,80,90,graphics/hullmods/bdeck.png,12,,niko_stationAugments,
+SA_stationRepairUnit,Station Repair Unit,"merc, hegemony",,"logistics18, combatgood3",,Common,niko_SA.augments.stationRepairUnit,100,100,90,graphics/augments/SA_stationRepairUnit.png,18,,niko_stationAugments,
+SA_tacticalLink,Tactical Link,"hegemony, merc, tahlan_legioinfernalis",,combatgood18,,Common,niko_SA.augments.supportPackage,100,100,90,graphics/hullmods/escort_package.png,13,,niko_stationAugments,
+SA_efficiencyOverhaul,Efficiency Overhaul,"standard, merc, scavenger",,logistics15,,Common,niko_SA.augments.efficiencyOverhaul,100,100,90,graphics/hullmods/efficiency.png,5,,niko_stationAugments,
+SA_droneAAF,Drone Weaponry Overdrive,"merc, scavenger, hegemony, persean, sindrian_diktat, tahlan_legioinfernalis",,combatgood10,,Common,niko_SA.augments.droneAAF,100,100,90,graphics/hullmods/missile_autoloader.png,7,,niko_stationAugments,
+SA_backlineStation,Backline Deployment,"merc, scavenger, persean",,combatgood2,,Common,niko_SA.augments.backlineStation,80,100,90,graphics/hullmods/distributed_fire_control2.png,6,,niko_stationAugments,
+SA_IDPAI,Integrated Point Defense AI,"standard, merc",,combatgood8,,Common,niko_SA.augments.IDPAI,100,100,90,graphics/hullmods/integrated_point_defense_ai.png,7,,niko_stationAugments,
+,,,,,,,,,,,,,,,
+#Rare augments below,,,,,,,,,,,,,,,
+SA_logisticsDrones,Logistics Drones,"rare_bp, tahlan_legioinfernalis, scavengers",,"combatgood14, logistics12",,Common,niko_SA.augments.logisticsDrones,30,30,70,graphics/hullmods/detach_always.png,12,,niko_stationAugments,
+SA_economyConversion,Economy Conversion,"rare_bp, merc, scavengers",,"logistics20, combatbad9",,Common,niko_SA.augments.industryConversion,30,30,70,graphics/hullmods/converted_fighter_bay.png,30,,niko_stationAugments,
+SA_hydroponics,Hydroponics Basins,"hegemony, luddic_church, rare_bp, merc, scavengers",,logistics10,,Common,niko_SA.augments.hydroponics,20,30,70,graphics/icons/markets/exceptional_harvest.png,20,,niko_stationAugments,
+SA_fluxShunt,Deep shield dissipators,"persean, merc, rare_bp",,combatgood23,,Common,niko_SA.augments.fluxShunt,20,30,90,graphics/hullmods/flux_shunt.png,12,,niko_stationAugments,
+SA_solarShielding,Stellar Shielding,"sindrian_diktat, merc",,"combatgood16, logistics9",,Lion's Guard,niko_SA.augments.solarShielding,10,70,90,graphics/hullmods/solar_shielding2.png,9,,niko_stationAugments,
+SA_fighterTimeflow,Fighter Temporal Cores,"tritachyon, rare_bp, merc, tahlan_legioinfernalis",,combatgood19,,Tri-Tachyon,niko_SA.augments.fighterTimeflow,20,30,90,graphics/hullmods/temporal_shell.png,20,,niko_stationAugments,
+SA_bubbleShield,Bubble Shield,"rare_bp, merc, tritachyon, tahlan_legioinfernalis, scavengers",,combatgood22,,Fabrique Orbitale,niko_SA.augments.bubbleShield,12,30,90,graphics/hullmods/omni_shield_emitter.png,19,,niko_stationAugments,
+SA_jumpEngine,Jump Engine,"rare_bp, merc",,logistics20,codex_unlockable,Domain Restricted,niko_SA.augments.jumpPoint.jumpPointCreator,10,30,90,graphics/hullmods/augmented_drive_field.png,20,,niko_stationAugments,
+SA_aiFighterUplink,AI Fighter Uplink,"tritachyon, rare_bp, merc, tahlan_legioinfernalis, scavengers",,combatgood15,,Tri-Tachyon,niko_SA.augments.aiFighterUplink,20,30,90,graphics/hullmods/automated.png,8,,niko_stationAugments,
+SA_extremeModifications,Extreme Modifications,"pirate, luddic_path, independent, sindrian_diktat, scavengers, merc",,"combatgood2, combatbad2, skipautofitchance90",,Common,niko_SA.augments.ExtremeModifications,20,30,90,graphics/hullmods/illadvised.png,-10,,niko_stationAugments,
+SA_movableStation,Macro Thrusters,"rare_bp, merc, scavenger, pirate",,combatgood2,,Common,niko_SA.augments.movableStation,40,30,30,graphics/hullmods/auxilliary_thrusters.png,7,,niko_stationAugments,
+,,,,,,,,,,,,,,,
+#Faction-specific augments,,,,,,,,,,,,,,,
+SA_specialModifications,Special Modifications,sindrian_diktat,sindrian_diktat,"combatbad11, skipautofitchance90",codex_unlockable,Lion's Guard,niko_SA.augments.specialModifications,0,10,50,graphics/hullmods/special_modifications.png,-4,,niko_stationAugments,niko_SA.augments.autofitPlugins.SpecialModificationsAutofitPlugin
+,,,,,,,,,,,,,,,
+#Unique augments below,,,,,,,,,,,,,,,
+SA_moteSink,High Volition Attractor,special,,combatgood70,hide_in_codex,Unknown,niko_SA.augments.moteSink,0,0,0,graphics/hullmods/high_volition_attractor.png,40,,niko_stationAugments,
+SA_moteSinkLow,Mote Sink,special,,combatgood40,codex_unlockable,Unknown,niko_SA.augments.moteSinkLow,0,0,0,graphics/hullmods/high_volition_attractor.png,15,,niko_stationAugments,
+,,,,,,,,,,,,,,,
+#SA_phaseTeleporter,Phase Teleporter,special,,combatgood40,codex_unlockable,Common,niko_SA.augments.PhaseTeleporter,0,0,0,graphics/hullmods/quantum_disruptor.png,30,,niko_stationAugments,
+,,,,,,,,,,,,,,,
+##Shrouded,,,,,,,,,,,,,,,
+SA_shroudedMantle,Shrouded Mantle,"shrouded, dweller, special",,combatgood12,codex_unlockable,Unknown,niko_SA.augments.shrouded.shroudedMantle,0,0,0,graphics/hullmods/shrouded_mantle.png,17,shrouded_mantle,niko_stationAugments,
+SA_shroudedLens,Shrouded Lens,"shrouded, dweller, special",,combatgood20,codex_unlockable,Unknown,niko_SA.augments.shrouded.ShroudedLens,0,0,0,graphics/hullmods/shrouded_lens.png,8,shrouded_lens,niko_stationAugments,
+SA_shroudedThunderhead,Shrouded Thunderhead,"shrouded, dweller, special",,combatgood12,codex_unlockable,Unknown,niko_SA.augments.shrouded.ShroudedThunderhead,0,0,0,graphics/hullmods/shrouded_thunderhead.png,9,shrouded_thunderhead,niko_stationAugments,
+,,,,,,,,,,,,,,,
+##Threat,,,,,,,,,,,,,,,
+SA_fragmentSwarm,Fragment Swarm,"threat, special",,combatgood1,codex_unlockable,Unknown,niko_SA.augments.threat.FragmentSwarm,0,0,0,graphics/hullmods/fragment_swarm.png,6,fragment_fabricator,niko_stationAugments,
+SA_secondaryFabricator,Secondary Fabricator,"threat, special",,combatgood1,codex_unlockable,Unknown,niko_SA.augments.threat.SecondaryFabricator,0,0,0,graphics/hullmods/secondary_fabricator.png,6,fragment_fabricator,niko_stationAugments,
+SA_fragmentCoordinator,Fragment Coordinator,"threat, special",,combatgood1,codex_unlockable,Unknown,niko_SA.augments.threat.FragmentCoordinator,0,0,0,graphics/hullmods/fragment_coordinator.png,6,threat_processing_unit,niko_stationAugments,
+,,,,,,,,,,,,,,,
+SA_kineticFragments,Kinetic Fragments,"threat, special",,combatgood1,codex_unlockable,Unknown,niko_SA.augments.threat.KineticFragments,0,0,0,graphics/augments/SA_kineticFrags.png,7,threat_processing_unit,niko_stationAugments,
+SA_seekerFragments,Seeker Fragments,"threat, special",,combatgood1,codex_unlockable,Unknown,niko_SA.augments.threat.SeekerFragments,0,0,0,graphics/augments/SA_seekerFrags.png,7,threat_processing_unit,niko_stationAugments,
+SA_attackSwarms,Attack Fragments,"threat, special",,combatgood1,codex_unlockable,Unknown,niko_SA.augments.threat.AttackSwarms,0,0,0,graphics/augments/SA_attackSwarms.png,5,threat_processing_unit,niko_stationAugments,
+SA_constructionSwarms,Construction Swarms,"threat, special",,combatgood1,codex_unlockable,Unknown,niko_SA.augments.threat.ConstructionSwarm,0,0,0,graphics/augments/SA_constructionFrags.png,9,threat_processing_unit,niko_stationAugments,
+SA_defabSwarms,Defabrication Swarms,"threat, special",,combatgood1,codex_unlockable,Unknown,niko_SA.augments.threat.DefabricationSwarm,0,0,0,graphics/augments/SA_defabSwarms.png,3,threat_processing_unit,niko_stationAugments,

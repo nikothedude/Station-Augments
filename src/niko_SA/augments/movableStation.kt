@@ -14,6 +14,8 @@ class movableStation: stationAttachment() {
         const val TARGET_MANUVERABILITY = 15f
     }
 
+    override val incompatibleAugments: MutableSet<String> = mutableSetOf("SA_backlineStation")
+
     override fun applyInCombat(station: ShipAPI) {
         station.fixedLocation = null // yeah. YEAH. WE OUT HERE.
 

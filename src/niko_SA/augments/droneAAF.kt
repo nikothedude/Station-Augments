@@ -49,6 +49,7 @@ class droneAAF: stationAttachment() {
                 addSubsystemToShip(Global.getCombatEngine().playerShip, AAFSubsystem(Global.getCombatEngine().playerShip))
                 Global.getCombatEngine().removePlugin(this)
             }*/
+            if (station.deployedDrones == null) return
             for (drone in station.deployedDrones) {
                 if (checkedDrones.contains(drone)) continue
 
