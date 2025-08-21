@@ -20,9 +20,9 @@ SA_MSOpenComms,OpenCommLink,"$entity.SA_moteFleet score:1000","EndConversation",
 
 The loop forms, twists, contorts into all manners of shapes before your eyes, giving you a splitting headache. But, by the time you've pinched your eyes, it's gone - the comm-link has failed, and your subordinates eye you expectantly, seemingly immune - or unaware - of what just transpired.",,
 SA_MSInitialExplore,OpenInteractionDialog,"$SA_moteStation score:10000
-!$global.SA_exploredMSOne score:50","ShowDefaultVisual","Your $shipOrFleet carefully approaches the star fortress, tiptoeing through what might be it's sensor net.
+!$global.SA_exploredMSOne score:50","ShowDefaultVisual","Your $shipOrFleet carefully approaches the star fortress, tiptoeing through what might be its sensor net.
 
-While the fortress itself seems rather inert at this distance, your sensors officer is brought to alert by the presence of ""EM anomalies"" - as your sensor officer stammers - seeming to slip in and out of the station, taking it's baryonic walls as mere suggestion. They fly in erratic pack-fashion, forming small groups that patrol the pitted exterior of the fortress.
+While the fortress itself seems rather inert at this distance, your sensors officer is brought to alert by the presence of ""EM anomalies"" - as your sensor officer stammers - seeming to slip in and out of the station, taking its baryonic walls as mere suggestion. They fly in erratic pack-fashion, forming small groups that patrol the pitted exterior of the fortress.
 
 Something tickles the back of your mind - that unfamiliar music, playing a haunting tune. You snap your gaze off the weathered station, trying to regain focus.","SA_MSExploreTwo:Bring the $shipOrFleet closer
 defaultLeave:Leave",
@@ -31,7 +31,7 @@ $global.SA_exploredMSOne score:60
 !$global.SA_defeatedMS score:20","SA_MSCMD showFleet
 
 SetShortcut SA_viewAugmentsOption ""J"" true
-SetOptionColor SA_viewAugmentsOption highlight","Your $shipOrFleet carefully approaches the star fortress. Almost immediately, the fortress deploys it's shields and anomalous defenders, prompting that itching in your skull to come up again. Tactical offers you a nervous glance, awaiting your next orders.","SA_MSExploreThree:Continue
+SetOptionColor SA_viewAugmentsOption highlight","Your $shipOrFleet carefully approaches the star fortress. Almost immediately, the fortress deploys its shields and anomalous defenders, prompting that itching in your skull to come up again. Tactical offers you a nervous glance, awaiting your next orders.","SA_MSExploreThree:Continue
 SA_viewAugmentsOption:View station augments
 defaultLeave:Leave",
 SA_MSRevisitDead,OpenInteractionDialog,"$SA_moteStation score:10000
@@ -45,7 +45,7 @@ SetShortcut SA_viewAugmentsOption ""J"" true
 SetOptionColor SA_viewAugmentsOption highlight
 
 SetTextHighlights ""comes online""
-$global.SA_exploredMSOne = true","As your $shipOrFleet gets closer, the ""anomalies"" abruptly freeze in place and fly into the station - which promptly comes online. A massive aftermarket softshield deploys over the hull, it's weapons perk up and aim in your direction, and the bridge is filled with klaxon warnings from the now hundred targetting lasers tracing your flagship's hull.
+$global.SA_exploredMSOne = true","As your $shipOrFleet gets closer, the ""anomalies"" abruptly freeze in place and fly into the station - which promptly comes online. A massive aftermarket softshield deploys over the hull, its weapons perk up and aim in your direction, and the bridge is filled with klaxon warnings from the now hundred targetting lasers tracing your flagship's hull.
 
 The sight would be astonishing if not for the now-pounding music, breaking your thoughts into small delicate chunks. Like a dance in the dark, the music drags you away...
 
@@ -58,17 +58,17 @@ SA_moteStationDefeated,SA_moteStationDefeated,,"ShowImageVisual space_wreckage
 $global.SA_defeatedMS = true","One last explosion marks the fate of the strange station. The bubble shield comes online one more time, flickering, then finally fading, along with all the anomalies - leaving behind only a faint pinkish glow that reflects off your face, and a now-dead wreckage to pick through.
 
 Your sensors officer reports in a hushed voice that no escape pods were detected leaving the station at any point.","SA_moteStationDefeatedTwo:Assess the wreckage",
-SA_moteStationDefeatedTwo,DialogOptionSelected,"$option == SA_moteStationDefeatedTwo",,"Salvor teams dock their drone-shuttles on the conspicuously sealed hangar-bays of the fortress, and make quick work of the civilian-grade plating preventing entry. Inside, there is no sign of the mysterious anomalies, instead holding other anomalies of it's own: doors half-finished, exposed wiring across ceilings, unexplained modifications made to aftermarket systems, and most strikingly, evidence of life. Or, what was once life.
+SA_moteStationDefeatedTwo,DialogOptionSelected,"$option == SA_moteStationDefeatedTwo",,"Salvor teams dock their drone-shuttles on the conspicuously sealed hangar-bays of the fortress, and make quick work of the civilian-grade plating preventing entry. Inside, there is no sign of the mysterious anomalies, instead holding other anomalies of its own: doors half-finished, exposed wiring across ceilings, unexplained modifications made to aftermarket systems, and most strikingly, evidence of life. Or, what was once life.
 
 Your drones enter the dormitories to the sound of dozens of alarms all crying for their owners to wake. The canteen still has food - if rotten - on plates, many with utensils jammed in them. And if that wasn't unnerving enough... piles of clothing in the hallway, seeming to be either desperately discarded, or dropped right off the flesh of their owners. All that's left is the ominous hum from the center of the station, accompanied with a small pleasant music.","SA_moteStationDefeatedThree:Continue",
 SA_moteStationDefeatedThreeNoSabo,DialogOptionSelected,"$option == SA_moteStationDefeatedThree","AddTextSmall ""Recovered secret Tri-Tach journal"" highlight","Defense systems station-wide are characteristically unoperable, given the unpowered state of the station. This does nothing to settle the salvors, who keep their vehicles at a wide birth.
 
 Attempts are made to access the station's databases and promptly turn up nothing, much to their terror. There is evidence in the logs of major activity within the database around thirty cycles ago, before... nothing. No deletion traces. No modification logs. The databases were wiped without leaving a trace - or maybe there was nothing to begin with. You detect the faintest discomfort from your eavesdropping science officer.
 
-In what seems to be standard for top-secret Tri-Tachyon operations, however, one lucky salvor finds a dusty yet intact journal - emblazened with a gold Tri-Tachyon logo - in the ""commander""'s private quarters. It is carefully placed in a hazmat-bag, vac-sealed, and transported safely to your cargo bay, and you quickly receive a ping as confirmation of scan-delivery of it's contents to your console.","SA_moteStationDefeatedFour:Investigate",
-SA_moteStationDefeatedFour,DialogOptionSelected,"$option == SA_moteStationDefeatedFour",,"You pull up the page-scan of the journal, and start reading. It appears to be owned by one ""Jensen Mariyun"", the commander-in-chief of this ""operation"". The first page is a incredibly detailed rant about the nearby jump anchor - it's impracticalities, it's expense, and most of all, it's safety. It would appear not even Jensen knows why a jump anchor had to be used, when a simple rogue planet would've sufficed for ""secrecy"".
+In what seems to be standard for top-secret Tri-Tachyon operations, however, one lucky salvor finds a dusty yet intact journal - emblazened with a gold Tri-Tachyon logo - in the ""commander""'s private quarters. It is carefully placed in a hazmat-bag, vac-sealed, and transported safely to your cargo bay, and you quickly receive a ping as confirmation of scan-delivery of its contents to your console.","SA_moteStationDefeatedFour:Investigate",
+SA_moteStationDefeatedFour,DialogOptionSelected,"$option == SA_moteStationDefeatedFour",,"You pull up the page-scan of the journal, and start reading. It appears to be owned by one ""Jensen Mariyun"", the commander-in-chief of this ""operation"". The first page is a incredibly detailed rant about the nearby jump anchor - its impracticalities, its expense, and most of all, its safety. It would appear not even Jensen knows why a jump anchor had to be used, when a simple rogue planet would've sufficed for ""secrecy"".
 
-After this rant, however, it turns into the typical trail-making of paranoid Tri-Tach employees seeking to avoid blame-shifting from a panicked exec. Detailed incident reports, complaints of safety, and endless grievances, all without ever getting into much detail about the exact nature of their experiments (much to your frustration). This pattern continues for nearly twenty pages. Mentions of ""the core"" are frequent, as are ""motes"", but it's all rather clinical and referential - asking the reader to see ""report XX"" for more information. Admittadly, this officer knows OpSec.
+After this rant, however, it turns into the typical trail-making of paranoid Tri-Tach employees seeking to avoid blame-shifting from a panicked exec. Detailed incident reports, complaints of safety, and endless grievances, all without ever getting into much detail about the exact nature of their experiments (much to your frustration). This pattern continues for nearly twenty pages. Mentions of ""the core"" are frequent, as are ""motes"", but it's all rather clinical and referential - asking the reader to see ""report XX"" for more information. Admittedly, this officer knows OpSec.
 ","SA_moteStationDefeatedFive:Keep reading",
 SA_moteStationDefeatedFive,DialogOptionSelected,"$option == SA_moteStationDefeatedFive",,"Eventually, though, on the fourty first page, the ranting is chillingly interrupted.
           ""...despite the objections of the safety officer, Gulliman again increased power output to the core by twen""
@@ -87,7 +87,7 @@ SA_moteStationDefeatedEightWhat,DialogOptionSelected,"$option == SA_moteStationD
 ""Or... maybe a... self-scuttling procedure, in the event the station is ever compromised?"" Your chief looks back, trying to appear certain. ""But whatever it is - it's disconnected from the structural strain of the station, it's not power-burnt... it's just not working right."" A crack has appeared in your chief's usual confidence.",,
 SA_moteStationDefeatedNine,DialogOptionSelected,"$option == SA_moteStationDefeatedNine","SetTextHighlights ""marvel"" ""moved""","Your chief grins, pulling up a PDA. ""Better than restored. This whole thing - this whole marvel! It can be moved! It's portable!""
 
-""We won't be able to restore it to it's... former glory, I don't think. But... I think we could turn it on.""","SA_moteStationDefeatedEnd:Nod, and order the core - and the station - salvaged",
+""We won't be able to restore it to its... former glory, I don't think. But... I think we could turn it on.""","SA_moteStationDefeatedEnd:Nod, and order the core - and the station - salvaged",
 SA_moteStationDefeatedEnd,DialogOptionSelected,"$option == SA_moteStationDefeatedEnd","$salvageLeaveText = Leave 0
 SalvageEntity showCost
 FireAll PopulateSalvageOptions2",,,
@@ -147,7 +147,7 @@ AddTextSmall ""Rift-core removed from station"" bad
 
 HideFirstPerson","With a look of delight, he claps his hands together and grins carnivorously. ""It's a deal, Commander.""
 
-Your chief engineer objects, but has their orders. The rift-core is cordoned off and quickly hoisted into the officer's ship, which subsequently begins upholding it's end of the deal. A number of LG weapons are unloaded and taken to storage, including one your engineers can't identify; $personFirstName insists it's a ""gift"" and refuses to elaborate further. Additionally, you receive a comms-ping from your quartermaster, who insists on going to Sindria to pick up a fleet that's supposedly been set aside for you.
+Your chief engineer objects, but has their orders. The rift-core is cordoned off and quickly hoisted into the officer's ship, which subsequently begins upholding its end of the deal. A number of LG weapons are unloaded and taken to storage, including one your engineers can't identify; $personFirstName insists it's a ""gift"" and refuses to elaborate further. Additionally, you receive a comms-ping from your quartermaster, who insists on going to Sindria to pick up a fleet that's supposedly been set aside for you.
 
 Before too long, the officer has departed, and you are left with a pile of weapons, a promise of ships, and one less exotic piece of machinery.","SA_DKMAOEnd:Return to your duties",
 SA_DKMAOCredits,DialogOptionSelected,"$option == SA_DKMAOCredits","SA_barCMD soldAugment
@@ -175,7 +175,7 @@ SA_DKRefuse,DialogOptionSelected,"$option == SA_DKRefuse","AdjustRepActivePerson
 AdjustRep sindrian_diktat INHOSPITABLE -5
 HideFirstPerson","His smile falters, before finally falling to a frown. ""That's... a disappointment."" He mutters, before disabling the privacy field under a cold glare.
 
-""You'll never be able to fully understand it's secrets, Commander."" He gets up, staring down at you. ""You'll regret this.""
+""You'll never be able to fully understand its secrets, Commander."" He gets up, staring down at you. ""You'll regret this.""
 
 He storms off without as much as another word.","SA_DKMAOEnd:Return to your duties
 SA_DKMAODrink:Finish off his champagne",
@@ -208,11 +208,11 @@ SA_MSBreadcrumbPullOut,DialogOptionSelected,"$option == SA_MSBreadcrumbPullOut",
 You exchange weary looks with your bodyguards, and consider your next steps.","SA_MSBreadcrumbReadOptionsOne:Plug it into your PDA
 SA_MSBreadcrumbReadOptionsTwo:Plug it into your PDA - in a virtual sandbox
 SA_MSBreadcrumbReadOptionsThree:Hand it to a bodyguard and have them load it",
-SA_MSBreadcrumbReadOptionsOne,DialogOptionSelected,"$option == SA_MSBreadcrumbReadOptionsOne","FireBest SA_MSBreadcrumbContents","You insert the datachit into your PDA and quickly pull up it's contents.",,
+SA_MSBreadcrumbReadOptionsOne,DialogOptionSelected,"$option == SA_MSBreadcrumbReadOptionsOne","FireBest SA_MSBreadcrumbContents","You insert the datachit into your PDA and quickly pull up its contents.",,
 SA_MSBreadcrumbReadOptionsTwo,DialogOptionSelected,"$option == SA_MSBreadcrumbReadOptionsTwo","FireBest SA_MSBreadcrumbContents","You insert the datachit into your PDA, virtually isolating an environment for it to run on, just in case it has any malicious code within. A quick data-analysis from your TT AV asserts - no, in fact - no malware lurks within, and it's simply just a data storage device.",,
 SA_MSBreadcrumbReadOptionsThree,DialogOptionSelected,"$option == SA_MSBreadcrumbReadOptionsThree","FireBest SA_MSBreadcrumbContents","Not wanting to risk your own device's safety, you hand the chit to your nearest bodyguard with orders to read it. They dutifully load it up, making a note to you to have engineering inspect the PDA afterwords.",,
 SA_MSBreadcrumbContents,SA_MSBreadcrumbContents,,"SetTextHighlights ""Please, undo the mistake I made. Even if you're not an altruist, I'm sure you'll find the salvage wanting."" ""far out from the core"" ""reachable""
-SA_breadcrumbCMD startBreadcrumb","Within the chit are three files. The first is empty, save for it's title, named ""For $PlayerName."" The second, named ""A promise"", reads ""Please, undo the mistake I made. Even if you're not an altruist, I'm sure you'll find the salvage wanting."" The third is mererly a set of hyperspace coordinates - far out from the core, but reachable.
+SA_breadcrumbCMD startBreadcrumb","Within the chit are three files. The first is empty, save for its title, named ""For $PlayerName."" The second, named ""A promise"", reads ""Please, undo the mistake I made. Even if you're not an altruist, I'm sure you'll find the salvage wanting."" The third is mererly a set of hyperspace coordinates - far out from the core, but reachable.
 
 You sigh, double-and-triple checking the file system for any more context, but no - that's it. Quietely, you ask yourself - ""why not include a little more info? Won't that help me 'fix your mistake'?"" Grumbling, you sigh, understanding this is the extent of help you'll be getting.","SA_MSBreadcrumbReturn:Return to your duties",
 SA_MSBreadcrumbReturn,DialogOptionSelected,"$option == SA_MSBreadcrumbReturn","BarCMD showOptions","Pocketing the chit yet again, you sigh and instruct your guards to cease the futile search for your ""benefactor"", opting instead to resume your duties of searching the bar for leads. This is all terribly interesting, yes, but you can investigate *after* you're done here.",,
@@ -273,7 +273,7 @@ AdjustRep luddic_church HOSTILE -10
 AdjustRep luddic_path HOSTILE -30","""H-he... he was some sort of extremist, $playerSirOrMadam."" he nods. ""He showed up during peak hours, shot a few rounds into the ceiling, produced the bomb... started shouting about the 'shroud'. Something about the... red mantle we have around the hull of the station?""
 
 You realize what this means. This pather must have noticed the 'demonic' technologies in use by this station and decided to take action. You knew this would happen - you just didn't know when.","SA_shroudedAugmentBarEventNine:Continue",
-SA_shroudedAugmentBarEventNine,DialogOptionSelected,"$option == SA_shroudedAugmentBarEventNine",,"The officer follows behind you as you walk. ""We are so, so sorry about this - incidents a-are usually, isolated, and nipped on the bud - we promise this won't happen again. We-"" the officer stiffens as you turn to face them and wave them off. With a nod and a salute, the officer turns back to corral the crowd away from the bar - it's windows now shuttered with plasteel and the door locked. Seems business is over.
+SA_shroudedAugmentBarEventNine,DialogOptionSelected,"$option == SA_shroudedAugmentBarEventNine",,"The officer follows behind you as you walk. ""We are so, so sorry about this - incidents a-are usually, isolated, and nipped on the bud - we promise this won't happen again. We-"" the officer stiffens as you turn to face them and wave them off. With a nod and a salute, the officer turns back to corral the crowd away from the bar - its windows now shuttered with plasteel and the door locked. Seems business is over.
 
 You rub your head and groan, and decide to find somewhere a little quieter while your migraine settles.","SA_shroudedAugmentBarEventEnd:Find somewhere to go",
 SA_shroudedAugmentBarEventEnd,DialogOptionSelected,"$option == SA_shroudedAugmentBarEventEnd","BarCMD playAmbience

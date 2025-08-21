@@ -116,7 +116,7 @@ class bubbleShield : stationAttachment() {
 
         tooltip.addPara(
             "One of Fabrique Orbitale's more mundane inventions, the AREC-220 shield generator fits perfectly in the core of most stations " +
-            "and projects a massive softshield around its host. It's intended use was to provide cover for defending ships, which are notably less durable than the station itself." +
+            "and projects a massive softshield around its host. Its intended use was to provide cover for defending ships, which are notably less durable than the station itself." +
             "Sadly, middling sales meant the end of the project - though it seems " +
             "a number of augspecs made their way into the sector despite the canning.",
             5f

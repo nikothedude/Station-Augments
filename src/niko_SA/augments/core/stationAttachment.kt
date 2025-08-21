@@ -307,7 +307,7 @@ abstract class stationAttachment() : BaseCampaignEventListener(false), CoreAutor
             )
             if (orbitalStation.isImproved) {
                 tooltip.addPara(
-                    "The ${orbitalStation.currentName} has been improved, increasing it's AP by %s.",
+                    "The ${orbitalStation.currentName} has been improved, increasing its AP by %s.",
                     5f,
                     Misc.getStoryOptionColor(),
                     "${STATION_IMPROVED_AP_BONUS.trimHangingZero()}"
