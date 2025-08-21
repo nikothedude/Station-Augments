@@ -111,11 +111,11 @@ open class moteSink(): stationAttachment(), EveryFrameScript {
 
         if (!highVolatility) {
             val label = tooltip.addPara(
-                "This augment is special: Only one station may have it applied, and it is unusually cheap for it's power.",
+                "This augment is special: Only one station may have it applied, and it is unusually cheap for its power.",
                 5f,
                 Misc.getGrayColor()
             )
-            label.setHighlight("special", "unusually cheap for it's power")
+            label.setHighlight("special", "unusually cheap for its power")
             label.setHighlightColors(Misc.getHighlightColor(), Misc.getPositiveHighlightColor())
             label.setColor(Misc.getGrayColor())
         }

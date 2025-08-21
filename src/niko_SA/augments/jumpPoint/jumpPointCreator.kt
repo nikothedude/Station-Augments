@@ -118,8 +118,8 @@ class jumpPointCreator: stationAttachment() {
 
         tooltip.addPara(
             "An exceedingly rare modification, the \"jump engine\" is little more than a highly sophisticated set of drone-hangars " +
-            "and management equipment to produce an artificial jump-point. Having been abandoned by it's manufacturers for it's potential to cause major " +
-            "hyperspace ripples, it's use is not recommended - but with the low traffic of the persean sector, it may be worth the now-low risk.",
+            "and management equipment to produce an artificial jump-point. Having been abandoned by its manufacturers for its potential to cause major " +
+            "hyperspace ripples, its use is not recommended - but with the low traffic of the persean sector, it may be worth the now-low risk.",
             5f
         )
 

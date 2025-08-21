@@ -33,7 +33,7 @@ class defensiveTargettingArray: stationAttachment() {
 
         tooltip.addPara(
             "Standard fighter communication links are re-purposed to provide short-range targeting data. This targeting data is enhanced on stations, " +
-                "which often house enough equipment to make fighters' range similar to that of it's main batteries.",
+                "which often house enough equipment to make fighters' range similar to that of its main batteries.",
             5f
         )
 
