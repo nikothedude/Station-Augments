@@ -145,13 +145,13 @@ class SA_augmentBlueprintPlugin: BaseSpecialItemPlugin() {
     override fun performRightClickAction() {
         if (Global.getSector().playerFaction.getKnownAugments().contains(augment.id)) {
             Global.getSector().campaignUI.messageDisplay.addMessage(
-                "" + augment.getName() + ": blueprint already known"
+                "" + augment.getName() + ": augment already known"
             ) //,
         } else {
             Global.getSoundPlayer().playUISound("ui_acquired_blueprint", 1f, 1f)
             Global.getSector().playerFaction.teachAugment(augment.id)
             Global.getSector().campaignUI.messageDisplay.addMessage(
-                "Acquired blueprint: " + augment.getName() + ""
+                "Acquired station augment: " + augment.getName() + ""
             ) //,
         }
     }

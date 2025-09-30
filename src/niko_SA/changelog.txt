@@ -1,3 +1,37 @@
+2.3.1
+
+(Nex) Prism freeport now sells a lot of augments in the high tech shop
+    Also sells merc blueprints
+    Great place to find rare bps
+
+Augments now only spawn via a whitelist of submarkets
+
+New augments
+
+    Sanctified Station
+        10 AP
+
+        Known by LP and LC
+
+        -10% flux capacity
+
+        If luddic majority active...
+            -40% upkeep
+            -1/-2 crew/supply demand
+            +1 to all supply (hydroponics synergy)
+            +15% station CR
+
+            Spawns small defense fleets that orbit the station
+                1 per size above 2
+                3 = 1 fleet, 4 = 2...
+                Uses LC doctrine and ships, but the market's quality
+                Will only ever engage in combat if the station is engaged
+
+Mote station is now midline
+    High tech stations suck to fight tbqh
+
+New lunsasettings option to enable viewing of AP to FP ratio in an augment's desc
+
 2.3.0
 PARTIALLY SAVE COMPATIBLE = PREGENERATED AUGMENTS WILL NOT UPDATE
 

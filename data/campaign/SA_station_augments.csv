@@ -50,6 +50,8 @@ SA_movableStation,Macro Thrusters,"rare_bp, merc, scavenger, pirate",,combatgood
 ,,,,,,,,,,,,,,,
 #Faction-specific augments,,,,,,,,,,,,,,,
 SA_specialModifications,Special Modifications,sindrian_diktat,sindrian_diktat,"combatbad11, skipautofitchance90",codex_unlockable,Lion's Guard,niko_SA.augments.specialModifications,0,10,50,graphics/hullmods/special_modifications.png,-4,,niko_stationAugments,niko_SA.augments.autofitPlugins.SpecialModificationsAutofitPlugin
+SA_sanctifiedStation,Sanctified Station,"luddic_church, luddic_path",luddic_church,"logistics20, skipautofitchance100",codex_unlockable,Luddic Church,niko_SA.augments.sanctified.sanctifiedStation,5,20,80,graphics/icons/markets/luddic_site.png,10,,niko_stationAugments,niko_SA.augments.autofitPlugins.SanctifiedStationAutofitPlugin
+,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,
 #Unique augments below,,,,,,,,,,,,,,,
 SA_moteSink,High Volition Attractor,special,,combatgood70,hide_in_codex,Unknown,niko_SA.augments.moteSink,0,0,0,graphics/hullmods/high_volition_attractor.png,40,,niko_stationAugments,

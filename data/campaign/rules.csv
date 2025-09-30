@@ -10,7 +10,7 @@ SA_viewAugmentsOption,DialogOptionSelected,"$option == SA_viewAugmentsOption","S
 # Black site,,,,,,
 ,,,,,,
 # Jump Anchor,,,,,,
-SA_JAExplore,OpenInteractionDialog,"$customType == SA_jumpAnchor score:1000","ShowDefaultVisual","As your $shipOrFleet approaches the anchor, sensors and nav light the bridge up in equal parts red and yellow as alarms blare. It would seem the ""space-time collapse"" phenomenon mentioned in tactical's preliminary assessment is well underway, and while the anchor itself is stable, the space around it is not. 
+SA_JAExplore,OpenInteractionDialog,"$customType == SA_jumpAnchor score:1000","ShowDefaultVisual","As your $shipOrFleet approaches the anchor, sensors and nav light the bridge up in equal parts red and yellow as alarms blare. It would seem the ""space-time collapse"" phenomenon mentioned in tactical's preliminary assessment is well underway, and while the anchor itself is stable, the space around it is not.
 
 Tactical advises against a salvage-op, which you and your ops chief agree on without argument. You'd rather not be collapsed yourself.","defaultLeave:Leave",
 "#END Jump Anchor",,,,,,
@@ -195,7 +195,7 @@ BarCMD playAmbience
 $global.SA_didMSBreadcrumb = true","As you observe the bar's patrons, you feel a bump on your side as someone walks just a bit too close.","SA_MSBreadcrumbWarn:Warn them to be more careful
 SA_MSBreadcrumbIgnore:Ignore them",
 SA_MSBreadcrumbWarn,DialogOptionSelected,"$option == SA_MSBreadcrumbWarn",,"You turn with a grumble and start mouthing them off, but quickly realize they're nowhere to be seen, having disappeared into the crowds. You make a mental note of their appearance to chew them out next you see them, but your thoughts are interrupted by a slow, horrifying realization - and a newly-found weight differential in your pocket.","SA_MSBreadcrumbDamn:Thrust your hand in your pocket to find what was stolen",
-SA_MSBreadcrumbIgnore,DialogOptionSelected,"$option == SA_MSBreadcrumbIgnore","SetTextHighlights ""feels a little different""","Not wanting to make a scene, you opt to ignore the likely-accidental incident as a move of grace. 
+SA_MSBreadcrumbIgnore,DialogOptionSelected,"$option == SA_MSBreadcrumbIgnore","SetTextHighlights ""feels a little different""","Not wanting to make a scene, you opt to ignore the likely-accidental incident as a move of grace.
 
 Slowly, though, dread begins to well in your chest as you realize your pocket feels a little different...","SA_MSBreadcrumbDamn:Thrust your hand in your pocket to find what was stolen",
 SA_MSBreadcrumbDamn,DialogOptionSelected,"$option == SA_MSBreadcrumbDamn","SetTextHighlights ""data chit""","Cursing, you dig your hands into your pocket to find just what that pickpocket stole. You don't often keep much in there, due to situations like this, but you did have a credit chit this time - merely forgot to cash it in.

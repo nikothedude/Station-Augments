@@ -21,6 +21,12 @@ class SA_augmentMarketAdder: BaseCampaignEventListener(false) {
 
     companion object {
         const val TIMES_TO_PICK_PER_ROLL = 3f
+        val WHITELIST = listOf(
+            Submarkets.SUBMARKET_OPEN,
+            Submarkets.SUBMARKET_BLACK,
+            Submarkets.GENERIC_MILITARY,
+            "exerelin_prismMarket"
+        )
     }
 
     override fun reportPlayerOpenedMarketAndCargoUpdated(market: MarketAPI?) {
@@ -29,9 +35,7 @@ class SA_augmentMarketAdder: BaseCampaignEventListener(false) {
         if (market == null) return
 
         for (submarket in market.submarketsCopy) {
-            if (submarket.specId == Submarkets.SUBMARKET_STORAGE) continue
-            if (submarket.plugin !is BaseSubmarketPlugin) continue
-            if ((submarket.plugin as BaseSubmarketPlugin).sinceSWUpdate > 0.001f) continue
+            if (submarket.specId !in WHITELIST) continue
             // the below is necessary since other mods, namely indevo, plug into this and set sinceSWUpdate to 0.001f
             if (market.memoryWithoutUpdate.getBoolean("\$SA_doNotUpdateAugments_${submarket.specId}")) continue
 
@@ -52,27 +56,31 @@ class SA_augmentMarketAdder: BaseCampaignEventListener(false) {
         if (submarket.specId == Submarkets.SUBMARKET_BLACK) {
             knownAugments += Global.getSector().getFaction(Factions.PIRATES).getKnownAugments()
         }
+        var picksLeft = TIMES_TO_PICK_PER_ROLL + market.size
+        if (submarket.specId == "exerelin_prismMarket") {
+            picksLeft *= 4f
+            knownAugments += Global.getSector().getFaction(Factions.MERCENARY).getKnownAugments()
+        }
         val picker = WeightedRandomPicker<String>()
         var totalWeight = 0f
         for (entry in knownAugments) {
             val data = allAugments[entry] ?: continue
             if (data.sellWeight <= 0f) continue
+            var weight = data.sellWeight
+            if (submarket.specId == "exerelin_prismMarket") {
+                weight += (100f - weight).coerceAtLeast(0f)
+            }
             picker.add(entry, data.sellWeight)
-            totalWeight += data.sellWeight
+            totalWeight += weight
         }
         picker.add("nothing", totalWeight * 4f)
 
-        var picksLeft = TIMES_TO_PICK_PER_ROLL + market.size
-        if (submarket.specId == "exerelin_prismMarket") {
-            picksLeft *= 4f
-        }
         while (picksLeft-- > 0f) {
             val picked = picker.pick()
             if (picked == "nothing") continue
 
             cargo.addSpecial(SpecialItemData("SA_augmentBlueprint", picked), 1f)
         }
-        (submarket.plugin as? BaseSubmarketPlugin)?.sinceSWUpdate = 0.001f
-        market.memoryWithoutUpdate.set("\$SA_doNotUpdateAugments_${submarket.specId}", true, 0f)
+        market.memoryWithoutUpdate.set("\$SA_doNotUpdateAugments_${submarket.specId}", true, 30f)
     }
 }

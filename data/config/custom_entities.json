@@ -20,7 +20,7 @@
 		"pluginClass":"com.fs.starfarer.api.impl.campaign.WarningBeaconEntityPlugin",
 	},
 	"SA_moteStation":{
-		"baseId":"station_hightech3",
+		"baseId":"station_midline3",
 		"defaultName":"Abandoned Star Fortress",
 		"customDescriptionId":"SA_moteStation",
 	},
