@@ -90,7 +90,8 @@ abstract class stationAttachment() : BaseCampaignEventListener(false), CoreAutor
         @JvmStatic
         val tagToExtraAugmentBudget = hashMapOf(
             Pair(Industries.BATTLESTATION, 10f),
-            Pair(Industries.STARFORTRESS, 20f)
+            Pair(Industries.STARFORTRESS, 20f),
+            Pair("starcitadel", 10f), // aotd
         )
 
         fun removeRequiredItem(itemId: String, dockedAt: MarketAPI?) {

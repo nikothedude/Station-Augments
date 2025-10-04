@@ -4,6 +4,8 @@
     Also sells merc blueprints
     Great place to find rare bps
 
+AOTD Star citadels have +10 extra AP
+
 Augments now only spawn via a whitelist of submarkets
 
 New augments

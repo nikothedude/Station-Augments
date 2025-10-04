@@ -20,5 +20,6 @@
     <orderEntry type="library" name="starfarer_obf" level="project" />
     <orderEntry type="library" name="Kotlin-Runtime" level="project" />
     <orderEntry type="library" name="GraphicsLib" level="project" />
+    <orderEntry type="library" name="Vok" level="project" />
   </component>
 </module>
