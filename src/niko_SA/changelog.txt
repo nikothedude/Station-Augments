@@ -1,3 +1,7 @@
+2.3.1a
+
+Fixes a sanctified station crash
+
 2.3.1
 
 (Nex) Prism freeport now sells a lot of augments in the high tech shop
