@@ -98,12 +98,12 @@ class shieldShunt() : stationAttachment() {
                             }
                         }
                         set("shieldAI", shipAI, testValTwo, BasicShipAI::class.java)
-                        val test = 2
 
-                    } catch (e: ClassNotFoundException) {
-                        SA_debugUtils.log.error("incompatible starsector version!")
+                    } catch (e: Exception) {
+                        SA_debugUtils.log.error("$e")
                         return
                     }
+
 
                 }
                 module.mutableStats.armorBonus.modifyMult(id, ARMOR_MULT)
