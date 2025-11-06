@@ -21,7 +21,6 @@ import com.fs.starfarer.api.impl.campaign.intel.group.GenericRaidFGI.PAYLOAD_ACT
 import com.fs.starfarer.api.impl.campaign.intel.group.KnightsOfLuddTakeoverExpedition
 import com.fs.starfarer.api.util.IntervalUtil
 import com.fs.starfarer.api.util.Misc
-import data.scripts.everyFrames.niko_MPC_baseNikoScript
 import lunalib.lunaExtensions.getMarketsCopy
 import niko_SA.SA_baseNikoScript
 import niko_SA.augments.core.stationAttachment

@@ -28,6 +28,7 @@ class stationAugmentSpec(
     var autofitPlugin: StationAugmentAutofitPlugin?,
     var nameColor: Color,
     val modId: String,
+    val reqModIds: MutableSet<String>
 ): WithSourceMod {
 
     fun getNewPluginInstance(market: MarketAPI?): stationAttachment {

@@ -33,6 +33,7 @@ class niko_SA_modPlugin: BaseModPlugin() {
     override fun onApplicationLoad() {
         super.onApplicationLoad()
 
+        SA_settings.ASAS_enabled = Global.getSettings().modManager.isModEnabled("arthrships")
         SA_settings.MCTE_enabled = Global.getSettings().modManager.isModEnabled("niko_moreCombatTerrainEffects")
         SA_settings.AITweaksEnabled = Global.getSettings().modManager.isModEnabled("aitweaks")
         SA_settings.AOTDVaultsEnabled = Global.getSettings().modManager.isModEnabled("aotd_vok")

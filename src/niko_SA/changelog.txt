@@ -1,3 +1,13 @@
+2.3.2
+
+Augments can now require mods
+    Allows for a mod to define augments for *other* mods
+
+Shield shunt will no longer crash the game, even if off windows
+    Limited funcitonality, though
+
+
+
 2.3.1a
 
 Fixes a sanctified station crash
