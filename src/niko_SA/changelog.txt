@@ -1,3 +1,29 @@
+2.4.0
+SAVE COMPATBIELE - SOME AUGMENTS ARE DEPRECATED
+
+Update for station refitting
+    Deprecated a number of augments
+    Refitted stations around the core worlds due to this
+
+Manually fitted stations now spend whatever leftover OP they have in autofit
+More factions know augments
+
+Nerfed bubble shield - weaker, stays down for longer
+New augment
+    Mining station
+        Using nex's mining mechanics
+        Increases ore production based on nearby asteroids and dust fields
+New SOTF augments
+    Warmind Refit: Converts the station's AI core into a warmind
+        Better skills, cyberwarfare
+        Do NOT piss off the contingency while this guy is in charge of your station
+    Aftermarket Defense Platforms
+        Deploys siegework uplinks around the station
+            Long capture time, but CAN be captured
+
+
+Codex refactored, now save-persistant
+
 2.3.2
 
 Augments can now require mods

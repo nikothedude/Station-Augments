@@ -120,11 +120,15 @@ object stationAugmentStore {
             if (id.startsWith("#") || id.isEmpty()) continue
             val name = row.getString("name")
 
-            val reqModIds = row.optString("req_mod_ids").split(Regex("(, *)")).toMutableSet()
-            for (id in reqModIds) {
-                if (!Global.getSettings().modManager.isModEnabled(id)) {
-                    SA_debugUtils.log.info("augment $name missing mod $id, skipping")
-                    continue
+            var reqModIds = HashSet<String>()
+            val reqModData = row.optString("req_mod_ids")
+            if (reqModData.isNotEmpty()) {
+                reqModIds = reqModData.split(Regex("(, *)")).toHashSet()
+                for (id in reqModIds) {
+                    if (!Global.getSettings().modManager.isModEnabled(id)) {
+                        SA_debugUtils.log.info("augment $name missing mod $id, skipping")
+                        continue
+                    }
                 }
             }
 

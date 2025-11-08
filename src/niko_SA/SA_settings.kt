@@ -76,7 +76,6 @@ object SA_settings {
                 augment.considerReqItem = false
                 market.addStationAugment(augment)
                 augment.considerReqItem = true
-                market.memoryWithoutUpdate[SA_ids.SA_noAugmentAutofit] = true
             }
         }
         IS_APPLYING_PREDEFINED_AUGMENTS = false

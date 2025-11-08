@@ -25,7 +25,8 @@ class SA_augmentMarketAdder: BaseCampaignEventListener(false) {
             Submarkets.SUBMARKET_OPEN,
             Submarkets.SUBMARKET_BLACK,
             Submarkets.GENERIC_MILITARY,
-            "exerelin_prismMarket"
+            "exerelin_prismMarket",
+            "sotf_forgeshipmarket"
         )
     }
 

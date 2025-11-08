@@ -14,11 +14,11 @@ import org.lwjgl.util.vector.Vector2f
 class bubbleShield : stationAttachment() {
 
     companion object {
-        const val SHIELD_STRENGTH = 130000f
-        const val CONSTANT_DISSIPATION = 500f
+        const val SHIELD_STRENGTH = 100000f
+        const val CONSTANT_DISSIPATION = 300f
         const val UNFOLD_RATE_MULT = 3f
 
-        const val OVERLOAD_DURATION_MULT = 6f
+        const val OVERLOAD_DURATION_MULT = 6.5f
     }
 
     override fun applyInCombat(station: ShipAPI) {

@@ -12,7 +12,7 @@ class effectApplierScript: BaseEveryFrameCombatPlugin() {
 
     override fun advance(amount: Float, events: MutableList<InputEventAPI>?) {
         val engine = Global.getCombatEngine()
-        val battle = Global.getSector().playerFleet?.battle ?: return
+        //val battle = Global.getSector().playerFleet?.battle ?: return
 
         /*for (fleet in battle.bothSides) {
             val market = fleet.memoryWithoutUpdate[MemFlags.STATION_MARKET] as? MarketAPI ?: continue
@@ -27,7 +27,8 @@ class effectApplierScript: BaseEveryFrameCombatPlugin() {
         for (ship in engine.ships) {
             if (ship.isStation) {
                 val member = ship.fleetMember ?: continue
-                val fleet = battle.memberSourceMap[member] ?: continue
+                val fleet = member.fleetData?.fleet ?: continue
+                //val fleet = battle.memberSourceMap[member] ?: continue
                 val marketTracker = stationMarketTracker.getInstance()
                 val market = marketTracker.getMarketOfFleet(fleet) ?: return
                 for (augment in market.getStationAugments()) {
