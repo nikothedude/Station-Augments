@@ -25,7 +25,8 @@ class SA_augmentMarketAdder: BaseCampaignEventListener(false) {
             Submarkets.SUBMARKET_OPEN,
             Submarkets.SUBMARKET_BLACK,
             Submarkets.GENERIC_MILITARY,
-            "exerelin_prismMarket"
+            "exerelin_prismMarket",
+            "sotf_forgeshipmarket"
         )
     }
 
@@ -69,6 +70,9 @@ class SA_augmentMarketAdder: BaseCampaignEventListener(false) {
             var weight = data.sellWeight
             if (submarket.specId == "exerelin_prismMarket") {
                 weight += (100f - weight).coerceAtLeast(0f)
+            }
+            if (submarket.specId == "sotf_forgeshipmarket" && data.id == "SA_warmindProtocols") {
+                weight += 80f
             }
             picker.add(entry, data.sellWeight)
             totalWeight += weight

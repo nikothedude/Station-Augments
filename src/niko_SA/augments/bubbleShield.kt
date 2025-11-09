@@ -7,6 +7,8 @@ import com.fs.starfarer.api.input.InputEventAPI
 import com.fs.starfarer.api.ui.CustomPanelAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
+import niko_SA.SA_miscUtils
+import niko_SA.SA_miscUtils.getFurthestModule
 import niko_SA.augments.core.stationAttachment
 import org.lazywizard.lazylib.MathUtils
 import org.lwjgl.util.vector.Vector2f
@@ -14,11 +16,11 @@ import org.lwjgl.util.vector.Vector2f
 class bubbleShield : stationAttachment() {
 
     companion object {
-        const val SHIELD_STRENGTH = 130000f
-        const val CONSTANT_DISSIPATION = 500f
+        const val SHIELD_STRENGTH = 100000f
+        const val CONSTANT_DISSIPATION = 300f
         const val UNFOLD_RATE_MULT = 3f
 
-        const val OVERLOAD_DURATION_MULT = 6f
+        const val OVERLOAD_DURATION_MULT = 6.5f
     }
 
     override fun applyInCombat(station: ShipAPI) {
@@ -44,16 +46,16 @@ class bubbleShield : stationAttachment() {
         shieldDrone.mutableStats.dynamic.getStat(Stats.SHIELD_PIERCED_MULT).modifyMult(id, 0f)
         shieldDrone.activeLayers.remove(CombatEngineLayers.FF_INDICATORS_LAYER)
 
-        var moduleWithMaxDist: CombatEntityAPI? = null
-        var maxDist = 0f
+        var moduleWithMaxDist: CombatEntityAPI? = station.getFurthestModule()
+        var maxDist = moduleWithMaxDist?.let { MathUtils.getDistance(station.location, it.location) } ?: 0f
 
         var coloredShield = false
         for (module in station.childModulesCopy) {
-            val dist = MathUtils.getDistance(station.location, module.location)
+            /*val dist = MathUtils.getDistance(station.location, module.location)
             if (dist > maxDist) {
                 moduleWithMaxDist = module
                 maxDist = dist
-            }
+            }*/
             if (!coloredShield && module.shield != null) {
                 shieldDrone.shield.ringColor = module.shield.ringColor
                 shieldDrone.shield.innerColor = module.shield.innerColor

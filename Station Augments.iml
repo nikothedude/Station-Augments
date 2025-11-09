@@ -12,7 +12,6 @@
     <orderEntry type="library" name="More Combat Terrain Effects" level="project" />
     <orderEntry type="library" name="LazyLib-Kotlin" level="project" />
     <orderEntry type="library" name="More Planetary Conditions" level="project" />
-    <orderEntry type="library" name="Nexerelin-master" level="project" />
     <orderEntry type="library" name="Console Commands" level="project" />
     <orderEntry type="library" name="LunaLib" level="project" />
     <orderEntry type="library" name="MagicLib-Kotlin" level="project" />
@@ -22,5 +21,8 @@
     <orderEntry type="library" name="GraphicsLib" level="project" />
     <orderEntry type="library" name="Vok" level="project" />
     <orderEntry type="library" name="ArthrsShipsNShit" level="project" />
+    <orderEntry type="library" name="niko_stationRefitting" level="project" />
+    <orderEntry type="library" name="ExerelinCore" level="project" />
+    <orderEntry type="library" name="secretsofthefrontier" level="project" />
   </component>
 </module>

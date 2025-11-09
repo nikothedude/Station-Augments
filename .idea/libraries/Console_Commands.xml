@@ -7,6 +7,8 @@
     <SOURCES>
       <root url="file://$PROJECT_DIR$/../Console Commands" />
       <root url="file://$PROJECT_DIR$/../Console Commands/jars" />
+      <root url="file://$PROJECT_DIR$/../Console Commands/src" />
+      <root url="file://$PROJECT_DIR$/../Console Commands/src" />
     </SOURCES>
     <jarDirectory url="file://$PROJECT_DIR$/../Console Commands/jars" recursive="false" />
     <jarDirectory url="file://$PROJECT_DIR$/../Console Commands" recursive="false" type="SOURCES" />

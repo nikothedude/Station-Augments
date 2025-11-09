@@ -1,15 +1,17 @@
 package niko_SA.console
 
+import com.fs.starfarer.api.Global
 import niko_SA.MarketUtils.addStationAugment
 import niko_SA.MarketUtils.getStationAugments
 import niko_SA.MarketUtils.getStationIndustry
 import niko_SA.MarketUtils.removeStationAugment
 import niko_SA.augments.core.stationAugmentStore
 import org.lazywizard.console.BaseCommand
+import org.lazywizard.console.BaseCommandWithSuggestion
 import org.lazywizard.console.CommonStrings
 import org.lazywizard.console.Console
 
-class SA_removeAugment: BaseCommand {
+class SA_removeAugment: BaseCommandWithSuggestion {
     override fun runCommand(args: String, context: BaseCommand.CommandContext): BaseCommand.CommandResult {
         if (context != BaseCommand.CommandContext.CAMPAIGN_MARKET) {
             Console.showMessage(CommonStrings.ERROR_MARKET_ONLY)
@@ -40,5 +42,14 @@ class SA_removeAugment: BaseCommand {
         market.removeStationAugment(augment)
         Console.showMessage("Augment ${augment.getName()} successfully removed!")
         return BaseCommand.CommandResult.SUCCESS
+    }
+
+    override fun getSuggestions(
+        parameter: Int,
+        previous: List<String?>?,
+        context: BaseCommand.CommandContext?
+    ): List<String>? {
+        val target = Global.getSector().campaignUI.currentInteractionDialog ?: return null
+        return (target.interactionTarget?.market?.getStationAugments()?.map { it.getSpec().id })
     }
 }

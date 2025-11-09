@@ -3,12 +3,14 @@ package niko_SA.console
 import niko_SA.MarketUtils.addStationAugment
 import niko_SA.MarketUtils.getStationAugments
 import niko_SA.MarketUtils.getStationIndustry
+import niko_SA.SA_settings
 import niko_SA.augments.core.stationAugmentStore
 import org.lazywizard.console.BaseCommand
+import org.lazywizard.console.BaseCommandWithSuggestion
 import org.lazywizard.console.CommonStrings
 import org.lazywizard.console.Console
 
-class SA_addAugment: BaseCommand {
+class SA_addAugment: BaseCommandWithSuggestion {
     override fun runCommand(args: String, context: BaseCommand.CommandContext): BaseCommand.CommandResult {
         if (context != BaseCommand.CommandContext.CAMPAIGN_MARKET) {
             Console.showMessage(CommonStrings.ERROR_MARKET_ONLY)
@@ -39,5 +41,13 @@ class SA_addAugment: BaseCommand {
         market.addStationAugment(augment)
         Console.showMessage("Augment ${augment.getName()} successfully applied!")
         return BaseCommand.CommandResult.SUCCESS
+    }
+
+    override fun getSuggestions(
+        parameter: Int,
+        previous: List<String?>?,
+        context: BaseCommand.CommandContext?
+    ): List<String>? {
+        return stationAugmentStore.allAugments.keys.toList()
     }
 }

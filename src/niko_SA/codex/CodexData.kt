@@ -2,6 +2,7 @@ package niko_SA.codex
 
 import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.ModSpecAPI
+import com.fs.starfarer.api.impl.SharedUnlockData
 import com.fs.starfarer.api.impl.campaign.ids.HullMods
 import com.fs.starfarer.api.impl.campaign.ids.Items
 import com.fs.starfarer.api.impl.campaign.ids.Tags
@@ -11,10 +12,13 @@ import com.fs.starfarer.api.ui.CustomPanelAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.ui.UIPanelAPI
 import com.fs.starfarer.api.util.Misc
+import data.scripts.campaign.ids.SotfIDs
 import niko_SA.SA_ids
+import niko_SA.SA_settings
 import niko_SA.augments.core.stationAttachment
 import niko_SA.augments.core.stationAugmentStore
 import niko_SA.augments.core.stationAugmentStore.getKnownAugments
+import niko_SA.console.SA_addAugment
 import niko_SA.niko_SA_modPlugin
 import kotlin.math.max
 
@@ -150,10 +154,7 @@ object CodexData {
     }
 
     private fun getSeenAugments(): MutableSet<String> {
-        if (Global.getSector().memoryWithoutUpdate[SA_ids.CODEX_KNOWN_AUGMENTS] !is MutableSet<*>) {
-            Global.getSector().memoryWithoutUpdate[SA_ids.CODEX_KNOWN_AUGMENTS] = HashSet<String>()
-        }
-        return Global.getSector().memoryWithoutUpdate[SA_ids.CODEX_KNOWN_AUGMENTS] as MutableSet<String>
+        return SharedUnlockData.get().getSet(AUGMENTS)
     }
 
     fun linkCodexInfo() {
@@ -195,6 +196,13 @@ object CodexData {
         createReciprocalLink(getAugmentEntryId("SA_shroudedLens"), CodexDataV2.getItemEntryId(Items.SHROUDED_LENS))
         createReciprocalLink(getAugmentEntryId("SA_shroudedThunderhead"), CodexDataV2.getItemEntryId(Items.SHROUDED_THUNDERHEAD))
 
+        if (SA_settings.SOTF_enabled) {
+            createReciprocalLink(getAugmentEntryId("SA_defensePlatforms"), CodexDataV2.getShipEntryId("sotf_empl_t2_lt"))
+
+            val warmind = CodexDataV2.getEntry(getAugmentEntryId("SA_warmindProtocols"))
+            warmind.addRelatedEntry(CodexDataV2.getFactionEntryId(SotfIDs.DUSTKEEPERS))
+            warmind.addRelatedEntry(CodexDataV2.getSkillEntryId(SotfIDs.SKILL_CYBERWARFARE))
+        }
     }
 
     private fun createReciprocalLink(entryIdOne: String, entryIdTwo: String) {
@@ -220,9 +228,41 @@ object CodexData {
     @JvmStatic
     fun unlockAugment(id: String) {
         if (getSeenAugments().contains(id)) return
-        getSeenAugments() += id
-        CodexIntelAdder.get().addEntry(getAugmentEntryId(id))
+        SharedUnlockData.get().reportPlayerAwareOfAugmentExt(id, true)
     }
 
     fun getAugmentEntryId(base: String): String = "${base}_augCodEntry"
+
+    const val AUGMENTS = "station_augments"
+
+    fun SharedUnlockData.isPlayerAwareOfAugmentExt(augmentId: String): Boolean {
+        return isPlayerAwareOfAugment(this, augmentId)
+    }
+
+    fun isPlayerAwareOfAugment(data: SharedUnlockData, augmentId: String): Boolean {
+        return data.getSet(AUGMENTS).contains(augmentId)
+    }
+
+    fun SharedUnlockData.reportPlayerAwareOfAugmentExt(augmentId: String, withSave: Boolean): Boolean {
+        return reportPlayerAwareOfThingPublic(augmentId, AUGMENTS, getAugmentEntryId(augmentId), withSave)
+    }
+
+    fun reportPlayerAwareOfAugment(data: SharedUnlockData, augmentId: String, withSave: Boolean): Boolean {
+        return data.reportPlayerAwareOfThingPublic(augmentId, AUGMENTS, getAugmentEntryId(augmentId), withSave)
+    }
+
+    fun SharedUnlockData.reportPlayerAwareOfThingPublic(
+        thingId: String?,
+        setId: String?,
+        codexEntryId: String?,
+        withSave: Boolean
+    ): Boolean {
+        val wasLocked: Boolean = isEntryLocked(codexEntryId)
+        if (addToSet(setId, thingId)) {
+            if (wasLocked && !isEntryLocked(codexEntryId)) CodexIntelAdder.get().addEntry(codexEntryId)
+            if (withSave) saveIfNeeded()
+            return true
+        }
+        return false
+    }
 }

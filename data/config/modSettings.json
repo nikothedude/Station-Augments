@@ -6,7 +6,6 @@
 				"SA_ecmPackage",
 				"SA_tacticalLink",
 				"SA_commsCenter",
-				"SA_armoredWeaponMounts",
 			],
 			"nachiketa": [
 				"SA_extremeModifications",
@@ -17,16 +16,12 @@
 			],
 			"jangala": [
 				"SA_shieldShunt",
-				"SA_armoredWeaponMounts",
-				"SA_heavyArmor",
 			],
 			"eventide": [
-				"SA_heavyArmor",
 				"SA_fluxShunt"
 			],
 			"tigra_city": [
 				"SA_navRelay",
-				"SA_resistantFluxConduits"
 			],
 			"ancyra_market": [
 				"SA_hydroponics"
@@ -39,17 +34,14 @@
 			"kazeron": [
 				"SA_regenerativeDrones",
 				"SA_fluxShunt",
-				"SA_stabilizedShields",
 				"SA_droneAAF",
 			],
 
 			"eochu_bres": [
 				"SA_bubbleShield",
 				"SA_aiFighterUplink",
-				"SA_heavyArmor"
 			],
 			"culann": [
-				"SA_solarShielding",
 				"SA_efficiencyOverhaul",
 			],
 			"tibicena": [
@@ -60,16 +52,13 @@
 
 			"sindria": [
 				"SA_highExplosive", # THE LION DEMANDS SPECTACLE
-				"SA_solarShielding",
 				"SA_specialModifications",
-				"SA_ECCMPackage"
+				"SA_defensePlatforms"
 			],
 
 			"gilead": [
 				"SA_shieldShunt",
-				"SA_automatedRepairUnit",
 				"SA_sanctifiedStation",
-				"SA_armoredWeaponMounts"
 			],
 		},
 	},
