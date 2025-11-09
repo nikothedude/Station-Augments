@@ -3,7 +3,7 @@
 	"name":"Station Augments", # Displayed to the player
 	"author":"Niko",
     "utility":"false",
-	"version":"2.4.0",
+	"version":"2.4.0a",
 	"description":"Enables the construction of augments on stations, which act much like hullmods.",
     "gameVersion": "0.98a-RC5",
   	"jars":["jars/niko_stationAugments.jar"],

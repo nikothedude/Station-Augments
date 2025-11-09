@@ -1,3 +1,6 @@
+2.4.0a
+Hotfix for usage tag crash
+
 2.4.0
 SAVE COMPATIBLE - SOME AUGMENTS ARE DEPRECATED
 

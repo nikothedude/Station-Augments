@@ -133,7 +133,7 @@ object stationAugmentStore {
             }
 
             val knowledgeTags = row.getString("knowledge_tags").split(Regex("(, *)")).toMutableSet()
-            val usageTags = row.getString("usage_tags").split(Regex("(, *)")).toMutableSet()
+            val usageTags = row.getString("usage_tags").split(Regex("(, *)")).filter { !it.isEmpty() }.toMutableSet()
             val codexTags = row.getString("codex_tags").split(Regex("(, *)")).toMutableSet()
             val manufacturer = row.getString("manufac")
             val pluginPath = row.getString("plugin")

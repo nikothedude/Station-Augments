@@ -101,6 +101,7 @@ class SA_augmentAutofitter: BaseCampaignEventListener(false) {
                 var weight = 0f
                 val spec = stationAugmentStore.allAugments[id] ?: continue
                 for (usageTag in spec.usageTags) {
+                    if (usageTag.isEmpty()) continue
                     val regex = Regex("(\\d+|\\D+)")
                     val brokenUp = regex.findAll(usageTag).map { it.groupValues.first() }.toList()
 
