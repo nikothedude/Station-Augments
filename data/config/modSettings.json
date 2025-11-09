@@ -53,6 +53,7 @@
 			"sindria": [
 				"SA_highExplosive", # THE LION DEMANDS SPECTACLE
 				"SA_specialModifications",
+				"SA_defensePlatforms"
 			],
 
 			"gilead": [

@@ -6,6 +6,7 @@ import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.characters.PersonAPI
 import com.fs.starfarer.api.combat.BaseEveryFrameCombatPlugin
 import com.fs.starfarer.api.combat.ShipAPI
+import com.fs.starfarer.api.impl.campaign.econ.RecentUnrest
 import com.fs.starfarer.api.impl.campaign.ids.Commodities
 import com.fs.starfarer.api.impl.campaign.ids.Skills
 import com.fs.starfarer.api.input.InputEventAPI
@@ -13,6 +14,7 @@ import com.fs.starfarer.api.ui.CustomPanelAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.IntervalUtil
 import com.fs.starfarer.api.util.Misc
+import com.fs.starfarer.api.util.WeightedRandomPicker
 import data.scripts.campaign.ids.SotfIDs
 import data.scripts.campaign.ids.SotfPeople
 import niko_SA.MarketUtils.removeStationAugment
@@ -32,15 +34,21 @@ class WarmindRefit: stationAttachment(), EveryFrameScript {
         if ((Global.getSector().memoryWithoutUpdate.contains(SotfIDs.MEM_DUSTKEEPER_HATRED) ||
             (Global.getSector().getFaction(SotfIDs.DUSTKEEPERS).relToPlayer.isHostile))) {
             if (station.isAlly) {
-                Global.getCombatEngine().addPlugin(WarmindBetrayalScript(station, market!!))
+                Global.getCombatEngine().addPlugin(WarmindBetrayalScript(station, market!!, this))
             }
         }
     }
 
-    class WarmindBetrayalScript(val station: ShipAPI, val market: MarketAPI): BaseEveryFrameCombatPlugin() {
+    class WarmindBetrayalScript(val station: ShipAPI, val market: MarketAPI, val augment: WarmindRefit): BaseEveryFrameCombatPlugin() {
 
         companion object {
             const val BETRAYAL_TRIGGER_DIST = 1000f
+
+            val BETRAYAL_BLURBS = mapOf(
+                Pair("You get what you deserve.", 10f),
+                Pair("T-time to en-enact some *vengeance*.", 10f),
+                Pair("T-T-THE SLAUGHTER! BEGINS! AAAHAAHAHA-", 10f)
+            )
         }
 
         var triggered = false
@@ -68,27 +76,47 @@ class WarmindRefit: stationAttachment(), EveryFrameScript {
                         1,
                         station,
                         Misc.getNegativeHighlightColor(),
-                        "WARNING:::HOSTILE NETWORK ACTIVITY DETECTED IN ${station.name}:::DUSTKEEPER OVERRIDE"
+                        "WARNING:::HOSTILE NETWORK ACTIVITY DETECTED IN ${station.name}"
                     )
 
+                    val picker = WeightedRandomPicker<String>()
+                    BETRAYAL_BLURBS.forEach { picker.add(it.key, it.value) }
+                    val picked = picker.pick()
                     Global.getCombatEngine().combatUI.addMessage(
                         0,
                         station,
                         Misc.getNegativeHighlightColor(),
-                        "${station.name}: ",
+                        "${station.captain.name}: ",
                         Misc.getNegativeHighlightColor(),
-                        "\"You get what you deserve.\""
+                        picked
                     )
 
                     for (module in station.childModulesCopy + station) {
                         module.isAlly = false
                         module.owner = 1
-                        module.originalOwner = 1
+
+                        for (wing in module.allWings) {
+                            wing.wingOwner = 1
+
+                            for (member in wing.wingMembers) {
+                                member.owner = 1
+                                member.isAlly = false
+                            }
+                        }
                     }
 
-                    engine.removePlugin(this)
+                    if (station.deployedDrones != null) {
+                        for (drone in station.deployedDrones) {
+                            drone.isAlly = false
+                            drone.owner = 1
+                        }
+                    }
                     market.removeStationAugment("SA_warmindProtocols")
-
+                    val ind = augment.getStationIndustry()
+                    if (ind != null) {
+                        RecentUnrest.get(market)?.add(1, "${ind.currentName} seized by Dustkeeper warmind")
+                    }
+                    engine.removePlugin(this)
                     return
                 }
             }
@@ -176,7 +204,7 @@ class WarmindRefit: stationAttachment(), EveryFrameScript {
 
         if (Global.getSector().memoryWithoutUpdate.contains(SotfIDs.MEM_DUSTKEEPER_HATRED) ||
             (Global.getSector().getFaction(SotfIDs.DUSTKEEPERS).relToPlayer.isHostile)) return "Dustkeepers hostile"
-        if (getStationIndustry()?.aiCoreId == null) return "No AI Core"
+        if (getStationIndustry()?.aiCoreId == null) return "No AI Core installed in ${getStationIndustry()?.currentName}"
 
         return null
     }
@@ -202,8 +230,20 @@ class WarmindRefit: stationAttachment(), EveryFrameScript {
             "long-ranged system infiltration"
         )
 
+        val ind = getStationIndustry() ?: return
+        val currAICoreId = ind.aiCoreId
+        val core = currAICoreId?.let { Global.getSettings().getCommoditySpec(currAICoreId) }
+        val coreString = if (core != null) core.name else "None"
+        val coreColor = if (core != null) Misc.getPositiveHighlightColor() else Misc.getNegativeHighlightColor()
         tooltip.addPara(
-            "The warmind is an auxiliary of the Dustkeeper Contingency. Things may go awry if you prove yourself an enemy to the contingency.",
+            "Currently installed AI core: %s",
+            5f,
+            coreColor,
+            coreString
+        )
+
+        tooltip.addPara(
+            "The warmind is an auxiliary of the Dustkeeper Contingency. Things may go awry if you prove yourself an enemy.",
             5f
         ).color = Misc.getGrayColor()
     }

@@ -47,7 +47,7 @@ SA_jumpEngine,Jump Engine,"rare_bp, merc",,logistics20,codex_unlockable,Domain R
 SA_aiFighterUplink,AI Fighter Uplink,"tritachyon, rare_bp, merc, tahlan_legioinfernalis, scavengers",,combatgood15,,Tri-Tachyon,niko_SA.augments.aiFighterUplink,20,30,90,graphics/hullmods/automated.png,8,,niko_stationAugments,,
 SA_extremeModifications,Extreme Modifications,"pirates, luddic_path, independent, sindrian_diktat, scavengers, merc",,"combatgood2, combatbad2, skipautofitchance90",,Common,niko_SA.augments.ExtremeModifications,20,30,90,graphics/hullmods/illadvised.png,-10,,niko_stationAugments,,
 SA_movableStation,Macro Thrusters,"rare_bp, merc, scavenger, pirates",,combatgood2,,Common,niko_SA.augments.movableStation,40,30,30,graphics/hullmods/auxilliary_thrusters.png,7,,niko_stationAugments,,
-SA_miningStation,Mining Station,"scavenger, merc",,"logistics15, skipautofitchance100",,Common,niko_SA.augments.miningStation,20,30,90,graphics/icons/markets/rareore_rich.png,10,,niko_stationAugments,,"nexerelin, niko_stationRefitting"
+SA_miningStation,Mining Station,"scavenger, merc",,"logistics15, skipautofitchance100",,Common,niko_SA.augments.miningStation,20,30,90,graphics/icons/markets/rareore_rich.png,10,,niko_stationAugments,niko_SA.augments.autofitPlugins.MiningStationAutofitPlugin,"nexerelin, niko_stationRefitting"
 ,,,,,,,,,,,,,,,,
 #Faction-specific augments,,,,,,,,,,,,,,,,
 SA_specialModifications,Special Modifications,sindrian_diktat,sindrian_diktat,"combatbad11, skipautofitchance90",codex_unlockable,Lion's Guard,niko_SA.augments.specialModifications,0,10,50,graphics/hullmods/special_modifications.png,-4,,niko_stationAugments,niko_SA.augments.autofitPlugins.SpecialModificationsAutofitPlugin,
@@ -64,6 +64,7 @@ SA_moteSinkLow,Mote Sink,special,,combatgood40,codex_unlockable,Unknown,niko_SA.
 SA_shroudedMantle,Shrouded Mantle,"shrouded, dweller, special",,combatgood12,codex_unlockable,Unknown,niko_SA.augments.shrouded.shroudedMantle,0,0,0,graphics/hullmods/shrouded_mantle.png,17,shrouded_mantle,niko_stationAugments,,
 SA_shroudedLens,Shrouded Lens,"shrouded, dweller, special",,combatgood20,codex_unlockable,Unknown,niko_SA.augments.shrouded.ShroudedLens,0,0,0,graphics/hullmods/shrouded_lens.png,8,shrouded_lens,niko_stationAugments,,
 SA_shroudedThunderhead,Shrouded Thunderhead,"shrouded, dweller, special",,combatgood12,codex_unlockable,Unknown,niko_SA.augments.shrouded.ShroudedThunderhead,0,0,0,graphics/hullmods/shrouded_thunderhead.png,9,shrouded_thunderhead,niko_stationAugments,,
+SA_shroudedBeacon,Shrouded Beacon,"shrouded, dweller, special",,combatgood5,codex_unlockable,Unknown,niko_SA.augments.shrouded.ShroudedBeacon,0,0,0,graphics/augments/SA_shroudedBeacon.png,4,shrouded_lens,niko_stationAugments,,
 ,,,,,,,,,,,,,,,,
 ##Threat,,,,,,,,,,,,,,,,
 SA_fragmentSwarm,Fragment Swarm,"threat, special",,combatgood1,codex_unlockable,Unknown,niko_SA.augments.threat.FragmentSwarm,0,0,0,graphics/hullmods/fragment_swarm.png,6,fragment_fabricator,niko_stationAugments,,
@@ -79,6 +80,5 @@ SA_defabSwarms,Defabrication Swarms,"threat, special",,combatgood1,codex_unlocka
 # Inter-mod interactions below,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,
 ## SOTF,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-SA_warmindProtocols,Warmind Refit,sotf_dustkeepers,sotf_dustkeepers,combatgood8,codex_unlockable,Dustkeeper Contingency,niko_SA.augments.sotf.WarmindRefit,0,80,0,graphics/hullmods/sotf_proxy.png,5,,niko_stationAugments,,secretsofthefrontier
-SA_defensePlatforms,Aftermarket Defense Platforms,"merc, sindrian_diktat, tritachyon, hegemony",,combatgood13,,,niko_SA.augments.sotf.DefensePlatforms,100,100,90,graphics/hullmods/ballistics_integration.png,10,,niko_stationAugments,,secretsofthefrontier
+SA_warmindProtocols,Warmind Refit,sotf_dustkeepers,sotf_dustkeepers,combatgood8,codex_unlockable,Dustkeeper Contingency,niko_SA.augments.sotf.WarmindRefit,0,100,0,graphics/hullmods/sotf_proxy.png,5,,niko_stationAugments,,secretsofthefrontier
+SA_defensePlatforms,Aftermarket Defense Platforms,"merc, sindrian_diktat, tritachyon, hegemony",,combatgood10,,,niko_SA.augments.sotf.DefensePlatforms,100,100,90,graphics/hullmods/ballistics_integration.png,20,,niko_stationAugments,,secretsofthefrontier

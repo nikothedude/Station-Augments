@@ -19,6 +19,8 @@ object SA_settings {
     lateinit var currentVersion: String
 
     @JvmStatic
+    var SOTF_enabled = false
+    @JvmStatic
     var ASAS_enabled = false
     @JvmStatic
     var MCTE_enabled = false

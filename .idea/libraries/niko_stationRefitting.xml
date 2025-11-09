@@ -2,10 +2,12 @@
   <library name="niko_stationRefitting">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/../Station-Refitting/jars/niko_stationRefitting.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Station Refitting/jars/niko_stationRefitting.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
       <root url="file://$PROJECT_DIR$/../Station-Refitting/src" />
+      <root url="file://$PROJECT_DIR$/../Station Refitting/src" />
     </SOURCES>
   </library>
 </component>

@@ -247,7 +247,7 @@ abstract class stationAttachment() : BaseCampaignEventListener(false), CoreAutor
             return "Requires ${getNeededStationTypeText()}"
         }
         if (considerAP && (station.getRemainingAugmentBudget() < getAugmentCost())) return "Not enough augment points to install"
-        if (incompatibleAugments.isNotEmpty() && market?.getStationAugments()?.any { existingAugment -> existingAugment != this && (incompatibleAugments.contains(existingAugment.id) || existingAugment.incompatibleAugments.contains(id)) } == true ) {
+        if (market?.getStationAugments()?.any { existingAugment -> existingAugment != this && (incompatibleAugments.contains(existingAugment.id) || existingAugment.incompatibleAugments.contains(id)) } == true ) {
             return "Incompatible with existing augments"
         }
         return null

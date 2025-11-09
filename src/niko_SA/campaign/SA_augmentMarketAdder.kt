@@ -71,6 +71,9 @@ class SA_augmentMarketAdder: BaseCampaignEventListener(false) {
             if (submarket.specId == "exerelin_prismMarket") {
                 weight += (100f - weight).coerceAtLeast(0f)
             }
+            if (submarket.specId == "sotf_forgeshipmarket" && data.id == "SA_warmindProtocols") {
+                weight += 80f
+            }
             picker.add(entry, data.sellWeight)
             totalWeight += weight
         }

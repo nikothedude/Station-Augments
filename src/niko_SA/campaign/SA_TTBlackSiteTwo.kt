@@ -73,9 +73,9 @@ object SA_TTBlackSiteTwo {
 
                 market.addStationAugment("SA_moteSink", false)?.builtInMode = BuiltInMode.NORMAL
                 market.addStationAugment("SA_bubbleShield", false)?.builtInMode = BuiltInMode.NORMAL
-                market.addStationAugment("SA_ECCMPackage", false)?.builtInMode = BuiltInMode.NORMAL
+                market.addStationAugment("SA_regenerativeDrones", false)?.builtInMode = BuiltInMode.NORMAL
                 market.addStationAugment("SA_ECMPackage", false)?.builtInMode = BuiltInMode.NORMAL
-                market.addStationAugment("SA_heavyArmor", false)?.builtInMode = BuiltInMode.NORMAL
+                market.addStationAugment("SA_droneAAF", false)?.builtInMode = BuiltInMode.NORMAL
                 market.addStationAugment("SA_fighterTimeflow", false)?.builtInMode = BuiltInMode.NORMAL
                 //market.addStationAugment("SA_axialOverclocking", false)?.builtInMode = BuiltInMode.NORMAL
 

@@ -1,5 +1,5 @@
 2.4.0
-SAVE COMPATBIELE - SOME AUGMENTS ARE DEPRECATED
+SAVE COMPATIBLE - SOME AUGMENTS ARE DEPRECATED
 
 Update for station refitting
     Deprecated a number of augments
@@ -7,20 +7,24 @@ Update for station refitting
 
 Manually fitted stations now spend whatever leftover OP they have in autofit
 More factions know augments
+The hidden boss now has different, more effective augments
 
 Nerfed bubble shield - weaker, stays down for longer
 New augment
     Mining station
         Using nex's mining mechanics
         Increases ore production based on nearby asteroids and dust fields
+New shrouded augment
+    Shrouded Beacon
+        Attracts shrouded dweller ships
+        Spawns near hostile ships
+        Has a small chance to be hostile to the summoner
 New SOTF augments
     Warmind Refit: Converts the station's AI core into a warmind
         Better skills, cyberwarfare
         Do NOT piss off the contingency while this guy is in charge of your station
     Aftermarket Defense Platforms
-        Deploys siegework uplinks around the station
-            Long capture time, but CAN be captured
-
+        Deploys weapon platforms around the station
 
 Codex refactored, now save-persistant
 
