@@ -1,3 +1,6 @@
+2.4.0c
+Finally puts the bug where augments wouldnt apply in combat to rest
+
 2.4.0a
 Another hotfix for a crash
 
