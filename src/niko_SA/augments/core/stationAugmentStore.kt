@@ -124,11 +124,16 @@ object stationAugmentStore {
             val reqModData = row.optString("req_mod_ids")
             if (reqModData.isNotEmpty()) {
                 reqModIds = reqModData.split(Regex("(, *)")).toHashSet()
+                var skip = false
                 for (id in reqModIds) {
                     if (!Global.getSettings().modManager.isModEnabled(id)) {
                         SA_debugUtils.log.info("augment $name missing mod $id, skipping")
-                        continue
+                        skip = true
+                        break
                     }
+                }
+                if (skip) {
+                    continue
                 }
             }
 

@@ -1,4 +1,7 @@
 2.4.0a
+Another hotfix for a crash
+
+2.4.0a
 Hotfix for usage tag crash
 
 2.4.0
