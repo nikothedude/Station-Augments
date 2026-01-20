@@ -1,5 +1,6 @@
 package niko_SA
 
+import data.utilities.niko_MPC_mathUtils.roundNumTo
 import org.lazywizard.lazylib.MathUtils
 import java.util.Random
 
@@ -19,5 +20,9 @@ object SA_mathUtils {
 
     fun prob(chance: Double, random: Random = MathUtils.getRandom()): Boolean {
         return (random.nextDouble() * 100f < chance)
+    }
+
+    fun Float.roundNumTo(decimalPoints: Int): Float {
+        return this.toDouble().roundNumTo(decimalPoints).toFloat()
     }
 }

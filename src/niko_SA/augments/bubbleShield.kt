@@ -2,6 +2,7 @@ package niko_SA.augments
 
 import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.combat.*
+import com.fs.starfarer.api.combat.listeners.DamageTakenModifier
 import com.fs.starfarer.api.impl.campaign.ids.Stats
 import com.fs.starfarer.api.input.InputEventAPI
 import com.fs.starfarer.api.ui.CustomPanelAPI
@@ -27,7 +28,10 @@ class bubbleShield : stationAttachment() {
         val engine = Global.getCombatEngine()
         val fleetManager = engine.getFleetManager(station.owner)
         fleetManager.isSuppressDeploymentMessages = true
-        val shieldDrone = fleetManager.spawnShipOrWing("wasp_Interceptor", Vector2f(station.location), 0f)
+        val variant = Global.getSettings().getVariant("wasp_Interceptor")
+        val shieldDrone = engine.createFXDrone(variant)
+        shieldDrone.owner = station.owner
+        engine.addEntity(shieldDrone)
         //shieldDrone.spriteAPI.alphaMult = 0f
         //shieldDrone.extraAlphaMult2 = 0f // invisible
         shieldDrone.isAlly = station.isAlly
@@ -45,6 +49,7 @@ class bubbleShield : stationAttachment() {
         shieldDrone.mutableStats.engineDamageTakenMult.modifyMult(id, 0f)
         shieldDrone.mutableStats.dynamic.getStat(Stats.SHIELD_PIERCED_MULT).modifyMult(id, 0f)
         shieldDrone.activeLayers.remove(CombatEngineLayers.FF_INDICATORS_LAYER)
+        shieldDrone.addListener(BubbleShieldDamageNullifier())
 
         var moduleWithMaxDist: CombatEntityAPI? = station.getFurthestModule()
         var maxDist = moduleWithMaxDist?.let { MathUtils.getDistance(station.location, it.location) } ?: 0f
@@ -75,11 +80,6 @@ class bubbleShield : stationAttachment() {
     }
 
     class BubbleShieldLinker(val fxDrone: ShipAPI, val station: ShipAPI) : BaseEveryFrameCombatPlugin() {
-        companion object {
-            const val JITTER_STRENGTH_MULT = 1f
-            const val MAX_JITTER_RANGE = 100f
-        }
-
         override fun advance(amount: Float, events: MutableList<InputEventAPI>?) {
             super.advance(amount, events)
             if (Global.getCombatEngine().isPaused) return
@@ -96,14 +96,7 @@ class bubbleShield : stationAttachment() {
                 fxDrone.shield.toggleOn()
             }*/
 
-            val fluxUsed = fxDrone.fluxTracker.fluxLevel
-            val jitterIntensity = (fluxUsed * JITTER_STRENGTH_MULT)
-            if (jitterIntensity > 0f) {
-                val jitterRange = (MAX_JITTER_RANGE * fluxUsed)
-
-                fxDrone.isJitterShields = true
-                fxDrone.setJitter("bubbleShieldJitter", fxDrone.shield.innerColor, jitterIntensity, 1, jitterRange)
-            }
+            fxDrone.extraAlphaMult2 = (1f - (fxDrone.fluxTracker.fluxLevel * 0.9f))
 
             if (station.isHulk) {
                 fxDrone.mutableStats.hullDamageTakenMult.unmodify()
@@ -137,5 +130,24 @@ class bubbleShield : stationAttachment() {
 
     override fun getBlueprintValue(): Int {
         return 25000
+    }
+
+    class BubbleShieldDamageNullifier(): DamageTakenModifier {
+        override fun modifyDamageTaken(
+            param: Any?,
+            target: CombatEntityAPI?,
+            damage: DamageAPI?,
+            point: Vector2f?,
+            shieldHit: Boolean
+        ): String? {
+            if (param !is DamagingProjectileAPI) return null
+            if (!shieldHit) return null
+
+            if (param.projectileSpec?.isPassThroughFighters == true) {
+                Global.getCombatEngine().removeEntity(param)
+            }
+
+            return null
+        }
     }
 }

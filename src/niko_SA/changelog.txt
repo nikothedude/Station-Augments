@@ -1,3 +1,12 @@
+2.4.1
+SAVE COMPATIBLE IF YOU DONT HAVE ANY DEPRECATED AUGMENTS
+
+Fixes a mining station crash
+Bubble shield is no longer penetrated by plasma cannons
+Bubble shield uses opacity instead of jitter to communicate damage
+
+Removes all deprecated augments
+
 2.4.0c
 Finally puts the bug where augments wouldnt apply in combat to rest
 
