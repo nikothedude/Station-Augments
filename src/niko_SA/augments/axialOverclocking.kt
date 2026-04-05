@@ -11,11 +11,11 @@ import niko_SA.stringUtils.toPercent
 
 class axialOverclocking : stationAttachment() {
     companion object {
-        const val TURN_MULT = 6f
+        const val TURN_MULT = 4f
 
         /** Otherwise, these stations cant actually turn their guns fast enough to aim at anything. */
         val stationTypesToGetExtraWeaponTurnrate: HashSet<String> = hashSetOf(Industries.ORBITALSTATION_MID, Industries.BATTLESTATION_MID, Industries.STARFORTRESS_MID)
-        const val WEAPON_TURNRATE_MULT = 5f
+        const val WEAPON_TURNRATE_MULT = 3f
     }
 
     override fun apply() {

@@ -79,6 +79,9 @@ class sanctifiedStation: stationAttachment() {
                     member.stats.maxCombatReadiness.modifyFlat(id, CR_BONUS, getName())
                 }
             }
+        } else if (fleetHandler != null) {
+            fleetHandler!!.delete()
+            fleetHandler = null
         }
 
         val entity = getStationCampaignEntity() ?: return

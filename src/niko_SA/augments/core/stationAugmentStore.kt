@@ -200,6 +200,7 @@ object stationAugmentStore {
             allAugments["SA_shroudedMantle"]?.requiredItemId = "aotd_tenebrium"
             allAugments["SA_shroudedLens"]?.requiredItemId = "aotd_tenebrium"
             allAugments["SA_shroudedThunderhead"]?.requiredItemId = "aotd_tenebrium"
+            allAugments["SA_shroudedBeacon"]?.requiredItemId = "aotd_tenebrium"
         }
     }
 }

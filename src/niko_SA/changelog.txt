@@ -1,3 +1,10 @@
+2.4.2
+SAVE COMPATIBLE
+
+AOTD users can now use tenebrium cells to apply shrouded beacon
+Fixed sanctified station still spawning fleets even if luddic majority is inactive
+Axial overclocking now increases turnrate by 300%
+
 2.4.1
 SAVE COMPATIBLE IF YOU DONT HAVE ANY DEPRECATED AUGMENTS
 
