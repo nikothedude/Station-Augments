@@ -1,8 +1,8 @@
 package niko_SA
 
-import data.utilities.niko_MPC_mathUtils.roundNumTo
 import org.lazywizard.lazylib.MathUtils
 import java.util.Random
+import kotlin.math.round
 
 object SA_mathUtils {
     fun Float.trimHangingZero(): Number {
@@ -24,5 +24,11 @@ object SA_mathUtils {
 
     fun Float.roundNumTo(decimalPoints: Int): Float {
         return this.toDouble().roundNumTo(decimalPoints).toFloat()
+    }
+
+    fun Double.roundNumTo(decimalPoints: Int): Double {
+        var multiplier = 1.0
+        repeat(decimalPoints) { multiplier *= 10 }
+        return round(this * multiplier) / multiplier
     }
 }

@@ -1,3 +1,8 @@
+2.4.3
+SAVE COMPATIBLE
+
+Fixes a crash with mining station, again
+
 2.4.2
 SAVE COMPATIBLE
 
