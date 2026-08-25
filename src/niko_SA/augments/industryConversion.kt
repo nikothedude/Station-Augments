@@ -28,7 +28,7 @@ class industryConversion() : stationAttachment() {
     override fun apply() {
         super.apply()
 
-        val stationIndustry = getStationIndustry() ?: return
+        val stationIndustry = getUncastedStation() ?: return
         if (stationIndustry.isFunctional) {
             market?.stats?.dynamic?.getMod(Stats.MAX_INDUSTRIES)?.modifyFlat(id, INDUSTRY_INCREMENT, "${stationIndustry.currentName}: ${getName()}")
         }

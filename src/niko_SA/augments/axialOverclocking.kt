@@ -38,7 +38,7 @@ class axialOverclocking : stationAttachment() {
         station.mutableStats.maxTurnRate.modifyMult(id, TURN_MULT)
         station.mutableStats.turnAcceleration.modifyMult(id, TURN_MULT)
 
-        val industryId = (getStationIndustry()?.spec?.id) ?: return
+        val industryId = (getUncastedStation()?.spec?.id) ?: return
         if (stationTypesToGetExtraWeaponTurnrate.contains(industryId)) {
             for (module in station.childModulesCopy + station) {
                 module.mutableStats.weaponTurnRateBonus.modifyMult(id, WEAPON_TURNRATE_MULT)

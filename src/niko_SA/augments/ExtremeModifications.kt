@@ -30,7 +30,7 @@ class ExtremeModifications: stationAttachment() {
     override fun apply() {
         super.apply()
 
-        val industry = getStationIndustry() ?: return
+        val industry = getUncastedStation() ?: return
         if (market != null && applied) {
             industry.upkeep.modifyMult(id, UPKEEP_BOOST, getName())
         }
@@ -39,14 +39,14 @@ class ExtremeModifications: stationAttachment() {
     override fun unapply() {
         super.unapply()
 
-        val industry = getStationIndustry() ?: return
+        val industry = getUncastedStation() ?: return
         industry.upkeep.unmodify(id)
     }
 
     override fun canBeRemoved(): Boolean {
         if (!super.canBeRemoved()) return false
         
-        val industry = getStationIndustry() ?: return true
+        val industry = getUncastedStation() ?: return true
         if ((industry.getRemainingAugmentBudget() + getAugmentCost()) < 0f) {
             return false
         }

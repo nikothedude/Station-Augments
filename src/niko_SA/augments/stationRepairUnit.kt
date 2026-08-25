@@ -29,13 +29,13 @@ class stationRepairUnit() : stationAttachment(), EveryFrameScript {
     override fun runWhilePaused(): Boolean = false
 
     override fun advance(amount: Float) {
-        val industry = getStationIndustry() ?: return
+        val industry = getUncastedStation() ?: return
         if (!industry.isDisrupted) return
         industry.setDisrupted(industry.disruptedDays - Misc.getDays(amount))
     }
 
     override fun getUnavailableReason(): String? {
-        if (getStationIndustry()?.isDisrupted == true) {
+        if (getUncastedStation()?.isDisrupted == true) {
             return "Cannot be added to a disrupted station"
         }
 
@@ -57,7 +57,7 @@ class stationRepairUnit() : stationAttachment(), EveryFrameScript {
             "Halves"
         )
 
-        val industry = getStationIndustry()
+        val industry = getUncastedStation()
         if (!applied && industry?.isDisrupted == true) {
             tooltip.addPara(
                 "The ${industry.currentName} is currently disrupted, meaning this augment %s until it is repaired.",

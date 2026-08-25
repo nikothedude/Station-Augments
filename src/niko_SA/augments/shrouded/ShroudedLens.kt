@@ -74,7 +74,7 @@ class ShroudedLens: ShroudedAugment() {
         super.apply()
 
         if (market == null) return
-        val industry = getStationIndustry() ?: return
+        val industry = getUncastedStation() ?: return
         if (industry.isFunctional) {
             market?.accessibilityMod?.modifyFlat(id, ACCESSIBILITY_INCREMENT, "${industry.currentName}: ${getName()}")
         }

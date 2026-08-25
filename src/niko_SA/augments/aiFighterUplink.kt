@@ -15,7 +15,7 @@ import org.lazywizard.lazylib.MathUtils
 class aiFighterUplink() : stationAttachment() {
 
     override fun applyInCombat(station: ShipAPI) {
-        val stationIndustry = getStationIndustry() ?: return
+        val stationIndustry = getUncastedStation() ?: return
         val aiCoreId = stationIndustry.aiCoreId ?: return
 
         val engine = Global.getCombatEngine()
@@ -29,7 +29,7 @@ class aiFighterUplink() : stationAttachment() {
         val superString = super.getUnavailableReason()
         if (superString != null) return superString
 
-        val stationIndustry = getStationIndustry()!!
+        val stationIndustry = getUncastedStation()!!
         val aiCore = stationIndustry.aiCoreId ?: return "No AI core installed in ${stationIndustry.currentName}"
 
         return null
@@ -56,7 +56,7 @@ class aiFighterUplink() : stationAttachment() {
             5f
         ).color = Misc.getGrayColor()
 
-        val stationIndustry = getStationIndustry()
+        val stationIndustry = getUncastedStation()
         val aiCore = stationIndustry?.aiCoreId
         if (aiCore != null) {
             val coreItem = Global.getSettings().getCommoditySpec(aiCore)

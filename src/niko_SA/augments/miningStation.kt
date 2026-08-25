@@ -27,8 +27,6 @@ import niko_SA.augments.core.stationAttachment
 import niko_SR.SR_refitStationOptionAdder
 import org.lazywizard.lazylib.MathUtils
 import org.lazywizard.lazylib.VectorUtils
-import org.lwjgl.util.vector.Vector2f
-import org.magiclib.kotlin.getTerrainName
 import kotlin.math.floor
 import kotlin.math.roundToInt
 
@@ -257,7 +255,7 @@ class miningStation: stationAttachment() {
     override fun apply() {
         super.apply()
 
-        val ind = getStationIndustry() ?: return
+        val ind = getUncastedStation() ?: return
         if (!ind.isFunctional) return
 
         val market = market ?: return
@@ -281,7 +279,7 @@ class miningStation: stationAttachment() {
 
     override fun unapply() {
         super.unapply()
-        val ind = getStationIndustry() ?: return
+        val ind = getUncastedStation() ?: return
         for (supply in ind.allSupply) {
             supply.quantity.unmodify(id)
             supply.quantity.unmodify("${id}_${Commodities.RARE_ORE}")
@@ -303,7 +301,7 @@ class miningStation: stationAttachment() {
         )
 
         if (!Global.getSettings().isShowingCodex) {
-            val ind = getStationIndustry() ?: return
+            val ind = getUncastedStation() ?: return
             val market = market ?: return
             val entity = getStationCampaignEntity() ?: return
             val fleet = getStationFleet() ?: return

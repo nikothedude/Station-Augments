@@ -8,6 +8,7 @@ import com.fs.starfarer.api.campaign.CampaignFleetAPI
 import com.fs.starfarer.api.campaign.CargoAPI.CargoItemType
 import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.campaign.SpecialItemData
+import com.fs.starfarer.api.campaign.econ.Industry
 import com.fs.starfarer.api.campaign.econ.MarketAPI
 import com.fs.starfarer.api.campaign.listeners.CoreAutoresolveListener
 import com.fs.starfarer.api.combat.ShipAPI
@@ -22,11 +23,14 @@ import com.fs.starfarer.api.ui.Alignment
 import com.fs.starfarer.api.ui.CustomPanelAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.Misc
+import data.campaign.scripts.ass_ArkoshipIndustry
 import niko_SA.MarketUtils.getAugmentBudget
 import niko_SA.MarketUtils.getRemainingAugmentBudget
 import niko_SA.MarketUtils.getStationAugments
+import niko_SA.MarketUtils.getUncastedStation
 import niko_SA.MarketUtils.getUsedAugmentBudget
 import niko_SA.MarketUtils.removeStationAugment
+import niko_SA.ReflectionUtils
 import niko_SA.SA_mathUtils.trimHangingZero
 import niko_SA.SA_settings
 import niko_SA.SA_settings.ALLOW_FP_RATIO_VIEWING
@@ -92,6 +96,7 @@ abstract class stationAttachment() : BaseCampaignEventListener(false), CoreAutor
             Pair(Industries.BATTLESTATION, 10f),
             Pair(Industries.STARFORTRESS, 20f),
             Pair("starcitadel", 10f), // aotd
+            Pair("arkoUpgrade", 10f)
         )
 
         fun removeRequiredItem(itemId: String, dockedAt: MarketAPI?) {
@@ -227,7 +232,7 @@ abstract class stationAttachment() : BaseCampaignEventListener(false), CoreAutor
 
     /** If null is returned, the game will assume this augment CAN be added to a station. */
     open fun getUnavailableReason(): String? {
-        val station = getStationIndustry() ?: return "No orbital station"
+        val station = getUncastedStation() ?: return "No orbital station"
         if (considerEngagement && getStationFleet()?.battle != null) return "Station currently engaged"
         val reqId = getRequiredItemId()
         if (reqId != null && considerReqItem) {
@@ -258,15 +263,22 @@ abstract class stationAttachment() : BaseCampaignEventListener(false), CoreAutor
         return ""
     }
 
-    /** Returns the orbital station industry instance. Required to not be null for us to be buildable.*/
-    fun getStationIndustry(): OrbitalStation? {
+    fun getUncastedStation(): Industry? {
         if (market == null) return null
-        return Misc.getStationIndustry(market) as? OrbitalStation
+        return market?.getUncastedStation()
+    }
+
+    /** Returns the orbital station industry instance. Required to not be null for us to be buildable.*/
+    fun getOrbitalStation(): OrbitalStation? {
+        return getUncastedStation() as? OrbitalStation
     }
 
     fun getStationFleet(): CampaignFleetAPI? {
-        val stationIndustry = getStationIndustry() ?: return null
-        return stationIndustry.stationFleet
+        if (SA_settings.ASAS_enabled) {
+            val uncasted = getUncastedStation()
+            if (uncasted is ass_ArkoshipIndustry) return ReflectionUtils.get("stationFleet", uncasted, ass_ArkoshipIndustry::class.java) as? CampaignFleetAPI
+        }
+        return getOrbitalStation()?.stationFleet
     }
 
     /** Returns the in-combat station entity we are affecting. Returns null if we're not in combat, or it doesnt exist. */
@@ -288,11 +300,11 @@ abstract class stationAttachment() : BaseCampaignEventListener(false), CoreAutor
 
     fun getStationCampaignEntity(): SectorEntityToken? {
         if (market?.primaryEntity?.hasTag(Tags.STATION) == true) return market!!.primaryEntity
-        return getStationIndustry()?.stationEntity
+        return getOrbitalStation()?.stationEntity
     }
 
     open fun getBasicDescription(tooltip: TooltipMakerAPI, expanded: Boolean, panel: CustomPanelAPI?) {
-        val orbitalStation = getStationIndustry()
+        val orbitalStation = getUncastedStation()
         val augmentCost = getAugmentCost()
         val augmentCostAbs = abs(getAugmentCost())
         if (orbitalStation != null) {
@@ -487,9 +499,9 @@ abstract class stationAttachment() : BaseCampaignEventListener(false), CoreAutor
     fun getRequiredItemId(): String? = getSpec().requiredItemId
 
     fun getAPChangeInapplicableReason(newAp: Float): String? {
-        if (getStationIndustry() == null) return null
-        val apTotal = getStationIndustry()!!.getUsedAugmentBudget() - getAugmentCost()
-        if ((apTotal + newAp) > getStationIndustry()!!.getAugmentBudget()) {
+        if (getUncastedStation() == null) return null
+        val apTotal = getUncastedStation()!!.getUsedAugmentBudget() - getAugmentCost()
+        if ((apTotal + newAp) > getUncastedStation()!!.getAugmentBudget()) {
             return "Exceeds maximum AP cost"
         }
         return null

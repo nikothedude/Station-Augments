@@ -9,7 +9,7 @@ import niko.MCTE.settings.MCTE_settings
 import niko_SA.MarketUtils.addStationAugment
 import niko_SA.MarketUtils.getRemainingAugmentBudget
 import niko_SA.MarketUtils.getStationAugments
-import niko_SA.MarketUtils.getStationIndustry
+import niko_SA.MarketUtils.getUncastedStation
 import niko_SA.SA_delayedExecution
 import niko_SA.SA_ids
 import niko_SA.SA_ids.SA_lastAPValueMemid
@@ -82,7 +82,7 @@ class SA_augmentAutofitter: BaseCampaignEventListener(false) {
                 memoryWithoutUpdate[SA_lastAPValueMemid] = getRemainingAugmentBudget() // just to cache for later
                 return false
             }
-            if (getStationIndustry() == null) return false
+            if (getUncastedStation() == null) return false
             if (memoryWithoutUpdate.getBoolean(SA_ids.SA_noAugmentAutofit) || (faction.custom.optBoolean("SA_noFactionSAAutofit", false))) return false
             return true
         }

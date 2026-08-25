@@ -13,7 +13,7 @@ import com.fs.starfarer.api.impl.campaign.submarkets.StoragePlugin
 import com.fs.starfarer.api.util.Misc
 import lunalib.lunaExtensions.getMarketsCopy
 import niko_SA.MarketUtils.addStationAugment
-import niko_SA.MarketUtils.getStationIndustry
+import niko_SA.MarketUtils.getUncastedStation
 import niko_SA.MarketUtils.removeStationAugment
 import niko_SA.augments.core.stationAugmentStore.getKnownAugments
 import niko_SA.augments.core.stationAugmentStore.teachAugment
@@ -51,7 +51,7 @@ class SA_barCMD: BaseCommandPlugin() {
                 Global.getSector().getFaction(Factions.DIKTAT).teachAugment("SA_moteSinkLow")
                 sindria.addStationAugment("SA_moteSinkLow")
                 sindria.removeStationAugment("SA_highExplosive")
-                sindria.getStationIndustry()?.isImproved = true
+                sindria.getUncastedStation()?.isImproved = true
             }
             "addShips" -> {
                 val sindria = Global.getSector().economy.getMarket("sindria") ?: return false

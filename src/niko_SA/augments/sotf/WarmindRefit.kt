@@ -24,7 +24,7 @@ import org.lazywizard.lazylib.MathUtils
 class WarmindRefit: stationAttachment(), EveryFrameScript {
 
     override fun applyInCombat(station: ShipAPI) {
-        val ind = getStationIndustry() ?: return
+        val ind = getUncastedStation() ?: return
         val aiCore = ind.aiCoreId ?: return
         val warmind = getCaptain(aiCore)
         for (module in station.childModulesCopy + station) {
@@ -112,7 +112,7 @@ class WarmindRefit: stationAttachment(), EveryFrameScript {
                         }
                     }
                     market.removeStationAugment("SA_warmindProtocols")
-                    val ind = augment.getStationIndustry()
+                    val ind = augment.getUncastedStation()
                     if (ind != null) {
                         RecentUnrest.get(market)?.add(1, "${ind.currentName} seized by Dustkeeper warmind")
                     }
@@ -172,7 +172,7 @@ class WarmindRefit: stationAttachment(), EveryFrameScript {
 
     fun updateCaptain() {
         val fleet = getStationFleet() ?: return
-        val ind = getStationIndustry()
+        val ind = getUncastedStation()
         val aiCore = ind?.aiCoreId ?: return
 
         val warmind = getCaptain(aiCore)
@@ -204,7 +204,7 @@ class WarmindRefit: stationAttachment(), EveryFrameScript {
 
         if (Global.getSector().memoryWithoutUpdate.contains(SotfIDs.MEM_DUSTKEEPER_HATRED) ||
             (Global.getSector().getFaction(SotfIDs.DUSTKEEPERS).relToPlayer.isHostile)) return "Dustkeepers hostile"
-        if (getStationIndustry()?.aiCoreId == null) return "No AI Core installed in ${getStationIndustry()?.currentName}"
+        if (getUncastedStation()?.aiCoreId == null) return "No AI Core installed in ${getUncastedStation()?.currentName}"
 
         return null
     }
@@ -230,7 +230,7 @@ class WarmindRefit: stationAttachment(), EveryFrameScript {
             "long-ranged system infiltration"
         )
 
-        val ind = getStationIndustry() ?: return
+        val ind = getUncastedStation() ?: return
         val currAICoreId = ind.aiCoreId
         val core = currAICoreId?.let { Global.getSettings().getCommoditySpec(currAICoreId) }
         val coreString = if (core != null) core.name else "None"

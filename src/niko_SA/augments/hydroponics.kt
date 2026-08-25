@@ -22,7 +22,7 @@ class hydroponics() : stationAttachment() {
     override fun apply() {
         super.apply()
 
-        val industry = getStationIndustry() ?: return
+        val industry = getUncastedStation() ?: return
         if (industry.isDisrupted) return
         industry.supply(id, Commodities.FOOD, FOOD_PROD, getName())
         industry.supply(id, Commodities.ORGANICS, ORGANICS_PROD, getName())
@@ -47,7 +47,7 @@ class hydroponics() : stationAttachment() {
     override fun unapply() {
         super.unapply()
 
-        val industry = getStationIndustry() ?: return
+        val industry = getUncastedStation() ?: return
         industry.getSupply(Commodities.FOOD).quantity.unmodify(id)
         industry.getSupply(Commodities.ORGANICS).quantity.unmodify(id)
     }

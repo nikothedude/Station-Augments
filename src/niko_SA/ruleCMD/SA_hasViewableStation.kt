@@ -4,7 +4,7 @@ import com.fs.starfarer.api.campaign.InteractionDialogAPI
 import com.fs.starfarer.api.campaign.rules.MemoryAPI
 import com.fs.starfarer.api.impl.campaign.rulecmd.BaseCommandPlugin
 import com.fs.starfarer.api.util.Misc
-import niko_SA.MarketUtils.getStationIndustry
+import niko_SA.MarketUtils.getUncastedStation
 
 class SA_hasViewableStation: BaseCommandPlugin() {
     override fun execute(
@@ -16,6 +16,6 @@ class SA_hasViewableStation: BaseCommandPlugin() {
         if (dialog == null) return false
 
         val market = dialog.interactionTarget.market ?: return false
-        return (market.getStationIndustry() != null)
+        return (market.getUncastedStation() != null)
     }
 }

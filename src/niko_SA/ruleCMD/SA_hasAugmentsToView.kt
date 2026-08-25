@@ -5,7 +5,7 @@ import com.fs.starfarer.api.campaign.rules.MemoryAPI
 import com.fs.starfarer.api.impl.campaign.rulecmd.BaseCommandPlugin
 import com.fs.starfarer.api.util.Misc
 import niko_SA.MarketUtils.getStationAugments
-import niko_SA.MarketUtils.getStationIndustry
+import niko_SA.MarketUtils.getUncastedStation
 import niko_SA.SA_settings
 
 class SA_hasAugmentsToView: BaseCommandPlugin() {

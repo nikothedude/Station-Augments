@@ -50,7 +50,7 @@ class sanctifiedStation: stationAttachment() {
         super.apply()
 
         if (isMajorityActive()) {
-            val ind = getStationIndustry() ?: return
+            val ind = getUncastedStation() ?: return
             ind.upkeep.modifyMult(id, UPKEEP_MULT, getName())
 
             ind.getDemand(Commodities.CREW).quantity.modifyFlat(id, -DEMAND_DEC_CREW, getName())
@@ -93,7 +93,7 @@ class sanctifiedStation: stationAttachment() {
     override fun unapply() {
         super.unapply()
 
-        val ind = getStationIndustry() ?: return
+        val ind = getUncastedStation() ?: return
         ind.upkeep.unmodify(id)
         ind.allDemand.forEach { it.quantity.unmodify(id) }
         ind.allSupply.forEach { it.quantity.unmodify(id) }

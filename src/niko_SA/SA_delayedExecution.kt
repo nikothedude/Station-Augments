@@ -3,7 +3,6 @@ package niko_SA
 import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.util.IntervalUtil
 import com.fs.starfarer.api.util.Misc
-import data.scripts.everyFrames.niko_MPC_baseNikoScript
 
 class SA_delayedExecution(
     val execute: () -> Unit,

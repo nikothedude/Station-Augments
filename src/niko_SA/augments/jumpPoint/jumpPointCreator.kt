@@ -31,14 +31,14 @@ class jumpPointCreator: stationAttachment() {
 
         tryAddingJumpPoint()
 
-        val stationIndustry = getStationIndustry() ?: return
+        val stationIndustry = getUncastedStation() ?: return
         market?.accessibilityMod?.modifyFlat(id, ACCESSIBILITY_INCREMENT, "${stationIndustry.currentName}: ${getName()}")
     }
 
     override fun unapply() {
         super.unapply()
 
-        if (!reapplying || getStationIndustry()?.isFunctional != true) {
+        if (!reapplying || getUncastedStation()?.isFunctional != true) {
             removeJumpPoint()
         }
         market?.accessibilityMod?.unmodify(id)
@@ -106,7 +106,7 @@ class jumpPointCreator: stationAttachment() {
         if (market!!.containingLocation?.hasTag(Tags.SYSTEM_CUT_OFF_FROM_HYPER) == true || market!!.containingLocation?.jumpPoints?.isEmpty() == true) {
             return "Jump point impossible to create"
         }
-        if (getStationIndustry()?.isFunctional != true) {
+        if (getUncastedStation()?.isFunctional != true) {
             return "Station damaged"
         }
 

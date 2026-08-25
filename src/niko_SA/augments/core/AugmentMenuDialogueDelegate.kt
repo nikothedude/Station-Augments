@@ -18,7 +18,7 @@ import niko_SA.DialogUtils.getChildrenCopy
 import niko_SA.MarketUtils.getAugmentBudget
 import niko_SA.MarketUtils.getRemainingAugmentBudget
 import niko_SA.MarketUtils.getStationAugments
-import niko_SA.MarketUtils.getStationIndustry
+import niko_SA.MarketUtils.getUncastedStation
 import niko_SA.MarketUtils.getUsedAugmentBudget
 import niko_SA.MarketUtils.toggleStationAugment
 import niko_SA.SA_mathUtils.trimHangingZero

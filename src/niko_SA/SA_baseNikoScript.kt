@@ -2,7 +2,6 @@ package niko_SA
 
 import com.fs.starfarer.api.EveryFrameScriptWithCleanup
 import com.fs.starfarer.api.campaign.LocationAPI
-import data.utilities.niko_MPC_debugUtils
 
 /** A generic base class filled with funcs and vars that I use a lot in my common scripting. */
 abstract class SA_baseNikoScript: EveryFrameScriptWithCleanup{

@@ -36,7 +36,7 @@ class commsCenter : stationAttachment() {
     override fun apply() {
         super.apply()
 
-        val stationIndustry = getStationIndustry() ?: return
+        val stationIndustry = getUncastedStation() ?: return
         if (stationIndustry.isFunctional) {
             market?.accessibilityMod?.modifyFlat(id, ACCESSABILITY_INCREMENT, "${stationIndustry.currentName}: ${getName()}")
         }

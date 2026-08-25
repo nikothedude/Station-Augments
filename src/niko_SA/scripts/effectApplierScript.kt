@@ -2,6 +2,7 @@ package niko_SA.scripts
 
 import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.combat.BaseEveryFrameCombatPlugin
+import com.fs.starfarer.api.combat.ShipHullSpecAPI
 import com.fs.starfarer.api.input.InputEventAPI
 import niko_SA.MarketUtils.getStationAugments
 import niko_SA.SA_ids.SA_structureTag
@@ -14,7 +15,7 @@ class effectApplierScript: BaseEveryFrameCombatPlugin() {
         val engine = Global.getCombatEngine()
 
         for (ship in engine.ships) {
-            if (ship.isStation) {
+            if (ship.isStation || ship.hullSpec.hints.contains(ShipHullSpecAPI.ShipTypeHints.STATION)) {
                 val member = ship.fleetMember ?: continue
                 val battle = Global.getSector().playerFleet?.battle
                 val fleet = battle?.memberSourceMap?.get(member) ?: member.fleetData?.fleet ?: continue

@@ -3,7 +3,7 @@ package niko_SA.console
 import com.fs.starfarer.api.Global
 import niko_SA.MarketUtils.addStationAugment
 import niko_SA.MarketUtils.getStationAugments
-import niko_SA.MarketUtils.getStationIndustry
+import niko_SA.MarketUtils.getUncastedStation
 import niko_SA.MarketUtils.removeStationAugment
 import niko_SA.augments.core.stationAugmentStore
 import org.lazywizard.console.BaseCommand
@@ -21,7 +21,7 @@ class SA_removeAugment: BaseCommandWithSuggestion {
             return BaseCommand.CommandResult.BAD_SYNTAX
         }
         val market = context.market ?: return BaseCommand.CommandResult.ERROR
-        /*val station = market?.getStationIndustry()
+        /*val station = market?.getUncastedStation()
         if (station == null) {
             Console.showMessage("No station detected!")
             return BaseCommand.CommandResult.ERROR

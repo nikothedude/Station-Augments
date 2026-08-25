@@ -145,7 +145,7 @@ open class moteSink(): stationAttachment(), EveryFrameScript {
         if (market?.containingLocation?.isCurrentLocation != true) return
         moteInterval.advance(days)
         if (!moteInterval.intervalElapsed()) return
-        if (getStationIndustry()?.isDisrupted == true) return
+        if (getUncastedStation()?.isDisrupted == true) return
 
         val entity = getStationCampaignEntity() ?: return
         spawnMote(entity, highVolatility)

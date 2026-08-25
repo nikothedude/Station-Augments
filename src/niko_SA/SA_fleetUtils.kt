@@ -5,8 +5,6 @@ import com.fs.starfarer.api.campaign.CampaignFleetAPI
 import com.fs.starfarer.api.campaign.RepLevel
 import com.fs.starfarer.api.impl.campaign.ids.FleetTypes
 import com.fs.starfarer.api.impl.campaign.ids.MemFlags
-import data.utilities.niko_MPC_debugUtils
-import data.utilities.niko_MPC_miscUtils.isStationFleet
 
 object SA_fleetUtils {
     @JvmStatic

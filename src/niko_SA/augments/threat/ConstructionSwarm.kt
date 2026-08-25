@@ -60,7 +60,7 @@ class ConstructionSwarm: ThreatAugment() {
     override fun apply() {
         super.apply()
 
-        val stationIndustry = getStationIndustry() ?: return
+        val stationIndustry = getUncastedStation() ?: return
         if (stationIndustry.isFunctional) {
             market?.hazard?.modifyFlat(id, HAZARD_RATING_INCREMENT, "${stationIndustry.currentName}: ${getName()}")
         }

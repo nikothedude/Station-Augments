@@ -2,7 +2,7 @@ package niko_SA.console
 
 import niko_SA.MarketUtils.addStationAugment
 import niko_SA.MarketUtils.getStationAugments
-import niko_SA.MarketUtils.getStationIndustry
+import niko_SA.MarketUtils.getUncastedStation
 import niko_SA.SA_settings
 import niko_SA.augments.core.stationAugmentStore
 import org.lazywizard.console.BaseCommand
@@ -21,7 +21,7 @@ class SA_addAugment: BaseCommandWithSuggestion {
         }
 
         val market = context.market
-        val station = market?.getStationIndustry()
+        val station = market?.getUncastedStation()
         if (station == null) {
             Console.showMessage("No station detected!")
             return BaseCommand.CommandResult.ERROR

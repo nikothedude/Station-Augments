@@ -41,7 +41,7 @@ class logisticsDrones() : stationAttachment(), EveryFrameScript {
         super.apply()
         market?.primaryEntity?.addScript(this)
 
-        val stationIndustry = getStationIndustry() ?: return
+        val stationIndustry = getUncastedStation() ?: return
         if (stationIndustry.isFunctional) {
             market?.accessibilityMod?.modifyFlat(id, ACCESSABILITY_INCREMENT, "${stationIndustry.currentName}: ${getName()}")
         }

@@ -5,7 +5,6 @@ import com.fs.starfarer.api.characters.FullName
 import com.fs.starfarer.api.characters.PersonAPI
 import com.fs.starfarer.api.impl.campaign.ids.Factions
 import com.fs.starfarer.api.impl.campaign.ids.Ranks
-import data.utilities.niko_MPC_ids
 
 object SA_People {
 

@@ -9,10 +9,6 @@ import com.fs.starfarer.api.impl.campaign.FleetInteractionDialogPluginImpl.FIDCo
 import com.fs.starfarer.api.impl.campaign.rulecmd.BaseCommandPlugin
 import com.fs.starfarer.api.impl.campaign.rulecmd.FireBest
 import com.fs.starfarer.api.util.Misc
-import data.utilities.niko_MPC_debugUtils
-import data.utilities.niko_MPC_dialogUtils
-import data.utilities.niko_MPC_fleetUtils.satelliteFleetDespawn
-import data.utilities.niko_MPC_satelliteUtils.hasSatellites
 
 class SA_MSCMD: BaseCommandPlugin() {
     override fun execute(

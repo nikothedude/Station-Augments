@@ -21,7 +21,7 @@ class ECMPackage() : stationAttachment() {
     override fun apply() {
         super.apply()
 
-        val industry = getStationIndustry() ?: return
+        val industry = getUncastedStation() ?: return
         market?.stats?.dynamic?.getMod(Stats.GROUND_DEFENSES_MOD)?.modifyMult(id, DEFENSE_MULT, "${industry.nameForModifier} ${getName()}")
     }
 
@@ -30,7 +30,7 @@ class ECMPackage() : stationAttachment() {
     }
 
     override fun getUnavailableReason(): String? {
-        if (getStationIndustry()?.isDisrupted == true) {
+        if (getUncastedStation()?.isDisrupted == true) {
             return "Cannot be added to a disrupted station"
         }
 
@@ -53,7 +53,7 @@ class ECMPackage() : stationAttachment() {
             "${DEFENSE_MULT}x"
         )
 
-        val industry = getStationIndustry()
+        val industry = getUncastedStation()
         if (!applied && industry?.isDisrupted == true) {
             tooltip.addPara(
                 "The ${industry.currentName} is currently disrupted, meaning this augment %s until it is repaired.",

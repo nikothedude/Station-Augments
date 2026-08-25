@@ -18,7 +18,7 @@ import niko_SA.augments.core.stationAugmentStore
 object MarketUtils {
     /** Returns the augment budget this station has. An augment budget controls how many augments a station can have - each augment has its own cost.*/
     @JvmStatic
-    fun OrbitalStation.getAugmentBudget(): Float {
+    fun Industry.getAugmentBudget(): Float {
         var points = BASE_STATION_AUGMENT_BUDGET
         if (isImproved) points += STATION_IMPROVED_AP_BONUS
 
@@ -55,12 +55,12 @@ object MarketUtils {
     }
 
     @JvmStatic
-    fun OrbitalStation.getUsedAugmentBudget(): Float {
+    fun Industry.getUsedAugmentBudget(): Float {
         return market.getUsedAugmentBudget()
     }
 
     @JvmStatic
-    fun OrbitalStation.getRemainingAugmentBudget(): Float {
+    fun Industry.getRemainingAugmentBudget(): Float {
         val budget = getAugmentBudget()
         val usedBudget = getUsedAugmentBudget()
 
@@ -69,7 +69,7 @@ object MarketUtils {
 
     @JvmStatic
     fun MarketAPI.getRemainingAugmentBudget(): Float {
-        val stationIndustry = (getStationIndustry() as? OrbitalStation) ?: return 0f
+        val stationIndustry = (getUncastedStation()) ?: return 0f
         return stationIndustry.getRemainingAugmentBudget()
     }
 
@@ -112,7 +112,7 @@ object MarketUtils {
             return null
         }
         if (checkForStation) {
-            val industry = getStationIndustry()
+            val industry = getUncastedStation()
             if (industry == null) {
                 SA_debugUtils.log.info("$name has no station, aborting addition of ${augment.id}")
                 return null
@@ -138,7 +138,7 @@ object MarketUtils {
     }
 
     @JvmStatic
-    fun MarketAPI.getStationIndustry(): Industry? {
+    fun MarketAPI.getUncastedStation(): Industry? {
         return Misc.getStationIndustry(this)
     }
 

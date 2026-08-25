@@ -18,7 +18,7 @@ class efficiencyOverhaul: stationAttachment() {
     override fun apply() {
         super.apply()
 
-        val industry = getStationIndustry() ?: return
+        val industry = getUncastedStation() ?: return
         industry.upkeep.modifyMult(id, UPKEEP_MULT, getName())
 
         val fleet = getStationFleet() ?: return
@@ -32,7 +32,7 @@ class efficiencyOverhaul: stationAttachment() {
     override fun unapply() {
         super.unapply()
 
-        val industry = getStationIndustry() ?: return
+        val industry = getUncastedStation() ?: return
         industry.upkeep.unmodify(id)
 
         val fleet = getStationFleet() ?: return

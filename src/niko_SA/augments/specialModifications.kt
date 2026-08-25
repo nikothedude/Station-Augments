@@ -27,7 +27,7 @@ class specialModifications: stationAttachment() {
     override fun apply() {
         super.apply()
 
-        val industry = getStationIndustry() ?: return
+        val industry = getUncastedStation() ?: return
         if (industry.isFunctional) {
             market?.hazard?.modifyFlat(id, -HAZARD_RATING_DECREASE, "${industry.currentName}: ${getName()}")
         }
@@ -42,7 +42,7 @@ class specialModifications: stationAttachment() {
     override fun canBeRemoved(): Boolean {
         if (!super.canBeRemoved()) return false
 
-        val industry = getStationIndustry() ?: return true
+        val industry = getUncastedStation() ?: return true
         if ((industry.getRemainingAugmentBudget() + getAugmentCost()) < 0f) {
             return false
         }
